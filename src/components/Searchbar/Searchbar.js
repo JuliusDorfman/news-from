@@ -6,6 +6,8 @@ import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem, Divider } from 'rc-menu';
 import 'rc-dropdown/assets/index.css';
 
+// :TODO build own dropdown. . do the master branch first
+
 class Searchbar extends Component {
 	constructor(props) {
 		super(props);
@@ -87,7 +89,7 @@ class Searchbar extends Component {
 				{this.state.cnnMenuData.map((results, index) => {
 					return (
 						<a className="menu-link" key={results.url + index} href={results.url}>
-							<MenuItem key={results.site + index}>{results.title}</MenuItem>
+							<MenuItem key={results.site + index} onItemHover={console.log("hello")}>{results.title}</MenuItem>
 						</a>
 					);
 				})}
