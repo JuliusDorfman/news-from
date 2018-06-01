@@ -1,0 +1,16 @@
+.search-wrapper {
+	display: inline-block;
+	flex-direction: row; 
+}
+.searchbar-component {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	margin: 1% auto 1% auto;
+	text-align: center;
+}
+
+.menu-link {
+	text-decoration: none;
+	color: black;
+}

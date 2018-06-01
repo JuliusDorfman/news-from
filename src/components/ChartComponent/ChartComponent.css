@@ -1,0 +1,13 @@
+	.chart-component {
+	  position: relative;
+	  display: inline-block;
+	  margin: 1% auto 1% auto;
+	  text-align: center;
+	}
+
+	.canvas-wrapper {
+	  position: relative;
+	  display: block;
+	  width: 500px;
+	  margin: 1% auto 1% auto;
+	}

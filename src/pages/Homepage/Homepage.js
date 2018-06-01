@@ -5,6 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 // Homepage Components
 import Searchbar from '../../components/Searchbar';
 
+
 import axios from 'axios';
 import moment from 'moment';
 
@@ -23,7 +24,8 @@ export class Homepage extends React.Component {
 			cnn: [],
 			fox: [],
 			breitbart: [],
-			msnbc: []
+			msnbc: [],
+			chartData: {}
 		};
 		this.onRefresh = this.onRefresh.bind(this);
 	}
