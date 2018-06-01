@@ -29,16 +29,15 @@
 }
 
 article {
-	height: 100px;
 	margin-bottom: 30px;
 	letter-spacing: 1px;
-
 	color: black;
 }
 
 .overlay {
 	background: rgba(225, 225, 225, 0.6);
-	border-bottom: 1px solid black
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
 }
 
 .news-site {
@@ -56,20 +55,21 @@ article {
 
 .article-date {
 	display: block;
-	margin: 0 10% 0 0;
-	text-align: left;
-	font-size: 0.6rem;
-	letter-spacing: 1px;
-	font-weight: 730;
-	background: rgba(225, 225, 225, 0.7);
+	position: relative;
+	margin: 0 0 0 5%;
+	padding: 0 0 0 5%;
+	background: rgba(225, 225, 225, 0.5);
+	text-align: right;
+	text-decoration: none;
+	color: black;
 }
 
 .article-headline {
-	height: 35px;
+	height: 100%;
 	margin: 0 0 0 5%;
 	padding: 0 0 0 5%;
 	text-align: left;
-	font-size: 1.2rem;
+	font-size: 1.1rem;
 	background: rgba(225, 225, 225, 0.5);
 	overflow: hidden;
 	font-family: 'Tajawal', sans-serif;
@@ -78,13 +78,15 @@ article {
 
 .article-link {
 	display: block;
-	position: relative;
-	margin: 0 0 0 5%;
-	padding: 0 0 0 5%;
-	background: rgba(225, 225, 225, 0.5);
+	margin: 0 10% 0 0;
+	background: rgba(225, 225, 225, 0.7);
 	text-align: left;
-	text-decoration: none;
-	font-weight: 900;
+	letter-spacing: 1px;
+	font-size: 0.6rem;
+	font-weight: 730;
+}
+
+.article-link a {
 	color: black;
 }
 
@@ -158,4 +160,10 @@ article {
 	to {
 		transform: rotate(360deg);
 	}
+}
+
+/*custom*/
+
+.smalltext {
+	font-size: .7rem;
 }

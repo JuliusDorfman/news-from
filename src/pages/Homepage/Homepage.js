@@ -5,12 +5,11 @@ import { Scrollbars } from 'react-custom-scrollbars';
 // Homepage Components
 import Searchbar from '../../components/Searchbar';
 
-
+// Dependencies
 import axios from 'axios';
 import moment from 'moment';
 
-// import services from '../../services/rssService.js';
-
+// Styles
 import './Homepage.css';
 
 export class Homepage extends React.Component {
@@ -37,8 +36,7 @@ export class Homepage extends React.Component {
 		this.initializeMsnbc();
 	}
 
-	componentDidMount() {
-	}
+	componentDidMount() {}
 
 	initializeCnn() {
 		console.log('initializeCnn');
@@ -121,18 +119,9 @@ export class Homepage extends React.Component {
 					<div className="content" id="cnn-content">
 						<div className="news-site">
 							<h2>CNN</h2>
-							{this.state.cnnIsLoading === true ? (
-								<img
-									className="loading-spinner"
-									src="/assets/images/news-from-logo.png"
-									alt="loading-spinner"
-									style={{ width: 50 + 'px', height: 50 + 'px' }}
-								/>
-							) : (
-								<button value="cnn" onClick={this.onRefresh}>
-									REFRESH
-								</button>
-							)}
+							<button value="cnn" onClick={this.onRefresh}>
+								REFRESH
+							</button>
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.cnnIsLoading === true ? (
@@ -150,26 +139,25 @@ export class Homepage extends React.Component {
 											return (
 												<article key={'cnn' + index}>
 													<div className="overlay">
-														<time
-															className="article-date"
-															key={'cnn' + cnnItem.created}
-														>
-															{moment(cnnItem.created).format(
-																'MMMM Do YYYY, h:mm a'
-															)}
-														</time>
+														<p className="article-link">
+															<a href={cnnItem.url}>Link</a>
+														</p>
 														<h3
 															className="article-headline"
 															key={cnnItem.title}
 														>
 															{cnnItem.title}
 														</h3>
-														{/*<p>{cnnItem.description}</p>*/}
-														{
-															<a className="article-link" href={cnnItem.url}>
-																...->
-															</a>
-														}
+														<time
+															className="article-date"
+															key={'cnn' + cnnItem.created}
+														>
+															<span className="smalltext">
+															Published on </span>
+															{moment(cnnItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
 													</div>
 												</article>
 											);
@@ -183,18 +171,9 @@ export class Homepage extends React.Component {
 					<div className="content" id="fox-content">
 						<div className="news-site">
 							<h2>Fox</h2>
-							{this.state.foxIsLoading === true ? (
-								<img
-									className="loading-spinner"
-									src="/assets/images/news-from-logo.png"
-									alt="loading-spinner"
-									style={{ width: 50 + 'px', height: 50 + 'px' }}
-								/>
-							) : (
-								<button value="fox" onClick={this.onRefresh}>
-									REFRESH
-								</button>
-							)}
+							<button value="fox" onClick={this.onRefresh}>
+								REFRESH
+							</button>
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.foxIsLoading === true ? (
@@ -212,26 +191,25 @@ export class Homepage extends React.Component {
 											return (
 												<article key={'fox' + index}>
 													<div className="overlay">
-														<time
-															className="article-date"
-															key={'fox' + foxItem.created}
-														>
-															{moment(foxItem.created).format(
-																'MMMM Do YYYY, h:mm a'
-															)}
-														</time>
+														<p className="article-link">
+															<a href={foxItem.url}>Link</a>
+														</p>
 														<h3
 															className="article-headline"
 															key={foxItem.title}
 														>
 															{foxItem.title}
 														</h3>
-														{/*<p>{foxItem.description}</p>*/}
-														{
-															<a className="article-link" href={foxItem.url}>
-																...->
-															</a>
-														}
+														<time
+															className="article-date"
+															key={'cnn' + foxItem.created}
+														>
+															<span className="smalltext">
+															Published on </span>
+															{moment(foxItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
 													</div>
 												</article>
 											);
@@ -248,18 +226,9 @@ export class Homepage extends React.Component {
 					<div className="content" id="breitbart-content">
 						<div className="news-site">
 							<h2>Breitbart</h2>
-							{this.state.breitbartIsLoading === true ? (
-								<img
-									className="loading-spinner"
-									src="/assets/images/news-from-logo.png"
-									alt="loading-spinner"
-									style={{ width: 50 + 'px', height: 50 + 'px' }}
-								/>
-							) : (
-								<button value="breitbart" onClick={this.onRefresh}>
-									REFRESH
-								</button>
-							)}
+							<button value="breitbart" onClick={this.onRefresh}>
+								REFRESH
+							</button>
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.breitbartIsLoading === true ? (
@@ -277,29 +246,25 @@ export class Homepage extends React.Component {
 											return (
 												<article key={'breitbart' + index}>
 													<div className="overlay">
-														<time
-															className="article-date"
-															key={'breitbart' + breitbartItem.created}
-														>
-															{moment(breitbartItem.created).format(
-																'MMMM Do YYYY, h:mm a'
-															)}
-														</time>
+														<p className="article-link">
+															<a href={breitbartItem.url}>Link</a>
+														</p>
 														<h3
 															className="article-headline"
 															key={breitbartItem.title}
 														>
 															{breitbartItem.title}
 														</h3>
-														{/*<p>{breitbartItem.description}</p>*/}
-														{
-															<a
-																className="article-link"
-																href={breitbartItem.url}
-															>
-																...->
-															</a>
-														}
+														<time
+															className="article-date"
+															key={'cnn' + breitbartItem.created}
+														>
+															<span className="smalltext">
+															Published on </span>
+															{moment(breitbartItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
 													</div>
 												</article>
 											);
@@ -313,18 +278,9 @@ export class Homepage extends React.Component {
 					<div className="content" id="msnbc-content">
 						<div className="news-site">
 							<h2>MSNBC</h2>
-							{this.state.msnbcIsLoading === true ? (
-								<img
-									className="loading-spinner"
-									src="/assets/images/news-from-logo.png"
-									alt="loading-spinner"
-									style={{ width: 50 + 'px', height: 50 + 'px' }}
-								/>
-							) : (
-								<button value="msnbc" onClick={this.onRefresh}>
-									REFRESH
-								</button>
-							)}
+							<button value="msnbc" onClick={this.onRefresh}>
+								REFRESH
+							</button>
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.msnbcIsLoading === true ? (
@@ -342,26 +298,25 @@ export class Homepage extends React.Component {
 											return (
 												<article key={'msnbc' + index}>
 													<div className="overlay">
-														<time
-															className="article-date"
-															key={'msnbc' + msnbcItem.created}
-														>
-															{moment(msnbcItem.created).format(
-																'MMMM Do YYYY, h:mm a'
-															)}
-														</time>
+														<p className="article-link">
+															<a href={msnbcItem.url}>Link</a>
+														</p>
 														<h3
 															className="article-headline"
 															key={msnbcItem.title}
 														>
 															{msnbcItem.title}
 														</h3>
-														{/*<p>{msnbcItem.description}</p>*/}
-														{
-															<a className="article-link" href={msnbcItem.url}>
-																...->
-															</a>
-														}
+														<time
+															className="article-date"
+															key={'cnn' + msnbcItem.created}
+														>
+															<span className="smalltext">
+															Published on </span>
+															{moment(msnbcItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
 													</div>
 												</article>
 											);
