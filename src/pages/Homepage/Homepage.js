@@ -30,6 +30,7 @@ export class Homepage extends React.Component {
 			msnbc: [],
 			msnbcCount: '',
 			showChart: true,
+			searchValue: '',
 			chartData: {}
 		};
 		this.onRefresh = this.onRefresh.bind(this);
@@ -42,7 +43,9 @@ export class Homepage extends React.Component {
 		this.initializeMsnbc();
 	}
 
-	componentDidMount() {}
+	componentDidMount() {
+		console.log('homepage props', this.props);
+	}
 
 	initializeCnn() {
 		console.log('initializeCnn');
@@ -90,7 +93,6 @@ export class Homepage extends React.Component {
 		const targetSite = e.target.value;
 		const targetState = `${targetSite}IsLoading`;
 
-		console.log('targetSite', targetSite);
 		targetElement.style.display = 'none';
 
 		this.setState({
@@ -132,17 +134,40 @@ export class Homepage extends React.Component {
 			breitbart: articleDisplay.breitbartDocs,
 			msnbc: articleDisplay.msnbcDocs
 		});
-		console.log('onChartComponentUpdate', this.state.cnnCount);
 	};
 
+	searchValueUpdate = searchValue => {
+		this.setState({
+			searchValue: searchValue
+		});
+		this.highlightText()
+	};
+
+	highlightText(){
+		console.log('searchValue', this.state.searchValue)
+	}
+
 	onChartComponentUpdate = val => {
-		this.setState({ showChart: true });
+		this.state.searchValue === '' ? (
+			this.setState({ showChart: true })
+		) : (
+			<span />
+		);
+		console.log(this.props.searchValue);
 	};
 
 	render() {
 		return (
 			<div className="homepage">
-				<Searchbar onSearchbarUpdate={this.onSearchbarUpdate} />
+				<div className="ui-instruction">
+					<div>1. Enter your search. (Case Sensitive)</div>
+					<div>2. Pick your chart format.</div>
+					<div>3. Draw your conclusions.</div>
+				</div>
+				<Searchbar
+					onSearchbarUpdate={this.onSearchbarUpdate}
+					searchValueUpdate={this.searchValueUpdate}
+				/>
 				<div className="chartcomponent-wrapper">
 					{this.state.showChart === false ? (
 						<span />
@@ -153,6 +178,7 @@ export class Homepage extends React.Component {
 							foxCount={this.state.foxCount}
 							breitbartCount={this.state.breitbartCount}
 							msnbcCount={this.state.msnbcCount}
+							searchValue={this.state.searchValue}
 						/>
 					)}
 				</div>
@@ -185,27 +211,32 @@ export class Homepage extends React.Component {
 							) : (
 								<div className="articles">
 									{this.state.cnn.map((cnnItem, index) => {
-										return (
-											<article key={'cnn' + index}>
-												<div className="overlay">
-													<p className="article-link">
-														<a href={cnnItem.url}>Link</a>
-													</p>
-													<h3 className="article-headline" key={cnnItem.title}>
-														{'> ' + cnnItem.title}
-													</h3>
-													<time
-														className="article-date"
-														key={'cnn' + cnnItem.created}
-													>
-														<span className="smalltext">Published on </span>
-														{moment(cnnItem.created).format(
-															'MMMM Do YYYY, h:mm a'
-														)}
-													</time>
-												</div>
-											</article>
-										);
+										while (index < 100) {
+											return (
+												<article key={'cnn' + index}>
+													<div className="overlay">
+														<p className="article-link">
+															<a href={cnnItem.url}>Link</a>
+														</p>
+														<h3
+															className="article-headline"
+															key={cnnItem.title}
+														>
+															{'> ' + cnnItem.title}
+														</h3>
+														<time
+															className="article-date"
+															key={'cnn' + cnnItem.created}
+														>
+															<span className="smalltext">Published on </span>
+															{moment(cnnItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
+													</div>
+												</article>
+											);
+										}
 									})}
 								</div>
 							)}
@@ -239,27 +270,32 @@ export class Homepage extends React.Component {
 							) : (
 								<div className="articles">
 									{this.state.fox.map((foxItem, index) => {
-										return (
-											<article key={'fox' + index}>
-												<div className="overlay">
-													<p className="article-link">
-														<a href={foxItem.url}>Link</a>
-													</p>
-													<h3 className="article-headline" key={foxItem.title}>
-														{'> ' + foxItem.title}
-													</h3>
-													<time
-														className="article-date"
-														key={'fox' + foxItem.created}
-													>
-														<span className="smalltext">Published on </span>
-														{moment(foxItem.created).format(
-															'MMMM Do YYYY, h:mm a'
-														)}
-													</time>
-												</div>
-											</article>
-										);
+										while (index < 100) {
+											return (
+												<article key={'fox' + index}>
+													<div className="overlay">
+														<p className="article-link">
+															<a href={foxItem.url}>Link</a>
+														</p>
+														<h3
+															className="article-headline"
+															key={foxItem.title}
+														>
+															{'> ' + foxItem.title}
+														</h3>
+														<time
+															className="article-date"
+															key={'fox' + foxItem.created}
+														>
+															<span className="smalltext">Published on </span>
+															{moment(foxItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
+													</div>
+												</article>
+											);
+										}
 									})}
 								</div>
 							)}
@@ -296,30 +332,32 @@ export class Homepage extends React.Component {
 							) : (
 								<div className="articles">
 									{this.state.breitbart.map((breitbartItem, index) => {
-										return (
-											<article key={'breitbart' + index}>
-												<div className="overlay">
-													<p className="article-link">
-														<a href={breitbartItem.url}>Link</a>
-													</p>
-													<h3
-														className="article-headline"
-														key={breitbartItem.title}
-													>
-														{'> ' + breitbartItem.title}
-													</h3>
-													<time
-														className="article-date"
-														key={'breitbart' + breitbartItem.created}
-													>
-														<span className="smalltext">Published on </span>
-														{moment(breitbartItem.created).format(
-															'MMMM Do YYYY, h:mm a'
-														)}
-													</time>
-												</div>
-											</article>
-										);
+										while (index < 100) {
+											return (
+												<article key={'breitbart' + index}>
+													<div className="overlay">
+														<p className="article-link">
+															<a href={breitbartItem.url}>Link</a>
+														</p>
+														<h3
+															className="article-headline"
+															key={breitbartItem.title}
+														>
+															{'> ' + breitbartItem.title}
+														</h3>
+														<time
+															className="article-date"
+															key={'breitbart' + breitbartItem.created}
+														>
+															<span className="smalltext">Published on </span>
+															{moment(breitbartItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
+													</div>
+												</article>
+											);
+										}
 									})}
 								</div>
 							)}
@@ -353,30 +391,32 @@ export class Homepage extends React.Component {
 							) : (
 								<div className="articles">
 									{this.state.msnbc.map((msnbcItem, index) => {
-										return (
-											<article key={'msnbc' + index}>
-												<div className="overlay">
-													<p className="article-link">
-														<a href={msnbcItem.url}>Link</a>
-													</p>
-													<h3
-														className="article-headline"
-														key={msnbcItem.title}
-													>
-														{'> ' + msnbcItem.title}
-													</h3>
-													<time
-														className="article-date"
-														key={'msnbc' + msnbcItem.created}
-													>
-														<span className="smalltext">Published on </span>
-														{moment(msnbcItem.created).format(
-															'MMMM Do YYYY, h:mm a'
-														)}
-													</time>
-												</div>
-											</article>
-										);
+										while (index < 100) {
+											return (
+												<article key={'msnbc' + index}>
+													<div className="overlay">
+														<p className="article-link">
+															<a href={msnbcItem.url}>Link</a>
+														</p>
+														<h3
+															className="article-headline"
+															key={msnbcItem.title}
+														>
+															{'> ' + msnbcItem.title}
+														</h3>
+														<time
+															className="article-date"
+															key={'msnbc' + msnbcItem.created}
+														>
+															<span className="smalltext">Published on </span>
+															{moment(msnbcItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
+													</div>
+												</article>
+											);
+										}
 									})}
 								</div>
 							)}

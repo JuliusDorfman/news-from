@@ -1,13 +1,28 @@
-	.chart-component {
-	  position: relative;
-	  display: inline-block;
-	  margin: 1% auto 1% auto;
-	  text-align: center;
-	}
+.chart-component {
+	position: relative;
+	margin: 1% auto 1% auto;
+	text-align: center;
+}
 
-	.canvas-wrapper {
-	  position: relative;
-	  display: block;
-	  width: 500px;
-	  margin: 1% auto 1% auto;
-	}
+.canvas-wrapper {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	width: 500px;
+	margin: 1% auto 1% auto;
+	justify-content: center;
+}
+
+.chart-title {
+	font-weight: bolder;
+}
+
+.buttons-wrapper {
+	position: relative;
+	margin-bottom: 3%;
+}
+
+.render-button {
+	background: rgba(225, 225, 225, 0.9);
+	border: 2px solid rgba(150, 150, 150, 0.9);
+}

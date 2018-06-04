@@ -40,6 +40,10 @@ article {
 	border-bottom: 1px solid black;
 }
 
+.ui-instruction {
+	margin-left: 10%;
+}
+
 .news-site {
 	display: flex;
 	height: 70px;
@@ -136,23 +140,23 @@ article {
 	position: absolute;
 }
 .refresh-button-cnn {
-  background: rgba(200, 150, 150, 0.6);
-  border: 2px solid rgba(225, 100, 100, .9);
+	background: rgba(200, 150, 150, 0.6);
+	border: 2px solid rgba(225, 100, 100, 0.9);
 }
 
 .refresh-button-fox {
-  background: rgba(150, 150, 225, 0.6);
-  border: 2px solid rgba(100, 100, 225, .9);
+	background: rgba(150, 150, 225, 0.6);
+	border: 2px solid rgba(100, 100, 225, 0.9);
 }
 
 .refresh-button-breitbart {
-  background: rgba(225, 175, 100, 0.6);
-  border: 2px solid rgba(225, 150, 150, .9);
+	background: rgba(225, 175, 100, 0.6);
+	border: 2px solid rgba(225, 150, 150, 0.9);
 }
 
 .refresh-button-msnbc {
-  background: rgba(200, 200, 200, 0.6);
-  border: 2px solid rgba(150, 150, 150, .9);
+	background: rgba(200, 200, 200, 0.6);
+	border: 2px solid rgba(150, 150, 150, 0.9);
 }
 
 /*Loading Spinner*/
@@ -188,5 +192,5 @@ article {
 /*custom*/
 
 .smalltext {
-	font-size: .7rem;
+	font-size: 0.7rem;
 }

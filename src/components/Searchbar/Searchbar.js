@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import ChartComponent from '../ChartComponent';
 import './Searchbar.css';
 
 class Searchbar extends Component {
@@ -10,7 +9,7 @@ class Searchbar extends Component {
 		this.state = {
 			name: '',
 			value: '',
-			highlightWord: '',
+			searchValue: '',
 			cnnDisplay: 'none',
 			foxDisplay: 'none',
 			breitbartDisplay: 'none',
@@ -47,7 +46,9 @@ class Searchbar extends Component {
 			breitbartDocs: this.state.breitbartMenuOptions,
 			msnbcDocs: this.state.msnbcMenuOptions
 		};
+		let searchValue = this.state.searchValue;
 		this.props.onSearchbarUpdate(documentCountObject, articleDisplayObject);
+		this.props.searchValueUpdate(searchValue);
 	}
 
 	onSubmit(e) {
@@ -68,7 +69,6 @@ class Searchbar extends Component {
 		axios
 			.get(`/routes/api/allArticles/searchword/${this.state.value}`)
 			.then(result => {
-				console.log('Promise Return');
 				result.data.map((resultItem, index) => {
 					if (resultItem.site === 'cnn') {
 						cnnMenuArray.push(resultItem);
@@ -104,7 +104,6 @@ class Searchbar extends Component {
 			})
 			.then(val => {
 				this.updateProps();
-				console.log(this.props);
 			});
 	}
 
@@ -162,11 +161,14 @@ class Searchbar extends Component {
 	}
 
 	highlightText() {
-		let highlightWord = document.getElementsByClassName('filter-search');
-		this.setState({ highlightWord: highlightWord[0].value });
+		let searchValue = document.getElementsByClassName('filter-search');
+		searchValue = searchValue[0].value
+		this.setState({ searchValue: searchValue });
 	}
 
-	componentDidMount() {}
+	componentDidMount() {
+		console.log('searchbar props', this.props);
+	}
 
 	render() {
 		return (

@@ -11,7 +11,7 @@ import './App.css';
 class App extends Component {
   render() {
     return (
-      <Scrollbars universal style={{height: 100 + 'vh'}}>
+      <Scrollbars universal style={{ height: 100 + 'vh' }}>
         <Router>
           <div className="App">
             <header>
@@ -21,7 +21,10 @@ class App extends Component {
                 src="/assets/images/news-from-logo.png"
                 alt="News-From-logo"
               />
-              <p>Articles and content exclusively from the RSS Politics feeds of their respective sites.</p>
+              <p>
+                Articles and content exclusively from the RSS Politics feeds of
+                their respective sites.
+              </p>
             </header>
             <Route exact path="/" component={Homepage} />
           </div>
