@@ -9,10 +9,10 @@ class ChartComponent extends Component {
 		this.state = {
 			mainChart: {},
 			chartData: {
-				cnn: 1,
-				fox: 2,
-				breitbart: 100,
-				msnbc: 50
+				cnn: '',
+				fox: '',
+				breitbart: '',
+				msnbc: ''
 			}
 		};
 		this.reRender = this.reRender.bind(this);
@@ -28,10 +28,10 @@ class ChartComponent extends Component {
 					{
 						label: '# of Appearances',
 						data: [
-							this.state.chartData.cnn,
-							this.state.chartData.fox,
-							this.state.chartData.breitbart,
-							this.state.chartData.msnbc
+							this.props.cnnCount,
+							this.props.foxCount,
+							this.props.breitbartCount,
+							this.props.msnbcCount
 						],
 						backgroundColor: [
 							'rgba(255, 99, 132, 0.2)',
@@ -66,7 +66,7 @@ class ChartComponent extends Component {
 			}
 		});
 		this.setState({ mainChart: ctx }, function() {
-		console.log('this.state.mainChart', this.state.mainChart);
+			console.log('this.state.mainChart', this.state.mainChart);
 		});
 	}
 
@@ -74,30 +74,29 @@ class ChartComponent extends Component {
 		this.setState(
 			{
 				chartData: {
-					cnn: this.state.chartData.cnn + 1,
-					fox: this.state.chartData.fox + 10,
-					breitbart: this.state.chartData.breitbart + 1000,
-					msnbc: this.state.chartData.msnbc + 20
+					cnn: this.state.chartData.cnn,
+					fox: this.state.chartData.fox,
+					breitbart: this.state.chartData.breitbart,
+					msnbc: this.state.chartData.msnbc
 				}
 			},
 			function() {
-				console.log('chartData;', this.state.chartData);
+				this.buildChart();
 			}
 		);
 	}
 
-	componentDidMount() {
-		this.buildChart();
-	}
+	componentDidMount() {}
 
 	render() {
+		console.log('child props', this.props);
 		return (
-				<div className="chart-component">
-					<div className="canvas-wrapper">
-						<canvas id="myChart" />
-					</div>
-					<button onClick={this.reRender}>reRender</button>
+			<div className="chart-component">
+				<div className="canvas-wrapper">
+					<canvas id="myChart" />
 				</div>
+				<button onClick={this.reRender}>Render Doughnut</button>
+			</div>
 		);
 	}
 }

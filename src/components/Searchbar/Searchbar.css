@@ -2,25 +2,27 @@
   position: relative;
   display: inline-block;
   width: 100%;
-  margin: 1% auto 5% auto;
   text-align: center;
 }
 
-.dropdown-button-cnn{
-	background: rgba(200, 150, 150, 0.6);
-	border: 2px solid rgba(225, 100, 100, .9);
+.dropdown-button-cnn {
+  background: rgba(200, 150, 150, 0.6);
+  border: 2px solid rgba(225, 100, 100, .9);
 }
-.dropdown-button-fox{
-	background: rgba(150, 150, 225, 0.6);
-	border: 2px solid rgba(100, 100, 225, .9);
+
+.dropdown-button-fox {
+  background: rgba(150, 150, 225, 0.6);
+  border: 2px solid rgba(100, 100, 225, .9);
 }
-.dropdown-button-breitbart{
-	background: rgba(225, 175, 100, 0.6);
-	border: 2px solid rgba(225, 150, 150, .9);
+
+.dropdown-button-breitbart {
+  background: rgba(225, 175, 100, 0.6);
+  border: 2px solid rgba(225, 150, 150, .9);
 }
-.dropdown-button-msnbc{
-	background: rgba(200, 200, 200, 0.6);
-	border: 2px solid rgba(150, 150, 150, .9);
+
+.dropdown-button-msnbc {
+  background: rgba(200, 200, 200, 0.6);
+  border: 2px solid rgba(150, 150, 150, .9);
 }
 
 .all-dropdown-container {
@@ -44,19 +46,19 @@
 }
 
 .dropdown-menu-cnn {
-	background: rgba(200, 150, 150, 1);
+  background: rgba(200, 150, 150, 1);
 }
 
 .dropdown-menu-fox {
-	background: rgba(150, 150, 200, 1);
+  background: rgba(150, 150, 200, 1);
 }
 
 .dropdown-menu-breitbart {
-	background: rgba(225, 175, 100, 1);
+  background: rgba(225, 175, 100, 1);
 }
 
 .dropdown-menu-msnbc {
-	background: rgba(200, 200, 200, 1);
+  background: rgba(200, 200, 200, 1);
 }
 
 .dropdown-item a {
@@ -67,4 +69,16 @@
 .dropdown-item-seperator {
   margin-bottom: 20px;
   border-bottom: 1px solid black;
+}
+
+/*Chart Component*/
+
+.chart-render-button {
+  display: block;
+  margin: 0 auto 1% auto;
+}
+
+.chartcomponent-wrapper {
+  width: 100%;
+  text-align: center;
 }

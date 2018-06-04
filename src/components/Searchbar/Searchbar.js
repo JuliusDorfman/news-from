@@ -5,11 +5,12 @@ import ChartComponent from '../ChartComponent';
 import './Searchbar.css';
 
 class Searchbar extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			name: '',
 			value: '',
+			highlightWord: '',
 			cnnDisplay: 'none',
 			foxDisplay: 'none',
 			breitbartDisplay: 'none',
@@ -33,12 +34,33 @@ class Searchbar extends Component {
 		});
 	}
 
+	updateProps() {
+		let documentCountObject = {
+			cnnValue: this.state.cnnMenuOptions.length,
+			foxValue: this.state.foxMenuOptions.length,
+			breitbartValue: this.state.breitbartMenuOptions.length,
+			msnbcValue: this.state.msnbcMenuOptions.length
+		};
+		let articleDisplayObject = {
+			cnnDocs: this.state.cnnMenuOptions,
+			foxDocs: this.state.foxMenuOptions,
+			breitbartDocs: this.state.breitbartMenuOptions,
+			msnbcDocs: this.state.msnbcMenuOptions
+		};
+		this.props.onSearchbarUpdate(documentCountObject, articleDisplayObject);
+	}
+
 	onSubmit(e) {
+		e.preventDefault();
+		if (this.state.value.length < 1) {
+			let element = document.getElementsByClassName('filter-search');
+			return (element = element[0].placeholder = 'Please Enter Text to Search');
+		}
+		this.highlightText();
 		let cnnMenuArray = [];
 		let foxMenuArray = [];
 		let breitbartMenuArray = [];
 		let msnbcMenuArray = [];
-		e.preventDefault();
 		this.setState({
 			spinnerDisplay: 'block'
 		});
@@ -69,14 +91,20 @@ class Searchbar extends Component {
 					if (resultItem.site === 'msnbc') {
 						msnbcMenuArray.push(resultItem);
 					}
-					this.setState({ cnnMenuOptions: cnnMenuArray });
-					this.setState({ foxMenuOptions: foxMenuArray });
-					this.setState({ breitbartMenuOptions: breitbartMenuArray });
-					this.setState({ msnbcMenuOptions: msnbcMenuArray });
-					this.setState({ spinnerDisplay: 'none' });
-					this.setState({ buttonDisplay: 'block' });
+					this.setState({
+						cnnMenuOptions: cnnMenuArray,
+						foxMenuOptions: foxMenuArray,
+						breitbartMenuOptions: breitbartMenuArray,
+						msnbcMenuOptions: msnbcMenuArray,
+						spinnerDisplay: 'none',
+						buttonDisplay: 'block'
+					});
 					return null;
 				});
+			})
+			.then(val => {
+				this.updateProps();
+				console.log(this.props);
 			});
 	}
 
@@ -85,59 +113,76 @@ class Searchbar extends Component {
 		let el = e.target.name;
 		if (el === 'dropdown-button-cnn') {
 			if (this.state.cnnDisplay === 'none') {
-				this.setState({ cnnDisplay: 'block' });
-				this.setState({ foxDisplay: 'none' });
-				this.setState({ breitbartDisplay: 'none' });
-				this.setState({ msnbcDisplay: 'none' });
+				this.setState({
+					cnnDisplay: 'block',
+					foxDisplay: 'none',
+					breitbartDisplay: 'none',
+					msnbcDisplay: 'none'
+				});
 			} else {
 				this.setState({ cnnDisplay: 'none' });
 			}
 		}
 		if (el === 'dropdown-button-fox') {
 			if (this.state.foxDisplay === 'none') {
-				this.setState({ foxDisplay: 'block' });
-				this.setState({ cnnDisplay: 'none' });
-				this.setState({ breitbartDisplay: 'none' });
-				this.setState({ msnbcDisplay: 'none' });
+				this.setState({
+					cnnDisplay: 'none',
+					foxDisplay: 'block',
+					breitbartDisplay: 'none',
+					msnbcDisplay: 'none'
+				});
 			} else {
 				this.setState({ foxDisplay: 'none' });
 			}
 		}
 		if (el === 'dropdown-button-breitbart') {
 			if (this.state.breitbartDisplay === 'none') {
-				this.setState({ breitbartDisplay: 'block' });
-				this.setState({ cnnDisplay: 'none' });
-				this.setState({ foxDisplay: 'none' });
-				this.setState({ msnbcDisplay: 'none' });
+				this.setState({
+					cnnDisplay: 'none',
+					foxDisplay: 'none',
+					breitbartDisplay: 'block',
+					msnbcDisplay: 'none'
+				});
 			} else {
 				this.setState({ breitbartDisplay: 'none' });
 			}
 		}
 		if (el === 'dropdown-button-msnbc') {
 			if (this.state.msnbcDisplay === 'none') {
-				this.setState({ msnbcDisplay: 'block' });
-				this.setState({ cnnDisplay: 'none' });
-				this.setState({ foxDisplay: 'none' });
-				this.setState({ breitbartDisplay: 'none' });
+				this.setState({
+					cnnDisplay: 'none',
+					foxDisplay: 'none',
+					breitbartDisplay: 'none',
+					msnbcDisplay: 'block'
+				});
 			} else {
 				this.setState({ msnbcDisplay: 'none' });
 			}
 		}
 	}
 
+	highlightText() {
+		let highlightWord = document.getElementsByClassName('filter-search');
+		this.setState({ highlightWord: highlightWord[0].value });
+	}
+
+	componentDidMount() {}
+
 	render() {
 		return (
 			<div>
 				<div className="searchbar-component">
-					<form>
+					<form className="submit-filter">
 						<input
 							type="text"
+							className="filter-search"
 							placeholder="Buzzword/Public Figure"
 							name="search"
 							value={this.state.value}
 							onChange={this.onChange}
+							autoComplete="off"
 						/>
-						<input type="submit" onClick={this.onSubmit} />
+						<input type="submit" value="Filter!" onClick={this.onSubmit} />
 					</form>
 
 					<div
@@ -150,7 +195,6 @@ class Searchbar extends Component {
 							alt="loading-spinner"
 						/>
 					</div>
-
 
 					<div
 						className="all-dropdown-container"
