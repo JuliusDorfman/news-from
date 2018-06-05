@@ -61,7 +61,7 @@ class ChartComponent extends Component {
 				}
 			}
 		});
-		this.setState({ mainChart: ctx }, function() {});
+		this.setState({ mainChart: ctx }, function () { });
 		console.log('barType', this.state.barType);
 	}
 
@@ -115,7 +115,7 @@ class ChartComponent extends Component {
 				}
 			}
 		});
-		this.setState({ mainChart: ctx }, function() {});
+		this.setState({ mainChart: ctx }, function () { });
 		console.log('barType', this.state.barType);
 	}
 
@@ -137,7 +137,7 @@ class ChartComponent extends Component {
 					msnbc: this.state.chartData.msnbc
 				}
 			},
-			function() {
+			function () {
 				this.buildDoughnut();
 				console.log('searchValue in chart', this.state.searchValue);
 			}
@@ -162,7 +162,7 @@ class ChartComponent extends Component {
 					msnbc: this.state.chartData.msnbc
 				}
 			},
-			function() {
+			function () {
 				this.buildBar();
 				console.log('searchValue in chart', this.state.searchValue);
 			}
@@ -196,18 +196,18 @@ class ChartComponent extends Component {
 				{this.state.searchValue === '' ? (
 					<span />
 				) : (
-					<div className="chart-title">{`Number of Times "${
-						this.state.searchValue
-					}" appears.`}</div>
-				)}
+						<div className="chart-title">{`Number of Times "${
+							this.state.searchValue
+							}" appears.`}</div>
+					)}
 				{this.state.searchValue === '' ? (
 					<span />
 				) : (
-					<div className="canvas-wrapper">
-						<canvas id="doughnut" />
-						<canvas id="bar" />
-					</div>
-				)}
+						<div className="canvas-wrapper">
+							<canvas id="doughnut" />
+							<canvas id="bar" />
+						</div>
+					)}
 			</div>
 		);
 	}

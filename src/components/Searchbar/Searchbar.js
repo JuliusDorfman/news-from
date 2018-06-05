@@ -24,6 +24,7 @@ class Searchbar extends Component {
 		};
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.resetSearch = this.resetSearch.bind(this);
 		this.toggleDisplay = this.toggleDisplay.bind(this);
 	}
 
@@ -57,6 +58,26 @@ class Searchbar extends Component {
 			let element = document.getElementsByClassName('filter-search');
 			return (element = element[0].placeholder = 'Please Enter Text to Search');
 		}
+
+		if (this.state.searchValue) {
+			this.setState({
+				name: '',
+				value: '',
+				searchValue: '',
+				cnnDisplay: 'none',
+				foxDisplay: 'none',
+				breitbartDisplay: 'none',
+				msnbcDisplay: 'none',
+				buttonDisplay: 'none',
+				spinnerDisplay: 'none',
+				searchResults: [],
+				cnnMenuOptions: [],
+				foxMenuOptions: [],
+				breitbartMenuOptions: [],
+				msnbcMenuOptions: []
+			})
+		}
+		
 		this.highlightText();
 		let cnnMenuArray = [];
 		let foxMenuArray = [];
@@ -104,7 +125,18 @@ class Searchbar extends Component {
 			})
 			.then(val => {
 				this.updateProps();
-			});
+				if (val === undefined) {
+					this.setState({
+						spinnerDisplay: 'none'
+					});
+				}
+			})
+			.catch(err => {
+				console.log("no results")
+				this.setState({
+					spinnerDisplay: 'none'
+				});
+			})
 	}
 
 	toggleDisplay(e) {
@@ -166,6 +198,26 @@ class Searchbar extends Component {
 		this.setState({ searchValue: searchValue });
 	}
 
+	resetSearch(e) {
+		e.preventDefault();
+		this.setState({
+			name: '',
+			value: '',
+			searchValue: '',
+			cnnDisplay: 'none',
+			foxDisplay: 'none',
+			breitbartDisplay: 'none',
+			msnbcDisplay: 'none',
+			buttonDisplay: 'none',
+			spinnerDisplay: 'none',
+			searchResults: [],
+			cnnMenuOptions: [],
+			foxMenuOptions: [],
+			breitbartMenuOptions: [],
+			msnbcMenuOptions: []
+		})
+	}
+
 	componentDidMount() {
 		console.log('searchbar props', this.props);
 	}
@@ -184,7 +236,8 @@ class Searchbar extends Component {
 							onChange={this.onChange}
 							autoComplete="off"
 						/>
-						<input type="submit" value="Filter!" onClick={this.onSubmit} />
+						<input className="filter-button" type="submit" value="Filter!" onClick={this.onSubmit} />
+						<input className="clear-button" type="submit" value="Clear Search" onClick={this.resetSearch} />
 					</form>
 
 					<div

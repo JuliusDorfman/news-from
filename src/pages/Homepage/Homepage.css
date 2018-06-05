@@ -25,8 +25,7 @@
 	}
 }
 
-.articles {
-}
+.articles {}
 
 article {
 	margin-bottom: 30px;
@@ -139,6 +138,7 @@ article {
 .refresh-button {
 	position: absolute;
 }
+
 .refresh-button-cnn {
 	background: rgba(200, 150, 150, 0.6);
 	border: 2px solid rgba(225, 100, 100, 0.9);

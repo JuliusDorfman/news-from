@@ -5,6 +5,20 @@
   text-align: center;
 }
 
+.filter-search {
+  width: 200px
+}
+
+.filter-button {
+  background: rgba(42, 255, 255, 0.8);
+  border: 2px solid rgb(36, 191, 202);
+}
+
+.clear-button {
+  background: rgba(255, 78, 78, 0.8);
+  border: 2px solid rgb(160, 54, 54);
+}
+
 .dropdown-button-cnn {
   background: rgba(200, 150, 150, 0.6);
   border: 2px solid rgba(225, 100, 100, .9);

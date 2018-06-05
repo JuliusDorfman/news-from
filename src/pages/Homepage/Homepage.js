@@ -143,18 +143,18 @@ export class Homepage extends React.Component {
 		this.highlightText()
 	};
 
-	highlightText(){
+	highlightText() {
 		console.log('searchValue', this.state.searchValue)
 	}
 
 	onChartComponentUpdate = val => {
-		this.state.searchValue === '' ? (
+		return this.state.searchValue === '' ? (
 			this.setState({ showChart: true })
 		) : (
-			<span />
-		);
-		console.log(this.props.searchValue);
+				<span />
+			);
 	};
+	
 
 	render() {
 		return (
@@ -172,15 +172,15 @@ export class Homepage extends React.Component {
 					{this.state.showChart === false ? (
 						<span />
 					) : (
-						<ChartComponent
-							onChartComponentUpdate={this.onChartComponentUpdate}
-							cnnCount={this.state.cnnCount}
-							foxCount={this.state.foxCount}
-							breitbartCount={this.state.breitbartCount}
-							msnbcCount={this.state.msnbcCount}
-							searchValue={this.state.searchValue}
-						/>
-					)}
+							<ChartComponent
+								onChartComponentUpdate={this.onChartComponentUpdate}
+								cnnCount={this.state.cnnCount}
+								foxCount={this.state.foxCount}
+								breitbartCount={this.state.breitbartCount}
+								msnbcCount={this.state.msnbcCount}
+								searchValue={this.state.searchValue}
+							/>
+						)}
 				</div>
 				<div className="container">
 					<div className="content" id="cnn-content">
@@ -193,11 +193,15 @@ export class Homepage extends React.Component {
 							>
 								REFRESH
 							</button>
-							{this.state.cnnCount === '' ? (
-								<span>{`${this.state.cnn.length} Documents`}</span>
-							) : (
-								<span>{`${this.state.cnnCount} Documents`}</span>
-							)}
+							{
+								this.state.cnnIsLoading ? <span>Loading</span> :
+									this.state.cnnCount === '' ? (
+										<span>{`${this.state.cnn.length} Documents`}</span>
+									) : (
+											<span>{`${this.state.cnnCount} Documents`}</span>
+										)
+
+							}
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.cnnIsLoading === true ? (
@@ -209,37 +213,37 @@ export class Homepage extends React.Component {
 									/>
 								</div>
 							) : (
-								<div className="articles">
-									{this.state.cnn.map((cnnItem, index) => {
-										while (index < 100) {
-											return (
-												<article key={'cnn' + index}>
-													<div className="overlay">
-														<p className="article-link">
-															<a href={cnnItem.url}>Link</a>
-														</p>
-														<h3
-															className="article-headline"
-															key={cnnItem.title}
-														>
-															{'> ' + cnnItem.title}
-														</h3>
-														<time
-															className="article-date"
-															key={'cnn' + cnnItem.created}
-														>
-															<span className="smalltext">Published on </span>
-															{moment(cnnItem.created).format(
-																'MMMM Do YYYY, h:mm a'
-															)}
-														</time>
-													</div>
-												</article>
-											);
-										}
-									})}
-								</div>
-							)}
+									<div className="articles">
+										{this.state.cnn.map((cnnItem, index) => {
+											while (index < 100) {
+												return (
+													<article key={'cnn' + index}>
+														<div className="overlay">
+															<p className="article-link">
+																<a href={cnnItem.url}>Link</a>
+															</p>
+															<h3
+																className="article-headline"
+																key={cnnItem.title}
+															>
+																{'> ' + cnnItem.title}
+															</h3>
+															<time
+																className="article-date"
+																key={'cnn' + cnnItem.created}
+															>
+																<span className="smalltext">Published on </span>
+																{moment(cnnItem.created).format(
+																	'MMMM Do YYYY, h:mm a'
+																)}
+															</time>
+														</div>
+													</article>
+												);
+											}
+										})}
+									</div>
+								)}
 						</Scrollbars>
 					</div>
 					<div className="content" id="fox-content">
@@ -252,11 +256,16 @@ export class Homepage extends React.Component {
 							>
 								REFRESH
 							</button>
-							{this.state.foxCount === '' ? (
-								<span>{`${this.state.fox.length} Documents`}</span>
-							) : (
-								<span>{`${this.state.foxCount} Documents`}</span>
-							)}
+
+							{
+								this.state.foxIsLoading ? <span>Loading</span> :
+									this.state.foxCount === '' ? (
+										<span>{`${this.state.fox.length} Documents`}</span>
+									) : (
+											<span>{`${this.state.foxCount} Documents`}</span>
+										)
+
+							}
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.foxIsLoading === true ? (
@@ -268,37 +277,37 @@ export class Homepage extends React.Component {
 									/>
 								</div>
 							) : (
-								<div className="articles">
-									{this.state.fox.map((foxItem, index) => {
-										while (index < 100) {
-											return (
-												<article key={'fox' + index}>
-													<div className="overlay">
-														<p className="article-link">
-															<a href={foxItem.url}>Link</a>
-														</p>
-														<h3
-															className="article-headline"
-															key={foxItem.title}
-														>
-															{'> ' + foxItem.title}
-														</h3>
-														<time
-															className="article-date"
-															key={'fox' + foxItem.created}
-														>
-															<span className="smalltext">Published on </span>
-															{moment(foxItem.created).format(
-																'MMMM Do YYYY, h:mm a'
-															)}
-														</time>
-													</div>
-												</article>
-											);
-										}
-									})}
-								</div>
-							)}
+									<div className="articles">
+										{this.state.fox.map((foxItem, index) => {
+											while (index < 100) {
+												return (
+													<article key={'fox' + index}>
+														<div className="overlay">
+															<p className="article-link">
+																<a href={foxItem.url}>Link</a>
+															</p>
+															<h3
+																className="article-headline"
+																key={foxItem.title}
+															>
+																{'> ' + foxItem.title}
+															</h3>
+															<time
+																className="article-date"
+																key={'fox' + foxItem.created}
+															>
+																<span className="smalltext">Published on </span>
+																{moment(foxItem.created).format(
+																	'MMMM Do YYYY, h:mm a'
+																)}
+															</time>
+														</div>
+													</article>
+												);
+											}
+										})}
+									</div>
+								)}
 						</Scrollbars>
 					</div>
 				</div>
@@ -314,11 +323,15 @@ export class Homepage extends React.Component {
 							>
 								REFRESH
 							</button>
-							{this.state.breitbartCount === '' ? (
-								<span>{`${this.state.breitbart.length} Documents`}</span>
-							) : (
-								<span>{`${this.state.breitbartCount} Documents`}</span>
-							)}
+							{
+								this.state.breitbartIsLoading ? <span>Loading</span> :
+									this.state.breitbartCount === '' ? (
+										<span>{`${this.state.breitbart.length} Documents`}</span>
+									) : (
+											<span>{`${this.state.breitbartCount} Documents`}</span>
+										)
+
+							}
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.breitbartIsLoading === true ? (
@@ -330,37 +343,37 @@ export class Homepage extends React.Component {
 									/>
 								</div>
 							) : (
-								<div className="articles">
-									{this.state.breitbart.map((breitbartItem, index) => {
-										while (index < 100) {
-											return (
-												<article key={'breitbart' + index}>
-													<div className="overlay">
-														<p className="article-link">
-															<a href={breitbartItem.url}>Link</a>
-														</p>
-														<h3
-															className="article-headline"
-															key={breitbartItem.title}
-														>
-															{'> ' + breitbartItem.title}
-														</h3>
-														<time
-															className="article-date"
-															key={'breitbart' + breitbartItem.created}
-														>
-															<span className="smalltext">Published on </span>
-															{moment(breitbartItem.created).format(
-																'MMMM Do YYYY, h:mm a'
-															)}
-														</time>
-													</div>
-												</article>
-											);
-										}
-									})}
-								</div>
-							)}
+									<div className="articles">
+										{this.state.breitbart.map((breitbartItem, index) => {
+											while (index < 100) {
+												return (
+													<article key={'breitbart' + index}>
+														<div className="overlay">
+															<p className="article-link">
+																<a href={breitbartItem.url}>Link</a>
+															</p>
+															<h3
+																className="article-headline"
+																key={breitbartItem.title}
+															>
+																{'> ' + breitbartItem.title}
+															</h3>
+															<time
+																className="article-date"
+																key={'breitbart' + breitbartItem.created}
+															>
+																<span className="smalltext">Published on </span>
+																{moment(breitbartItem.created).format(
+																	'MMMM Do YYYY, h:mm a'
+																)}
+															</time>
+														</div>
+													</article>
+												);
+											}
+										})}
+									</div>
+								)}
 						</Scrollbars>
 					</div>
 					<div className="content" id="msnbc-content">
@@ -373,11 +386,15 @@ export class Homepage extends React.Component {
 							>
 								REFRESH
 							</button>
-							{this.state.msnbcCount === '' ? (
-								<span>{`${this.state.msnbc.length} Documents`}</span>
-							) : (
-								<span>{`${this.state.msnbcCount} Documents`}</span>
-							)}
+							{
+								this.state.msnbcIsLoading ? <span>Loading</span> :
+									this.state.msnbcCount === '' ? (
+										<span>{`${this.state.msnbc.length} Documents`}</span>
+									) : (
+											<span>{`${this.state.msnbcCount} Documents`}</span>
+										)
+
+							}
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.msnbcIsLoading === true ? (
@@ -389,37 +406,37 @@ export class Homepage extends React.Component {
 									/>
 								</div>
 							) : (
-								<div className="articles">
-									{this.state.msnbc.map((msnbcItem, index) => {
-										while (index < 100) {
-											return (
-												<article key={'msnbc' + index}>
-													<div className="overlay">
-														<p className="article-link">
-															<a href={msnbcItem.url}>Link</a>
-														</p>
-														<h3
-															className="article-headline"
-															key={msnbcItem.title}
-														>
-															{'> ' + msnbcItem.title}
-														</h3>
-														<time
-															className="article-date"
-															key={'msnbc' + msnbcItem.created}
-														>
-															<span className="smalltext">Published on </span>
-															{moment(msnbcItem.created).format(
-																'MMMM Do YYYY, h:mm a'
-															)}
-														</time>
-													</div>
-												</article>
-											);
-										}
-									})}
-								</div>
-							)}
+									<div className="articles">
+										{this.state.msnbc.map((msnbcItem, index) => {
+											while (index < 100) {
+												return (
+													<article key={'msnbc' + index}>
+														<div className="overlay">
+															<p className="article-link">
+																<a href={msnbcItem.url}>Link</a>
+															</p>
+															<h3
+																className="article-headline"
+																key={msnbcItem.title}
+															>
+																{'> ' + msnbcItem.title}
+															</h3>
+															<time
+																className="article-date"
+																key={'msnbc' + msnbcItem.created}
+															>
+																<span className="smalltext">Published on </span>
+																{moment(msnbcItem.created).format(
+																	'MMMM Do YYYY, h:mm a'
+																)}
+															</time>
+														</div>
+													</article>
+												);
+											}
+										})}
+									</div>
+								)}
 						</Scrollbars>
 					</div>
 				</div>
