@@ -13,6 +13,12 @@
 	justify-content: center;
 }
 
+@media (max-width:800px){
+	.canvas-wrapper {
+		flex-direction: column;
+	}
+}
+
 .chart-title {
 	font-weight: bolder;
 }

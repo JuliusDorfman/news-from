@@ -141,13 +141,14 @@ export class Homepage extends React.Component {
 			searchValue: searchValue
 		});
 		this.highlightText()
+		this.ChartComponentUpdate(searchValue)
 	};
 
 	highlightText() {
 		console.log('searchValue', this.state.searchValue)
 	}
 
-	onChartComponentUpdate = val => {
+	ChartComponentUpdate = val => {
 		return this.state.searchValue === '' ? (
 			this.setState({ showChart: true })
 		) : (
@@ -155,6 +156,7 @@ export class Homepage extends React.Component {
 			);
 	};
 	
+
 
 	render() {
 		return (
@@ -173,12 +175,13 @@ export class Homepage extends React.Component {
 						<span />
 					) : (
 							<ChartComponent
-								onChartComponentUpdate={this.onChartComponentUpdate}
+								ChartComponentUpdate={this.ChartComponentUpdate}
 								cnnCount={this.state.cnnCount}
 								foxCount={this.state.foxCount}
 								breitbartCount={this.state.breitbartCount}
 								msnbcCount={this.state.msnbcCount}
 								searchValue={this.state.searchValue}
+								searchValueCharts={this.props.searchValue}
 							/>
 						)}
 				</div>

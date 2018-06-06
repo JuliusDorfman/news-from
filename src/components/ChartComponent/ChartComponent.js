@@ -23,6 +23,9 @@ class ChartComponent extends Component {
 		this.reRenderBar = this.reRenderBar.bind(this);
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+	}
+
 	buildDoughnut(data) {
 		let barType = this.state.barType;
 		var ctx = document.getElementById(barType);
@@ -168,6 +171,7 @@ class ChartComponent extends Component {
 			}
 		);
 	}
+
 
 	componentDidMount() {
 		console.log('chart props', this.props);
