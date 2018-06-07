@@ -23,8 +23,6 @@ class ChartComponent extends Component {
 		this.reRenderBar = this.reRenderBar.bind(this);
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-	}
 
 	buildDoughnut(data) {
 		let barType = this.state.barType;
@@ -44,14 +42,14 @@ class ChartComponent extends Component {
 						backgroundColor: [
 							'rgba(255, 99, 132, 0.2)',
 							'rgba(54, 162, 235, 0.2)',
-							'rgba(255, 206, 86, 0.2)',
-							'rgba(75, 192, 192, 0.2)'
+							'rgba(225, 60, 60, 0.2)',
+							'rgba(75, 75, 75, 0.2)'
 						],
 						borderColor: [
 							'rgba(255,99,132,1)',
 							'rgba(54, 162, 235, 1)',
-							'rgba(255, 206, 86, 1)',
-							'rgba(75, 192, 192, 1)'
+							'rgba(255, 69, 0, 0.6)',
+							'rgba(100, 100, 100, 1)'
 						],
 						borderWidth: 3
 					}
@@ -65,7 +63,6 @@ class ChartComponent extends Component {
 			}
 		});
 		this.setState({ mainChart: ctx }, function () { });
-		console.log('barType', this.state.barType);
 	}
 
 	buildBar(data) {
@@ -87,14 +84,14 @@ class ChartComponent extends Component {
 						backgroundColor: [
 							'rgba(255, 99, 132, 0.2)',
 							'rgba(54, 162, 235, 0.2)',
-							'rgba(255, 206, 86, 0.2)',
-							'rgba(75, 192, 192, 0.2)'
+							'rgba(225, 60, 60, 0.2)',
+							'rgba(75, 75, 75, 0.2)'
 						],
 						borderColor: [
 							'rgba(255,99,132,1)',
 							'rgba(54, 162, 235, 1)',
-							'rgba(255, 206, 86, 1)',
-							'rgba(75, 192, 192, 1)'
+							'rgba(255, 69, 0, 0.6)',
+							'rgba(100, 100, 100, 0.6)'
 						],
 						borderWidth: 3
 					}
@@ -119,7 +116,6 @@ class ChartComponent extends Component {
 			}
 		});
 		this.setState({ mainChart: ctx }, function () { });
-		console.log('barType', this.state.barType);
 	}
 
 	reRenderDoughnut(e) {
@@ -142,7 +138,6 @@ class ChartComponent extends Component {
 			},
 			function () {
 				this.buildDoughnut();
-				console.log('searchValue in chart', this.state.searchValue);
 			}
 		);
 	}
@@ -167,11 +162,9 @@ class ChartComponent extends Component {
 			},
 			function () {
 				this.buildBar();
-				console.log('searchValue in chart', this.state.searchValue);
 			}
 		);
 	}
-
 
 	componentDidMount() {
 		console.log('chart props', this.props);

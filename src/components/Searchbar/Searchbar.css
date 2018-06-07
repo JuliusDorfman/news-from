@@ -10,13 +10,13 @@
 }
 
 .filter-button {
-  background: rgba(42, 255, 255, 0.8);
-  border: 2px solid rgb(36, 191, 202);
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgb(38, 161, 0);
 }
 
 .clear-button {
-  background: rgba(255, 78, 78, 0.8);
-  border: 2px solid rgb(160, 54, 54);
+  background: rgb(255, 255, 255);
+  border: 2px solid rgb(240, 0, 0);
 }
 
 .dropdown-button-cnn {

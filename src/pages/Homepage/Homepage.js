@@ -137,26 +137,25 @@ export class Homepage extends React.Component {
 	};
 
 	searchValueUpdate = searchValue => {
+		console.log('searchvalueupdate')
 		this.setState({
 			searchValue: searchValue
 		});
-		this.highlightText()
-		this.ChartComponentUpdate(searchValue)
+		this.highlightText();
+		this.ChartComponentUpdate(searchValue);
 	};
 
 	highlightText() {
 		console.log('searchValue', this.state.searchValue)
 	}
 
-	ChartComponentUpdate = val => {
-		return this.state.searchValue === '' ? (
-			this.setState({ showChart: true })
-		) : (
-				<span />
-			);
+	ChartComponentUpdate = searchValue => {
+		this.setState({ showChart: false });
+		this.setState({ showChart: true });
 	};
-	
 
+	componentDidUpdate() {
+	}
 
 	render() {
 		return (
@@ -169,7 +168,8 @@ export class Homepage extends React.Component {
 				<Searchbar
 					onSearchbarUpdate={this.onSearchbarUpdate}
 					searchValueUpdate={this.searchValueUpdate}
-				/>
+					ChartComponentUpdate={this.ChartComponentUpdate}
+					/>
 				<div className="chartcomponent-wrapper">
 					{this.state.showChart === false ? (
 						<span />
@@ -201,9 +201,8 @@ export class Homepage extends React.Component {
 									this.state.cnnCount === '' ? (
 										<span>{`${this.state.cnn.length} Documents`}</span>
 									) : (
-											<span>{`${this.state.cnnCount} Documents`}</span>
+											<span>{`${this.state.cnnCount} Documents (${this.state.searchValue})`}</span>
 										)
-
 							}
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
@@ -218,32 +217,33 @@ export class Homepage extends React.Component {
 							) : (
 									<div className="articles">
 										{this.state.cnn.map((cnnItem, index) => {
-											while (index < 100) {
-												return (
-													<article key={'cnn' + index}>
-														<div className="overlay">
-															<p className="article-link">
-																<a href={cnnItem.url}>Link</a>
-															</p>
-															<h3
-																className="article-headline"
-																key={cnnItem.title}
-															>
-																{'> ' + cnnItem.title}
-															</h3>
-															<time
-																className="article-date"
-																key={'cnn' + cnnItem.created}
-															>
-																<span className="smalltext">Published on </span>
-																{moment(cnnItem.created).format(
-																	'MMMM Do YYYY, h:mm a'
-																)}
-															</time>
-														</div>
-													</article>
-												);
+											if (index > 100) {
+												return null
 											}
+											return (
+												<article key={'cnn' + index}>
+													<div className="overlay">
+														<p className="article-link">
+															<a href={cnnItem.url}>Link</a>
+														</p>
+														<h3
+															className="article-headline"
+															key={cnnItem.title}
+														>
+															{'> ' + cnnItem.title}
+														</h3>
+														<time
+															className="article-date"
+															key={'cnn' + cnnItem.created}
+														>
+															<span className="smalltext">Published on </span>
+															{moment(cnnItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
+													</div>
+												</article>
+											);
 										})}
 									</div>
 								)}
@@ -265,7 +265,7 @@ export class Homepage extends React.Component {
 									this.state.foxCount === '' ? (
 										<span>{`${this.state.fox.length} Documents`}</span>
 									) : (
-											<span>{`${this.state.foxCount} Documents`}</span>
+											<span>{`${this.state.foxCount} Documents (${this.state.searchValue})`}</span>
 										)
 
 							}
@@ -282,32 +282,33 @@ export class Homepage extends React.Component {
 							) : (
 									<div className="articles">
 										{this.state.fox.map((foxItem, index) => {
-											while (index < 100) {
-												return (
-													<article key={'fox' + index}>
-														<div className="overlay">
-															<p className="article-link">
-																<a href={foxItem.url}>Link</a>
-															</p>
-															<h3
-																className="article-headline"
-																key={foxItem.title}
-															>
-																{'> ' + foxItem.title}
-															</h3>
-															<time
-																className="article-date"
-																key={'fox' + foxItem.created}
-															>
-																<span className="smalltext">Published on </span>
-																{moment(foxItem.created).format(
-																	'MMMM Do YYYY, h:mm a'
-																)}
-															</time>
-														</div>
-													</article>
-												);
+											if (index > 100) {
+												return null
 											}
+											return (
+												<article key={'fox' + index}>
+													<div className="overlay">
+														<p className="article-link">
+															<a href={foxItem.url}>Link</a>
+														</p>
+														<h3
+															className="article-headline"
+															key={foxItem.title}
+														>
+															{'> ' + foxItem.title}
+														</h3>
+														<time
+															className="article-date"
+															key={'fox' + foxItem.created}
+														>
+															<span className="smalltext">Published on </span>
+															{moment(foxItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
+													</div>
+												</article>
+											);
 										})}
 									</div>
 								)}
@@ -331,7 +332,7 @@ export class Homepage extends React.Component {
 									this.state.breitbartCount === '' ? (
 										<span>{`${this.state.breitbart.length} Documents`}</span>
 									) : (
-											<span>{`${this.state.breitbartCount} Documents`}</span>
+											<span>{`${this.state.breitbartCount} Documents (${this.state.searchValue})`}</span>
 										)
 
 							}
@@ -348,32 +349,33 @@ export class Homepage extends React.Component {
 							) : (
 									<div className="articles">
 										{this.state.breitbart.map((breitbartItem, index) => {
-											while (index < 100) {
-												return (
-													<article key={'breitbart' + index}>
-														<div className="overlay">
-															<p className="article-link">
-																<a href={breitbartItem.url}>Link</a>
-															</p>
-															<h3
-																className="article-headline"
-																key={breitbartItem.title}
-															>
-																{'> ' + breitbartItem.title}
-															</h3>
-															<time
-																className="article-date"
-																key={'breitbart' + breitbartItem.created}
-															>
-																<span className="smalltext">Published on </span>
-																{moment(breitbartItem.created).format(
-																	'MMMM Do YYYY, h:mm a'
-																)}
-															</time>
-														</div>
-													</article>
-												);
+											if (index > 100) {
+												return null
 											}
+											return (
+												<article key={'breitbart' + index}>
+													<div className="overlay">
+														<p className="article-link">
+															<a href={breitbartItem.url}>Link</a>
+														</p>
+														<h3
+															className="article-headline"
+															key={breitbartItem.title}
+														>
+															{'> ' + breitbartItem.title}
+														</h3>
+														<time
+															className="article-date"
+															key={'breitbart' + breitbartItem.created}
+														>
+															<span className="smalltext">Published on </span>
+															{moment(breitbartItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
+													</div>
+												</article>
+											);
 										})}
 									</div>
 								)}
@@ -394,7 +396,7 @@ export class Homepage extends React.Component {
 									this.state.msnbcCount === '' ? (
 										<span>{`${this.state.msnbc.length} Documents`}</span>
 									) : (
-											<span>{`${this.state.msnbcCount} Documents`}</span>
+											<span>{`${this.state.msnbcCount} Documents (${this.state.searchValue})`}</span>
 										)
 
 							}
@@ -411,32 +413,33 @@ export class Homepage extends React.Component {
 							) : (
 									<div className="articles">
 										{this.state.msnbc.map((msnbcItem, index) => {
-											while (index < 100) {
-												return (
-													<article key={'msnbc' + index}>
-														<div className="overlay">
-															<p className="article-link">
-																<a href={msnbcItem.url}>Link</a>
-															</p>
-															<h3
-																className="article-headline"
-																key={msnbcItem.title}
-															>
-																{'> ' + msnbcItem.title}
-															</h3>
-															<time
-																className="article-date"
-																key={'msnbc' + msnbcItem.created}
-															>
-																<span className="smalltext">Published on </span>
-																{moment(msnbcItem.created).format(
-																	'MMMM Do YYYY, h:mm a'
-																)}
-															</time>
-														</div>
-													</article>
-												);
+											if (index > 100) {
+												return null
 											}
+											return (
+												<article key={'msnbc' + index}>
+													<div className="overlay">
+														<p className="article-link">
+															<a href={msnbcItem.url}>Link</a>
+														</p>
+														<h3
+															className="article-headline"
+															key={msnbcItem.title}
+														>
+															{'> ' + msnbcItem.title}
+														</h3>
+														<time
+															className="article-date"
+															key={'msnbc' + msnbcItem.created}
+														>
+															<span className="smalltext">Published on </span>
+															{moment(msnbcItem.created).format(
+																'MMMM Do YYYY, h:mm a'
+															)}
+														</time>
+													</div>
+												</article>
+											);
 										})}
 									</div>
 								)}
