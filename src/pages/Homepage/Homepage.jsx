@@ -141,12 +141,11 @@ export class Homepage extends React.Component {
 		this.setState({
 			searchValue: searchValue
 		});
-		this.highlightText();
 		this.ChartComponentUpdate(searchValue);
 	};
 
 	highlightText() {
-		console.log('searchValue', this.state.searchValue)
+		console.log('highlightText', this.state.searchValue)
 	}
 
 	ChartComponentUpdate = searchValue => {
@@ -155,21 +154,23 @@ export class Homepage extends React.Component {
 	};
 
 	componentDidUpdate() {
+		this.highlightText()
+		console.log("componentdidupdate")
 	}
 
 	render() {
 		return (
 			<div className="homepage">
 				<div className="ui-instruction">
-					<div>1. Enter your search. (Case Sensitive)</div>
-					<div>2. Pick your chart format.</div>
-					<div>3. Draw your conclusions.</div>
+					<p>1. Enter your search. (Case Sensitive)</p>
+					<p>2. Pick your chart format.</p>
+					<p>3. Draw your conclusions.</p>
 				</div>
 				<Searchbar
 					onSearchbarUpdate={this.onSearchbarUpdate}
 					searchValueUpdate={this.searchValueUpdate}
 					ChartComponentUpdate={this.ChartComponentUpdate}
-					/>
+				/>
 				<div className="chartcomponent-wrapper">
 					{this.state.showChart === false ? (
 						<span />
@@ -189,21 +190,24 @@ export class Homepage extends React.Component {
 					<div className="content" id="cnn-content">
 						<div className="news-site">
 							<h2>CNN</h2>
-							<button
-								className="refresh-button refresh-button-cnn"
-								value="cnn"
-								onClick={this.onRefresh}
-							>
-								REFRESH
+							<div className="doc-btn-holder">
+								<button
+									className="refresh-button refresh-button-cnn"
+									value="cnn"
+									onClick={this.onRefresh}
+								>
+									REFRESH
 							</button>
-							{
-								this.state.cnnIsLoading ? <span>Loading</span> :
-									this.state.cnnCount === '' ? (
-										<span>{`${this.state.cnn.length} Documents`}</span>
-									) : (
-											<span>{`${this.state.cnnCount} Documents (${this.state.searchValue})`}</span>
-										)
-							}
+								{
+									this.state.cnnIsLoading ? <span className="doc-numbers">Loading</span> :
+										this.state.cnnCount === '' ? (
+											<span className="doc-numbers">{`${this.state.cnn.length} Documents`}</span>
+										) : (
+												<span className="doc-numbers">{`${this.state.cnnCount} Documents (${this.state.searchValue})`}</span>
+											)
+								}
+
+							</div>
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.cnnIsLoading === true ? (
@@ -223,20 +227,16 @@ export class Homepage extends React.Component {
 											return (
 												<article key={'cnn' + index}>
 													<div className="overlay">
-														<p className="article-link">
-															<a href={cnnItem.url}>Link</a>
-														</p>
 														<h3
 															className="article-headline"
 															key={cnnItem.title}
 														>
-															{'> ' + cnnItem.title}
+															<a className="article-link" href={cnnItem.url} target="_blank"><i className="far fa-newspaper"></i>{" " + cnnItem.title}</a>
 														</h3>
 														<time
 															className="article-date"
 															key={'cnn' + cnnItem.created}
 														>
-															<span className="smalltext">Published on </span>
 															{moment(cnnItem.created).format(
 																'MMMM Do YYYY, h:mm a'
 															)}
@@ -252,23 +252,25 @@ export class Homepage extends React.Component {
 					<div className="content" id="fox-content">
 						<div className="news-site">
 							<h2>Fox</h2>
-							<button
-								className="refresh-button refresh-button-fox"
-								value="fox"
-								onClick={this.onRefresh}
-							>
-								REFRESH
+							<div className="doc-btn-holder">
+								<button
+									className="refresh-button refresh-button-fox"
+									value="fox"
+									onClick={this.onRefresh}
+								>
+									REFRESH
 							</button>
 
-							{
-								this.state.foxIsLoading ? <span>Loading</span> :
-									this.state.foxCount === '' ? (
-										<span>{`${this.state.fox.length} Documents`}</span>
-									) : (
-											<span>{`${this.state.foxCount} Documents (${this.state.searchValue})`}</span>
-										)
+								{
+									this.state.foxIsLoading ? <span className="doc-numbers">Loading</span> :
+										this.state.foxCount === '' ? (
+											<span className="doc-numbers">{`${this.state.fox.length} Documents`}</span>
+										) : (
+												<span className="doc-numbers">{`${this.state.foxCount} Documents (${this.state.searchValue})`}</span>
+											)
 
-							}
+								}
+							</div>
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.foxIsLoading === true ? (
@@ -288,20 +290,16 @@ export class Homepage extends React.Component {
 											return (
 												<article key={'fox' + index}>
 													<div className="overlay">
-														<p className="article-link">
-															<a href={foxItem.url}>Link</a>
-														</p>
 														<h3
 															className="article-headline"
 															key={foxItem.title}
 														>
-															{'> ' + foxItem.title}
+															<a className="article-link" href={foxItem.url} target="_blank"><i className="far fa-newspaper"></i>{" " + foxItem.title}</a>
 														</h3>
 														<time
 															className="article-date"
 															key={'fox' + foxItem.created}
 														>
-															<span className="smalltext">Published on </span>
 															{moment(foxItem.created).format(
 																'MMMM Do YYYY, h:mm a'
 															)}
@@ -320,22 +318,24 @@ export class Homepage extends React.Component {
 					<div className="content" id="breitbart-content">
 						<div className="news-site">
 							<h2>Breitbart</h2>
-							<button
-								className="refresh-button refresh-button-breitbart"
-								value="breitbart"
-								onClick={this.onRefresh}
-							>
-								REFRESH
+							<div className="doc-btn-holder">
+								<button
+									className="refresh-button refresh-button-breitbart"
+									value="breitbart"
+									onClick={this.onRefresh}
+								>
+									REFRESH
 							</button>
-							{
-								this.state.breitbartIsLoading ? <span>Loading</span> :
-									this.state.breitbartCount === '' ? (
-										<span>{`${this.state.breitbart.length} Documents`}</span>
-									) : (
-											<span>{`${this.state.breitbartCount} Documents (${this.state.searchValue})`}</span>
-										)
+								{
+									this.state.breitbartIsLoading ? <span className="doc-numbers">Loading</span> :
+										this.state.breitbartCount === '' ? (
+											<span className="doc-numbers">{`${this.state.breitbart.length} Documents`}</span>
+										) : (
+												<span className="doc-numbers">{`${this.state.breitbartCount} Documents (${this.state.searchValue})`}</span>
+											)
 
-							}
+								}
+							</div>
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.breitbartIsLoading === true ? (
@@ -355,20 +355,18 @@ export class Homepage extends React.Component {
 											return (
 												<article key={'breitbart' + index}>
 													<div className="overlay">
-														<p className="article-link">
-															<a href={breitbartItem.url}>Link</a>
-														</p>
 														<h3
 															className="article-headline"
 															key={breitbartItem.title}
 														>
-															{'> ' + breitbartItem.title}
+															<a className="article-link" href={breitbartItem.url} target="_blank">
+																<i className="far fa-newspaper"></i>{" " + breitbartItem.title}
+															</a>
 														</h3>
 														<time
 															className="article-date"
 															key={'breitbart' + breitbartItem.created}
 														>
-															<span className="smalltext">Published on </span>
 															{moment(breitbartItem.created).format(
 																'MMMM Do YYYY, h:mm a'
 															)}
@@ -384,22 +382,24 @@ export class Homepage extends React.Component {
 					<div className="content" id="msnbc-content">
 						<div className="news-site">
 							<h2>MSNBC</h2>
-							<button
-								className="refresh-button refresh-button-msnbc"
-								value="msnbc"
-								onClick={this.onRefresh}
-							>
-								REFRESH
+							<div className="doc-btn-holder">
+								<button
+									className="refresh-button refresh-button-msnbc"
+									value="msnbc"
+									onClick={this.onRefresh}
+								>
+									REFRESH
 							</button>
-							{
-								this.state.msnbcIsLoading ? <span>Loading</span> :
-									this.state.msnbcCount === '' ? (
-										<span>{`${this.state.msnbc.length} Documents`}</span>
-									) : (
-											<span>{`${this.state.msnbcCount} Documents (${this.state.searchValue})`}</span>
-										)
+								{
+									this.state.msnbcIsLoading ? <span className="doc-numbers">Loading</span> :
+										this.state.msnbcCount === '' ? (
+											<span className="doc-numbers">{`${this.state.msnbc.length} Documents`}</span>
+										) : (
+												<span className="doc-numbers">{`${this.state.msnbcCount} Documents (${this.state.searchValue})`}</span>
+											)
 
-							}
+								}
+							</div>
 						</div>
 						<Scrollbars universal autoHeight autoHeightMin={60 + 'vh'}>
 							{this.state.msnbcIsLoading === true ? (
@@ -419,20 +419,16 @@ export class Homepage extends React.Component {
 											return (
 												<article key={'msnbc' + index}>
 													<div className="overlay">
-														<p className="article-link">
-															<a href={msnbcItem.url}>Link</a>
-														</p>
 														<h3
 															className="article-headline"
 															key={msnbcItem.title}
 														>
-															{'> ' + msnbcItem.title}
+															<a className="article-link" href={msnbcItem.url} target="_blank">	<i className="far fa-newspaper"></i>{" " + msnbcItem.title}</a>
 														</h3>
 														<time
 															className="article-date"
 															key={'msnbc' + msnbcItem.created}
 														>
-															<span className="smalltext">Published on </span>
 															{moment(msnbcItem.created).format(
 																'MMMM Do YYYY, h:mm a'
 															)}

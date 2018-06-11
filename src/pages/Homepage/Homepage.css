@@ -25,10 +25,7 @@
 	}
 }
 
-.articles {}
-
 article {
-	margin-bottom: 30px;
 	letter-spacing: 1px;
 	color: black;
 }
@@ -45,7 +42,7 @@ article {
 
 .news-site {
 	display: flex;
-	height: 70px;
+	height: 50px;
 	color: black;
 	border-bottom: 1px black solid;
 	background: rgba(225, 225, 225, 0.6);
@@ -53,43 +50,35 @@ article {
 
 .news-site h2 {
 	margin: auto;
-	font-size: 3rem;
+	font-size: 2rem;
 }
 
 .article-date {
 	display: block;
 	position: relative;
-	margin: 0 0 0 5%;
 	padding: 0 0 0 5%;
 	background: rgba(225, 225, 225, 0.5);
 	text-align: right;
+	font-size: 10px;
 	text-decoration: none;
 	color: black;
 }
 
 .article-headline {
-	height: 100%;
-	margin: 0 0 0 5%;
-	padding: 0 0 0 5%;
+	margin: 0;
+	padding: 1% 0 0 2%;
 	text-align: left;
-	font-size: 1.1rem;
 	background: rgba(225, 225, 225, 0.5);
-	overflow: hidden;
 	font-family: 'Tajawal', sans-serif;
 	font-weight: 900;
+	font-size: .75rem;
+	overflow: hidden;
 }
 
 .article-link {
 	display: block;
-	margin: 0 10% 0 0;
-	background: rgba(225, 225, 225, 0.7);
-	text-align: left;
 	letter-spacing: 1px;
-	font-size: 0.6rem;
-	font-weight: 730;
-}
-
-.article-link a {
+	text-decoration: none;
 	color: black;
 }
 
@@ -131,32 +120,40 @@ article {
 	margin-top: 2rem;
 }
 
+.doc-numbers {
+	height: 50%;
+	font-size: 1rem;
+	padding-top: 4px;
+	text-align: center;
+	font-family: "Times New Roman", Times, serif;
+}
+
 .text {
 	padding: 0 20px;
 }
 
-.refresh-button {
-	position: absolute;
+
+.doc-btn-holder {
+	display: flex;
+	flex-direction: column;
+	border-left: 2px solid gainsboro;
+	border-bottom: 2px solid darkgray;
 }
 
 .refresh-button-cnn {
 	background: rgba(200, 150, 150, 0.6);
-	border: 2px solid rgba(225, 100, 100, 0.9);
 }
 
 .refresh-button-fox {
 	background: rgba(150, 150, 225, 0.6);
-	border: 2px solid rgba(100, 100, 225, 0.9);
 }
 
 .refresh-button-breitbart {
 	background: rgba(225, 175, 100, 0.6);
-	border: 2px solid rgba(225, 150, 150, 0.9);
 }
 
 .refresh-button-msnbc {
 	background: rgba(200, 200, 200, 0.6);
-	border: 2px solid rgba(150, 150, 150, 0.9);
 }
 
 /*Loading Spinner*/
@@ -179,6 +176,7 @@ article {
 	width: 100px;
 	animation: loading-spinner infinite 20s linear;
 }
+
 
 @keyframes loading-spinner {
 	from {

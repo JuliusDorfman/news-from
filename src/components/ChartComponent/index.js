@@ -1,1 +1,1 @@
-export { default } from "./ChartComponent.js"
+export { default } from "./ChartComponent.jsx"
