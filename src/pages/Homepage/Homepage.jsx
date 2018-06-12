@@ -145,17 +145,28 @@ export class Homepage extends React.Component {
 	};
 
 	highlightText() {
-		console.log('highlightText', this.state.searchValue)
+		let highlightedWord = this.state.searchValue;
+		let cnnNodes = document.getElementById('cnn-content').childNodes[1].firstChild.firstChild.childNodes
+		console.log("cnn-content", document.getElementById('cnn-content').childNodes[1].firstChild.firstChild.childNodes)
+		for (let c = 0; c < cnnNodes.length; c++) {
+			let cnnText = cnnNodes[c].innerText
+			// var newText = cnnText.replace(cnnText, "<span className='highlight-text'>" + highlightedWord + "</span>")
+			// console.log("newCnnHeadline", cnnText.replace(cnnText, "<span className='highlight-text'>" + highlightedWord + "</span>"))
+			// console.log("cnnNodes.text", newText)
+			// console.log("highlightedWord", highlightedWord)
+		}
+		// console.log("fox-content" , document.getElementById('fox-content').childNodes[1].firstChild.firstChild.childNodes) 
+		// console.log("breitbart-content" , document.getElementById('breitbart-content')) 
+		// console.log("msnbc-content" , document.getElementById('msnbc-content')) 
 	}
 
 	ChartComponentUpdate = searchValue => {
 		this.setState({ showChart: false });
 		this.setState({ showChart: true });
+		this.highlightText()
 	};
 
 	componentDidUpdate() {
-		this.highlightText()
-		console.log("componentdidupdate")
 	}
 
 	render() {
@@ -224,6 +235,13 @@ export class Homepage extends React.Component {
 											if (index > 100) {
 												return null
 											}
+											if (this.state.searchValue !== "") {
+												var newCnnHeadline = cnnItem.title.replace(this.state.searchValue, function(result) {
+													console.log("result", result)
+													return ("**" + result + "**")
+												})
+											}
+
 											return (
 												<article key={'cnn' + index}>
 													<div className="overlay">
@@ -231,7 +249,7 @@ export class Homepage extends React.Component {
 															className="article-headline"
 															key={cnnItem.title}
 														>
-															<a className="article-link" href={cnnItem.url} target="_blank"><i className="far fa-newspaper"></i>{" " + cnnItem.title}</a>
+															<a className="article-link" href={cnnItem.url} target="_blank"><i className="far fa-newspaper"></i>{newCnnHeadline ? " " + newCnnHeadline : " " + cnnItem.title}</a>
 														</h3>
 														<time
 															className="article-date"
@@ -287,6 +305,13 @@ export class Homepage extends React.Component {
 											if (index > 100) {
 												return null
 											}
+											if (this.state.searchValue !== "") {
+												var newFoxHeadline = foxItem.title.replace(this.state.searchValue, function(result) {
+													console.log("result", result)
+													return ("**" + result + "**")
+												})
+												console.log("newFoxHeadline", newFoxHeadline)
+											}
 											return (
 												<article key={'fox' + index}>
 													<div className="overlay">
@@ -294,7 +319,7 @@ export class Homepage extends React.Component {
 															className="article-headline"
 															key={foxItem.title}
 														>
-															<a className="article-link" href={foxItem.url} target="_blank"><i className="far fa-newspaper"></i>{" " + foxItem.title}</a>
+															<a className="article-link" href={foxItem.url} target="_blank"><i className="far fa-newspaper"></i>{newFoxHeadline ? " " + newFoxHeadline : " " + foxItem.title}</a>
 														</h3>
 														<time
 															className="article-date"
@@ -352,6 +377,13 @@ export class Homepage extends React.Component {
 											if (index > 100) {
 												return null
 											}
+											if (this.state.searchValue !== "") {
+												var newBreitbartHeadline = breitbartItem.title.replace(this.state.searchValue, function(result) {
+													console.log("result", result)
+													return ("**" + result + "**")
+												})
+												console.log("newBreitbartHeadline", newBreitbartHeadline)
+											}
 											return (
 												<article key={'breitbart' + index}>
 													<div className="overlay">
@@ -360,7 +392,7 @@ export class Homepage extends React.Component {
 															key={breitbartItem.title}
 														>
 															<a className="article-link" href={breitbartItem.url} target="_blank">
-																<i className="far fa-newspaper"></i>{" " + breitbartItem.title}
+																<i className="far fa-newspaper"></i>{newBreitbartHeadline ? " " + newBreitbartHeadline : " " + breitbartItem.title}
 															</a>
 														</h3>
 														<time
@@ -416,6 +448,15 @@ export class Homepage extends React.Component {
 											if (index > 100) {
 												return null
 											}
+											if (this.state.searchValue !== "") {
+												var newMsnbcHeadline = msnbcItem.title.replace(this.state.searchValue, function(result) {
+													console.log("result", result)
+													return ("**" + result + "**")
+													// var newResult = <span className="highlight-text"></span>
+													// return newResult
+												})
+												console.log("newMsnbcHeadline", newMsnbcHeadline)
+											}
 											return (
 												<article key={'msnbc' + index}>
 													<div className="overlay">
@@ -423,7 +464,7 @@ export class Homepage extends React.Component {
 															className="article-headline"
 															key={msnbcItem.title}
 														>
-															<a className="article-link" href={msnbcItem.url} target="_blank">	<i className="far fa-newspaper"></i>{" " + msnbcItem.title}</a>
+															<a className="article-link" href={msnbcItem.url} target="_blank">	<i className="far fa-newspaper"></i>{newMsnbcHeadline ? " " + newMsnbcHeadline : " " + msnbcItem.title}</a>
 														</h3>
 														<time
 															className="article-date"

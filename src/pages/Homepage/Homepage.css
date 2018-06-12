@@ -96,7 +96,6 @@ article {
 
 #fox-content .news-site {
 	font-family: 'Rammetto One', cursive;
-	letter-spacing: 2px;
 }
 
 #breitbart-content {
@@ -191,4 +190,8 @@ article {
 
 .smalltext {
 	font-size: 0.7rem;
+}
+
+.highlight-text {
+	background: yellow;
 }

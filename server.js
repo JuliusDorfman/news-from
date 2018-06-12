@@ -29,7 +29,7 @@ app.use('/api/breitbart', breitbartProvider);
 app.use('/api/msnbc', msnbcProvider);
 app.use('/api/fox', foxProvider);
 
-// Serve static assets if in production
+// Serve static assets 	if in production
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('/build'));
 	app.get('*', (req, res) => {
