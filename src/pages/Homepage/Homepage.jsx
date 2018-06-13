@@ -1,7 +1,7 @@
 // React Library
 import React from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
-
+import ReactDOM from 'react-dom';
 // Homepage Components
 import Searchbar from '../../components/Searchbar';
 import ChartComponent from '../../components/ChartComponent';
@@ -238,7 +238,8 @@ export class Homepage extends React.Component {
 											if (this.state.searchValue !== "") {
 												var newCnnHeadline = cnnItem.title.replace(this.state.searchValue, function(result) {
 													console.log("result", result)
-													return ("**" + result + "**")
+													// return (<div className="highlight-word"> result </div>)
+													return("|**" + result + "**|")
 												})
 											}
 
@@ -307,10 +308,10 @@ export class Homepage extends React.Component {
 											}
 											if (this.state.searchValue !== "") {
 												var newFoxHeadline = foxItem.title.replace(this.state.searchValue, function(result) {
-													console.log("result", result)
-													return ("**" + result + "**")
+
+													return ("|**" + result + "**|")
 												})
-												console.log("newFoxHeadline", newFoxHeadline)
+
 											}
 											return (
 												<article key={'fox' + index}>
@@ -379,10 +380,10 @@ export class Homepage extends React.Component {
 											}
 											if (this.state.searchValue !== "") {
 												var newBreitbartHeadline = breitbartItem.title.replace(this.state.searchValue, function(result) {
-													console.log("result", result)
-													return ("**" + result + "**")
+
+													return ("|**" + result + "**|")
 												})
-												console.log("newBreitbartHeadline", newBreitbartHeadline)
+
 											}
 											return (
 												<article key={'breitbart' + index}>
@@ -450,12 +451,11 @@ export class Homepage extends React.Component {
 											}
 											if (this.state.searchValue !== "") {
 												var newMsnbcHeadline = msnbcItem.title.replace(this.state.searchValue, function(result) {
-													console.log("result", result)
-													return ("**" + result + "**")
+
 													// var newResult = <span className="highlight-text"></span>
-													// return newResult
+													return ("|**" + result + "**|")
 												})
-												console.log("newMsnbcHeadline", newMsnbcHeadline)
+
 											}
 											return (
 												<article key={'msnbc' + index}>
