@@ -13,7 +13,7 @@
 	justify-content: center;
 }
 
-@media (max-width:800px){
+@media (max-width:800px) {
 	.canvas-wrapper {
 		flex-direction: column;
 	}
@@ -29,6 +29,13 @@
 }
 
 .render-button {
-	background: rgba(225, 225, 225, 0.9);
-	border: 2px solid rgba(150, 150, 150, 0.9);
+	background: rgba(225, 225, 225, 0.8);
+}
+
+.hide-button {
+	background: rgba(225, 225, 225, 0.8);
+}
+
+.column>* {
+	margin-right: 3%;
 }

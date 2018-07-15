@@ -21,12 +21,13 @@ class ChartComponent extends Component {
 		};
 		this.reRenderDoughnut = this.reRenderDoughnut.bind(this);
 		this.reRenderBar = this.reRenderBar.bind(this);
+		this.hideChart = this.hideChart.bind(this);
 	}
 
 
 	buildDoughnut(data) {
 		let barType = this.state.barType;
-		var ctx = document.getElementById(barType);
+		let ctx = document.getElementById(barType);
 		new Chart(ctx, {
 			type: barType,
 			data: {
@@ -62,12 +63,12 @@ class ChartComponent extends Component {
 				}
 			}
 		});
-		this.setState({ mainChart: ctx }, function () { });
+		this.setState({ mainChart: ctx }, function() { });
 	}
 
 	buildBar(data) {
 		let barType = this.state.barType;
-		var ctx = document.getElementById(barType);
+		let ctx = document.getElementById(barType);
 		new Chart(ctx, {
 			type: barType,
 			data: {
@@ -115,7 +116,7 @@ class ChartComponent extends Component {
 				}
 			}
 		});
-		this.setState({ mainChart: ctx }, function () { });
+		this.setState({ mainChart: ctx }, function() { });
 	}
 
 	reRenderDoughnut(e) {
@@ -136,7 +137,7 @@ class ChartComponent extends Component {
 					msnbc: this.state.chartData.msnbc
 				}
 			},
-			function () {
+			function() {
 				this.buildDoughnut();
 			}
 		);
@@ -160,10 +161,14 @@ class ChartComponent extends Component {
 					msnbc: this.state.chartData.msnbc
 				}
 			},
-			function () {
+			function() {
 				this.buildBar();
 			}
 		);
+	}
+
+	hideChart(e) {
+		this.setState({ searchValue: "" })
 	}
 
 	componentDidMount() {
@@ -174,21 +179,32 @@ class ChartComponent extends Component {
 		return (
 			<div className="chart-component">
 				<div className="buttons-wrapper">
-					<button
-						className="render-button"
-						name="doughnut"
-						onClick={this.reRenderDoughnut}
-					>
-						Render Doughnut
+					<div className="column">
+						<button
+							className="render-button"
+							name="doughnut"
+							onClick={this.reRenderDoughnut}
+						>
+							Render Doughnut
 					</button>
+						<button
+							className="render-button"
+							name="bar"
+							onClick={this.reRenderBar}
+						>
+							Render Bar
+					</button>
+					</div>
+					<div className="column">
+						<button
+							className="hide-button"
+							name="doughnut"
+							onClick={this.hideChart}
+						>
+							Hide Charts
+					</button>
+					</div>
 
-					<button
-						className="render-button"
-						name="bar"
-						onClick={this.reRenderBar}
-					>
-						Render Bar
-					</button>
 				</div>
 				{this.state.searchValue === '' ? (
 					<span />
