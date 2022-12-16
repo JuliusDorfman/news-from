@@ -1,0 +1,31 @@
+@import '../../global_styles.scss';
+
+.newsmodule {
+
+  
+  &__container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  &__article {
+    border: 1px solid black;
+  }
+}
+
+#cnn {
+  background-color: $-theme-cnn;
+}
+
+#foxnews {
+  background-color: $-theme-foxnews;
+}
+
+#nyt {
+  background-color: $-theme-breitbart;
+}
+
+#reuters {
+  background-color: $-theme-msnbc;
+}
