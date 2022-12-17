@@ -1,7 +1,20 @@
 @import './_global_styles.scss';
+* {
+  box-sizing: border-box;
+  cursor: default;
+}
 
+::selection {
+  background: #F4F7BE;
+}
+
+::-moz-selection {
+  background: #F4F7BE;
+}
 
 html {
+  padding: 40px;
+  scroll-behavior: smooth;
   background: $-theme-background;
 }
 
@@ -16,41 +29,3 @@ main {
     justify-content: center;
   }
 }
-// .App {
-//   text-align: center;
-// }
-
-// .App-logo {
-//   height: 40vmin;
-//   pointer-events: none;
-// }
-
-// @media (prefers-reduced-motion: no-preference) {
-//   .App-logo {
-//     animation: App-logo-spin infinite 20s linear;
-//   }
-// }
-
-// .App-header {
-//   background-color: #282c34;
-//   min-height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: calc(10px + 2vmin);
-//   color: white;
-// }
-
-// .App-link {
-//   color: #61dafb;
-// }
-
-// @keyframes App-logo-spin {
-//   from {
-//     transform: rotate(0deg);
-//   }
-//   to {
-//     transform: rotate(360deg);
-//   }
-// }

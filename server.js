@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
 const chalk = require("chalk");
+const cors = require("cors");
 chalk.enabled = true
 chalk.level = 3
 
@@ -14,16 +15,12 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 console.log('\n \n \n \n');
-
+app.use(cors());
 app.use(
   "/api",
-  require(path.resolve(__dirname, "server", "routes.ts")),
-  (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
+  require(path.resolve(__dirname, "server", "routes.js")), next =>{
+    res.header("Access-Control-Allow-Origin", "https://news-from.herokuapp.com");
+    res.header("Access-Control-Allow-Headers");
     res.set("Content-Type", "application/json");
   }
 );

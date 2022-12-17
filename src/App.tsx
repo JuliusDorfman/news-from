@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import NewsModule from './Components/NewsModule';
+import DataCanvas from './Components/DataCanvas';
 // import Navbar from './Components/Navbar';
 import './App.scss';
 
@@ -17,6 +18,7 @@ function App() {
       </header>
       <main>
         <NewsModule />
+        <DataCanvas />
       </main>
       <footer className="App-footer">
       </footer>

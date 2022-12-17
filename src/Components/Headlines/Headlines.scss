@@ -1,0 +1,11 @@
+@import '../../_global_styles.scss';
+
+.headlines {
+  &__component {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  &__container {
+  }
+}

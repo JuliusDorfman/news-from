@@ -1,16 +1,27 @@
 @import '../../global_styles.scss';
 
-.newsmodule {
-
-  
+.newsModule {
   &__container {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+
+    & main {
+      height: 100%;
+    }
   }
 
   &__article {
     border: 1px solid black;
+    padding: 40px;
+    height: 500px;
+  }
+
+  &__source {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
   }
 }
 
@@ -23,9 +34,9 @@
 }
 
 #nyt {
-  background-color: $-theme-breitbart;
+  background-color: $-theme-nyt;
 }
 
 #reuters {
-  background-color: $-theme-msnbc;
+  background-color: $-theme-reuters;
 }
