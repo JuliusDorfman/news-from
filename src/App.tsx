@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import NewsModule from './Components/NewsModule';
 import DataCanvas from './Components/DataCanvas';
 import Navbar from './Components/Navbar';
+import newsFromLogo from './Assets/news-from-logo.png';
 import './App.scss';
 
 
@@ -15,6 +16,9 @@ function App() {
       <Navbar />
       <header className="app__header">
         <h1>News-From</h1>
+        <div className="logo-wrapper">
+          <img src={newsFromLogo} alt="news-from-logo" />
+        </div>
       </header>
       <main>
         <NewsModule />

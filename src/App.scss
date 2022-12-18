@@ -50,3 +50,15 @@ main {
     font-size: 2em;
   }
 }
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  margin-left: 40px;
+  img{
+    width: 100%;
+  }
+}
+

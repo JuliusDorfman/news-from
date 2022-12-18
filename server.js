@@ -19,7 +19,7 @@ app.use(cors());
 app.use(
   "/api",
   require(path.resolve(__dirname, "server", "routes.js")), next =>{
-    res.header("Access-Control-Allow-Origin", "https://news-from.herokuapp.com");
+    res.header("Access-Control-Allow-Origin", "https://news-from.herokuapp.com/");
     res.header("Access-Control-Allow-Headers");
     res.set("Content-Type", "application/json");
   }
