@@ -5,13 +5,9 @@ const router = express.Router();
 const axios = require("axios");
 const rssParser = require("rss-parser");
 require("dotenv").config({ path: path.join(__dirname, "../", ".env") });
+
+
 const parser = new rssParser();
-
-
-router.get("/test", (req, res) => {
-  res.send("Hello World!");
-});
-
 
 router.get("/cnn", async (req, res) => {
   try {

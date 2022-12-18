@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import NewsModule from './Components/NewsModule';
 import DataCanvas from './Components/DataCanvas';
-// import Navbar from './Components/Navbar';
+import Navbar from './Components/Navbar';
 import './App.scss';
 
 
@@ -12,7 +12,7 @@ import './App.scss';
 function App() {
   return (
     <div className="app">
-      {/* <Navbar /> */}
+      <Navbar />
       <header className="app__header">
         <h1>News-From</h1>
       </header>

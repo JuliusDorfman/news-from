@@ -3,9 +3,17 @@
 .headlines {
   &__component {
     height: 100%;
-    overflow-y: auto;
   }
 
   &__container {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__wrapper {}
+  &__headline {
+    font-size: 14px;
+    letter-spacing: .15em;
   }
 }

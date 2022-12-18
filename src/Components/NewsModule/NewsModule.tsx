@@ -37,7 +37,7 @@ export default class NewsModule extends Component<Props, State> {
     api.get('/api/cnn')
       .then((response) => {
         let { Feed } = response.data;
-        // console.log('CNN', response.data.Feed);
+        console.log('CNN', response.data.Feed);
         this.setState({ cnnFeed: Feed });
       })
     api.get('/api/fox')
@@ -64,7 +64,7 @@ export default class NewsModule extends Component<Props, State> {
     api.get('/api/cnn')
       .then((response) => {
         let { Feed } = response.data;
-        // console.log('CNN', response.data.Feed);
+        console.log('CNN', response.data.Feed);
         this.setState({ cnnFeed: Feed });
       })
     api.get('/api/fox')
@@ -96,19 +96,19 @@ export default class NewsModule extends Component<Props, State> {
       <section className="newsModule__container">
         <h2 className="newsModule__title">Data-Sources</h2>
         <span>
-          <button onClick={() => this.handleTest()}>button</button>
+          {/* <button onClick={() => this.handleTest()}>button</button> */}
         </span>
         <article id="cnn" className="newsModule__article">
           <header>
             <h3 className="newsModule__source">
               CNN
             </h3>
+            <h5>Headlines</h5>
           </header>
           <main>
             <Headlines headlines={cnnFeed} />
           </main>
           <footer>
-
           </footer>
         </article>
         <article id="foxnews" className="newsModule__article">
@@ -116,12 +116,12 @@ export default class NewsModule extends Component<Props, State> {
             <h3 className="newsModule__source">
               Fox News
             </h3>
+            <h5>Headlines</h5>
           </header>
           <main>
             <Headlines headlines={foxFeed} />
           </main>
           <footer>
-
           </footer>
         </article>
         <article id="nyt" className="newsModule__article">
@@ -129,12 +129,12 @@ export default class NewsModule extends Component<Props, State> {
             <h3 className="newsModule__source">
               New York Times
             </h3>
+            <h5>Headlines</h5>
           </header>
           <main>
             <Headlines headlines={nytFeed} />
           </main>
           <footer>
-
           </footer>
         </article>
         <article id="reuters" className="newsModule__article">
@@ -142,12 +142,12 @@ export default class NewsModule extends Component<Props, State> {
             <h3 className="newsModule__source">
               Reuters
             </h3>
+            <h5>Headlines</h5>
           </header>
           <main>
             <Headlines headlines={reutersFeed} />
           </main>
           <footer>
-
           </footer>
         </article>
       </section>

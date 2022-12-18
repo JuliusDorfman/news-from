@@ -14,8 +14,19 @@
 
   &__article {
     border: 1px solid black;
-    padding: 40px;
+    padding: 0px 40px;
     height: 500px;
+    overflow-y: auto;
+
+    & header {
+      position: sticky;
+      margin-top: 20px;
+      top: 0px;
+      border-bottom: 1px solid black;
+      & h5 {
+        margin: 10px 0;
+      }
+    }
   }
 
   &__source {
@@ -27,16 +38,109 @@
 
 #cnn {
   background-color: $-theme-cnn;
+
+  &::-webkit-scrollbar-track {
+    background: #FF5C5C;
+    margin-block: initial;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #A30000;
+    border: none;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
+  }
+
+  header {
+    background: $-theme-cnn;
+  }
 }
 
 #foxnews {
   background-color: $-theme-foxnews;
+
+  &::-webkit-scrollbar-track {
+    background: #4F8ABA;
+    margin-block: initial;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #2E5576;
+    border: none;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
+  }
+  header {
+    background: $-theme-foxnews;
+  }
 }
 
 #nyt {
   background-color: $-theme-nyt;
+
+  &::-webkit-scrollbar-track {
+    background: #FF6933;
+    margin-block: initial;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #A32C00;
+    border: none;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
+  }
+  header {
+    background: $-theme-nyt;
+  }
 }
 
 #reuters {
   background-color: $-theme-reuters;
+
+  &::-webkit-scrollbar-track {
+    background: #9271AD;
+    margin-block: initial;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #5E4375;
+    border: none;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
+  }
+  header {
+    background: $-theme-reuters;
+  }
 }

@@ -4,7 +4,17 @@ import './Navbar.scss';
 
 function Navbar(props: any) {
   return (
-    <div>Navbar</div>
+    <div id="navbar-component">
+      <nav className="navbar">
+        <ul className="navbar__list">
+          <li className="navbar__item">
+            <div>
+              Swap Modules
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
   )
 }
 
