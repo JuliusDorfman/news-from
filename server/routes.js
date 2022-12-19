@@ -19,9 +19,33 @@ router.get("/cnn", async (req, res) => {
 });
 
 router.get("/fox", async (req, res) =>{
+  //Initialize array to hold all articles
+  let articles = [];
+  //Get the RSS feed from FOX
   try {
-    const response = await parser.parseURL(process.env.FOX_FEED_URL);
-    res.json({Feed: response.items});
+    //Fetch from first Feed and add to array
+    const response1 = await parser.parseURL(process.env.FOX_FEED_URL);
+    articles.push(response1.items);
+
+    //Fetch from second Feed
+    const response2 = await parser.parseURL(process.env.FOX_TECH_URL);
+    articles.push(response2.items);
+
+    // Fetch from third Feed
+    const response3 = await parser.parseURL(process.env.FOX_POLITICS);
+    articles.push(response3.items);
+
+    const response4 = await parser.parseURL(process.env.FOX_OPINION);
+    articles.push(response4.items);
+
+    const response5 = await parser.parseURL(process.env.FOX_HEALTH);
+    articles.push(response5.items);
+
+    const response6 = await parser.parseURL(process.env.FOX_SCIENCE);
+    articles.push(response6.items);
+
+    res.json({Feed: articles.flat()});
+    
   } catch (error) {
     res.send("Error getting FOX RSS feed");
   }
@@ -37,9 +61,29 @@ router.get("/nyt", async (req, res) =>{
 })
 
 router.get("/reuters", async (req, res) =>{
+  let articles = [];
   try {
-    const response = await parser.parseURL(process.env.REUTERS_FEED_URL);
-    res.json({Feed: response.items});
+
+    const response1 = await parser.parseURL(process.env.REUTERS_FEED_URL);
+    articles.push(response1.items);
+
+    const response2 = await parser.parseURL(process.env.REUTERS_ENVIRONMENT_URL);
+    articles.push(response2.items);
+
+    const response3 = await parser.parseURL(process.env.REUTERS_POLITICS_URL);
+    articles.push(response3.items);
+
+    const response4 = await parser.parseURL(process.env.REUTERS_BUSINESS_URL);
+    articles.push(response4.items);
+
+    const response5 = await parser.parseURL(process.env.REUTERS_HUMAN_INTEREST);
+    articles.push(response5.items);
+
+    const response6 = await parser.parseURL(process.env.REUTERS_ENTERTAINMENT);
+    articles.push(response6.items);
+
+    res.json({Feed: articles.flat()});
+
   } catch (error) {
     res.send("Error getting REUTERS RSS feed");
   }

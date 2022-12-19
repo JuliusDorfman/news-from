@@ -23,7 +23,7 @@ export default class DataCanvas extends Component<Props, State> {
     return (
       <section id="dataCanvas-component">
         <h2 id="dataCanvas__header">
-          Data-Visualizer
+          Module-Visualizer
         </h2>
         <div className="data-canvas-wrapper">
           {initialized ?

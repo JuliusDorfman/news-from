@@ -1,14 +1,40 @@
 @import '../../global_styles.scss';
 
 .newsModule {
-  &__container {
+  &__articles-wrapper {
     position: relative;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 
-    & main {
+    & .headlines-module-wrapper {
       height: 100%;
+    }
+  }
+
+  &__table-header {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+    margin-bottom: 40px;
+    align-items: center;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      & input {
+        width: 80%;
+        margin: auto;
+      }
+
+      & button {
+        width: 100px;
+        height: 30px;
+      }
     }
   }
 
@@ -23,6 +49,7 @@
       margin-top: 20px;
       top: 0px;
       border-bottom: 1px solid black;
+
       & h5 {
         margin: 10px 0;
       }
@@ -33,6 +60,16 @@
     font-size: 24px;
     font-weight: bold;
     margin: 0;
+  }
+}
+
+#word-highlight {
+  input {
+    cursor: auto;
+  }
+
+  button {
+    cursor: pointer;
   }
 }
 
@@ -86,6 +123,7 @@
     -o-border-radius: 0px;
     -webkit-border-radius: 0px;
   }
+
   header {
     background: $-theme-foxnews;
   }
@@ -113,6 +151,7 @@
     -o-border-radius: 0px;
     -webkit-border-radius: 0px;
   }
+
   header {
     background: $-theme-nyt;
   }
@@ -140,7 +179,13 @@
     -o-border-radius: 0px;
     -webkit-border-radius: 0px;
   }
+
   header {
     background: $-theme-reuters;
   }
+}
+
+.user-highlight{
+  background-color: #FFD700;
+  color: #000000;
 }
