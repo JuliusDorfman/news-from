@@ -10,9 +10,15 @@ require("dotenv").config({ path: path.join(__dirname, "../", ".env") });
 const parser = new rssParser();
 
 router.get("/cnn", async (req, res) => {
+  let articles = [];
   try {
     const response = await parser.parseURL(process.env.CNN_FEED_URL);
-    res.json({Feed: response.items});
+    articles.push(response.items);
+    articles.flat().forEach((article) => {
+      article.source = "cnn";
+    });
+    res.json({Feed: articles[0]});
+
   } catch (error) {
     res.send("Error getting CNN RSS feed");
   }
@@ -44,17 +50,26 @@ router.get("/fox", async (req, res) =>{
     const response6 = await parser.parseURL(process.env.FOX_SCIENCE);
     articles.push(response6.items);
 
+    articles.flat().forEach((article) => {
+      article.source = "fox";
+    });
     res.json({Feed: articles.flat()});
-    
   } catch (error) {
     res.send("Error getting FOX RSS feed");
   }
 })
 
 router.get("/nyt", async (req, res) =>{
+  let articles = [];
   try {
     const response = await parser.parseURL(process.env.NYT_FEED_URL);
-    res.json({Feed: response.items});
+    articles.push(response.items);
+    articles.flat().forEach((article) => {
+      article.source = "nyt";
+    });
+    
+    res.json({Feed: articles[0]});
+
   } catch (error) {
     res.send("Error getting NYT RSS feed");
   }
@@ -82,6 +97,9 @@ router.get("/reuters", async (req, res) =>{
     const response6 = await parser.parseURL(process.env.REUTERS_ENTERTAINMENT);
     articles.push(response6.items);
 
+    articles.flat().forEach((article) => {
+      article.source = "reuters";
+    });
     res.json({Feed: articles.flat()});
 
   } catch (error) {

@@ -48,37 +48,10 @@ export default class NewsModule extends Component<Props, State> {
     }
   }
 
-  handleTest = () => {
-    api.get('/api/cnn')
-      .then((response) => {
-        let { Feed } = response.data;
-        console.log('CNN', response.data.Feed);
-        this.setState({ cnnFeed: Feed });
-      })
-    api.get('/api/fox')
-      .then((response) => {
-        let { Feed } = response.data;
-        console.log('FOX RSS Request', response.data.Feed);
-        this.setState({ foxFeed: Feed });
-      })
-    api.get('/api/nyt')
-      .then((response) => {
-        let { Feed } = response.data;
-        console.log('NYT RSS Request', response.data.Feed);
-        this.setState({ nytFeed: Feed });
-      })
-    api.get('/api/reuters')
-      .then((response) => {
-        let { Feed } = response.data;
-        console.log('Reuters RSS Request', response.data.Feed);
-        this.setState({ reutersFeed: Feed });
-      })
-  }
-
   handleWordHighlightChange = (e: any) => {
     let { value } = e.target;
-    //Allow only letters, numbers, commas, and spaces
-    let regex = /^[a-zA-Z0-9, ]*$/;
+    //Allow only letters, numbers, commas, and spaces and "-"
+    let regex = /^[a-zA-Z0-9, -./]*$/;
     if (!regex.test(value)) {
       return;
     }
@@ -89,94 +62,104 @@ export default class NewsModule extends Component<Props, State> {
 
   handleSubmit = (e: any) => {
     e.preventDefault();
+    this.removeHighlights();
     //If target button id is submit 
     if (e.target.id === 'submit-search') {
-      console.log('Submit');
       let { wordHighlightInput } = this.state;
-      console.log('Word Highlight', wordHighlightInput);
 
-      //Remove empty strings from array
-      for (let i = 0; i < wordHighlightInput.length; i++) {
-        if (wordHighlightInput[i] === '') {
-          wordHighlightInput.splice(i, 1);
-        }
-      }
-
-      //Remove duplicates from array
-      let wordHighlightArray = wordHighlightInput.filter((word, index, self) => {
-        return index === self.indexOf(word);
+      //Remove empty strings from array and remove duplicates
+      let wordHighlightArray = wordHighlightInput.filter((word) => {
+        return word !== '';
+      });
+      wordHighlightArray = wordHighlightArray.filter((word, index, self) => {
+        return self.indexOf(word) === index;
       });
 
       this.setState({ wordHighlightSubmit: wordHighlightArray },
         () => {
-          this.setState({ wordHighlightSubmit: wordHighlightInput },
-            () => {
-              this.setState({ wordHighlightInput: [] });
-              //Highlight all words in .headlines__container
-              const headlinesContainer = document.getElementsByClassName('headlines__container');
-              if (headlinesContainer) {
-                let { wordHighlightSubmit } = this.state;
-                for (let i = 0; i < wordHighlightSubmit.length; i++) {
-                  let word = wordHighlightSubmit[i];
-                  let wordRegex = new RegExp(word, 'gi');
-                  //Check to see if CNN, Fox, NYT, or Reuters is selected
-                  //If so, attach the class to the appropriate headline
+          this.setState({ wordHighlightInput: [] });
+          //Highlight all words in .headlines__container
+          const headlinesContainer = document.querySelectorAll('.headlines__container h6');
 
-
-                  let wordHighlight = `<span class="user-highlight">${word}</span>`;
-                  let headlines = document.getElementsByClassName('headlines__container');
-                  for (let i = 0; i < headlines.length; i++) {
-                    let headline = headlines[i];
-                    let headlineText = headline.innerHTML;
-                    let newHeadline = headlineText.replace(wordRegex, wordHighlight);
-                    headline.innerHTML = newHeadline;
+          if (headlinesContainer) {
+            let { wordHighlightSubmit } = this.state;
+            let cnnCount = 0,
+              foxCount = 0,
+              nytCount = 0,
+              reutersCount = 0,
+              source: string = '';
+            //Iterate through wordHighlightSubmit array
+            for (let i = 0; i < wordHighlightSubmit.length; i++) {
+              let word = wordHighlightSubmit[i];
+              //Iterate through headlinesContainer array
+              for (let j = 0; j < headlinesContainer.length; j++) {
+                let headline = headlinesContainer[j];
+                // Get source of headline
+                source = headline.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.getAttribute('data-source') as string;
+                let headlineText = headline.innerHTML;
+                //Replace all instances of word with highlighted word
+                let newHeadline = headlineText.replace(new RegExp(word, 'gi'), `<span class="user-highlight">${word}</span>`);
+                headline.innerHTML = newHeadline;
+                // increase count of highlighted words for each news source
+                //check to see if an instance was replaced and increase count
+                if (headlineText !== newHeadline) {
+                  if (source === 'cnn') {
+                    cnnCount += 1;
+                  } else if (source === 'fox') {
+                    foxCount += 1;
+                  }
+                  else if (source === 'nyt') {
+                    nytCount += 1;
+                  }
+                  else if (source === 'reuters') {
+                    reutersCount += 1;
                   }
                 }
-                this.setState({ focusedTerms: wordHighlightSubmit }, () => {
-                  console.log("focusedTerms: ", this.state.focusedTerms);
-
-                  this.setState({ wordHighlightSubmit: [] });
-                })
               }
-            })
+              this.setState({ focusedTerms: wordHighlightSubmit }, () => {
+                this.setState({ wordHighlightSubmit: [] });
+              })
+            }
+            this.countTerms(cnnCount, foxCount, nytCount, reutersCount);
+          }
         })
-      this.countTerms();
     } else if (e.target.id === 'reset-search') {
-      //Remove all highlights and replace with original text
-      console.log('Reset');
-      let headlines = document.getElementsByClassName('headlines__container');
-      for (let i = 0; i < headlines.length; i++) {
-        let headline = headlines[i];
-        let headlineText = headline.innerHTML;
-        let newHeadline = headlineText.replace(/<span class="user-highlight">/gi, '');
-        newHeadline = newHeadline.replace(/<\/span>/gi, '');
-        headline.innerHTML = newHeadline;
-        this.setState({ focusedTerms: [] });
-        this.loadHeadlines();
-      }
+      this.removeHighlights();
+      this.loadHeadlines();
     } else {
       return null;
     }
   };
 
 
-  toggleShowSnippet = (index: number) => {
-    console.log('Toggle Snippet', index);
-    
+  removeHighlights = () => {
+    //Remove all highlights and replace with original text
+    let headlines = document.querySelectorAll('.headlines__container h6');
+
+    for (let i = 0; i < headlines.length; i++) {
+      let headline = headlines[i];
+      let headlineText = headline.innerHTML;
+      let newHeadline = headlineText.replace(/<span class="user-highlight">/gi, '');
+      newHeadline = newHeadline.replace(/<\/span>/gi, '');
+      headline.innerHTML = newHeadline;
+      this.setState({ focusedTerms: [] });
+    }
   };
 
-  countTerms = () => {
-    //Count all elements with user-highlight class differentaite by news source if parent article tag has id cnn, nyt, fox, reuters
-    const cnnHighlights = document.querySelectorAll('#cnn .user-highlight');
-    const foxHighlights = document.querySelectorAll('#fox .user-highlight');
-    const nytHighlights = document.querySelectorAll('#nyt .user-highlight');
-    const reutersHighlights = document.querySelectorAll('#reuters .user-highlight');
+  countTerms = (cnnCount: number, foxCount: number, nytCount: number, reutersCount: number) => {
+    // console.log('cnnCount', cnnCount);
+
+    // //Count all elements with user-highlight class differentaite by news source if parent article tag has id cnn, nyt, fox, reuters
+    // const cnnHighlights = document.querySelectorAll('#cnn .user-highlight');
+    // const foxHighlights = document.querySelectorAll('#fox .user-highlight');
+    // const nytHighlights = document.querySelectorAll('#nyt .user-highlight');
+    // const reutersHighlights = document.querySelectorAll('#reuters .user-highlight');
     //set state for each news source
     const updateHighlightedState = async () => {
-      await this.setState({ cnnHighlighted: cnnHighlights.length });
-      await this.setState({ foxHighlighted: foxHighlights.length });
-      await this.setState({ nytHighlighted: nytHighlights.length });
-      await this.setState({ reutersHighlighted: reutersHighlights.length });
+      await this.setState({ cnnHighlighted: cnnCount });
+      await this.setState({ foxHighlighted: foxCount });
+      await this.setState({ nytHighlighted: nytCount });
+      await this.setState({ reutersHighlighted: reutersCount });
     }
     updateHighlightedState();
 
@@ -189,6 +172,10 @@ export default class NewsModule extends Component<Props, State> {
       await this.setState({ foxFeed: [] });
       await this.setState({ nytFeed: [] });
       await this.setState({ reutersFeed: [] });
+      await this.setState({ cnnHighlighted: 0 });
+      await this.setState({ foxHighlighted: 0 });
+      await this.setState({ nytHighlighted: 0 });
+      await this.setState({ reutersHighlighted: 0 });
     }
     emptyState();
 
@@ -203,6 +190,7 @@ export default class NewsModule extends Component<Props, State> {
     api.get('/api/cnn')
       .then((response) => {
         let { Feed } = response.data;
+
         // console.log('CNN', response.data.Feed);
         this.setState({ cnnFeed: Feed });
       })
@@ -243,7 +231,6 @@ export default class NewsModule extends Component<Props, State> {
     let { foxHighlighted } = this.state;
     let { nytHighlighted } = this.state;
     let { reutersHighlighted } = this.state;
-
     return (
       <section id="newsModule" className="newsModule__container">
 
@@ -284,10 +271,10 @@ export default class NewsModule extends Component<Props, State> {
                 <h6>Found Terms: {cnnHighlighted}</h6>
               </div>
             </header>
-            <div className="headlines-module-wrapper">
+            <div className="headlines-module-wrapper" data-source="cnn" >
               <Headlines
                 headlines={cnnFeed}
-                toggleshowsnippet={this.toggleShowSnippet} />
+              />
             </div>
             <footer>
             </footer>
@@ -303,10 +290,10 @@ export default class NewsModule extends Component<Props, State> {
                 <h6>Found Terms: {foxHighlighted}</h6>
               </div>
             </header>
-            <div className="headlines-module-wrapper">
+            <div className="headlines-module-wrapper" data-source="fox" >
               <Headlines
                 headlines={foxFeed}
-                toggleshowsnippet={this.toggleShowSnippet} />
+              />
             </div>
             <footer>
             </footer>
@@ -322,10 +309,10 @@ export default class NewsModule extends Component<Props, State> {
                 <h6>Found Terms: {nytHighlighted}</h6>
               </div>
             </header>
-            <div className="headlines-module-wrapper">
+            <div className="headlines-module-wrapper" data-source="nyt">
               <Headlines
                 headlines={nytFeed}
-                toggleshowsnippet={this.toggleShowSnippet} />
+              />
             </div>
             <footer>
             </footer>
@@ -341,10 +328,10 @@ export default class NewsModule extends Component<Props, State> {
                 <h6>Found Terms: {reutersHighlighted}</h6>
               </div>
             </header>
-            <div className="headlines-module-wrapper">
+            <div className="headlines-module-wrapper" data-source="reuters">
               <Headlines
                 headlines={reutersFeed}
-                toggleshowsnippet={this.toggleShowSnippet} />
+              />
             </div>
             <footer>
             </footer>

@@ -5,6 +5,7 @@ import './Headlines.scss';
 
 interface Headline {
   title: string;
+  source: string;
   link: string;
   content: string;
   contentSnippet: string;
@@ -13,11 +14,9 @@ interface Headline {
 }
 
 
-const Headlines: React.FC<{ headlines: Headline[] }> = memo((props) => {
+const Headlines: React.FC<{ headlines: Headline[]}> = memo((props) => {
   const [headlines, setHeadlines] = useState(props.headlines);
-
   const toggleShowSnippet = (index: number) => {
-    console.log("index: ", index);
     const newHeadlines = [...headlines];
     newHeadlines[index].showSnippet = !newHeadlines[index].showSnippet;
     setHeadlines(newHeadlines);
@@ -38,14 +37,17 @@ const Headlines: React.FC<{ headlines: Headline[] }> = memo((props) => {
     );
   }, [props.headlines]);
 
+
+
+
   if (headlines && headlines.length > 0) {
     return (
       <div className="headlines__component">
         <ul className="headlines__container">
           {headlines.map((headlines: any, index: number) => (
             <li className="headlines__wrapper" key={index}>
-              <div className="headlines__headline">
-                <h6 onClick={() => toggleShowSnippetRef.current && toggleShowSnippetRef.current(index)}>
+              <div className="headlines__headline" onClick={() => toggleShowSnippetRef.current && toggleShowSnippetRef.current(index)}>
+                <h6>
                   &#8250; &nbsp; {`${headlines.title}`}
                 </h6>
                 <p className={`show-snippet-${headlines.showSnippet}`}>
