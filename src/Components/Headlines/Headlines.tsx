@@ -1,47 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Parser from 'rss-parser';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import Spinner from '../Spinner/Spinner';
-// import newsFromLogo from '../../Assets/news-from-logo.png';
-// import PropTypes from 'prop-types';
 import './Headlines.scss';
 
 
 interface Headline {
   title: string;
   link: string;
-  // pubDate: string;
   content: string;
   contentSnippet: string;
   guid: string;
-  // isoDate: string;
+  showSnippet: boolean;
 }
 
-function Headlines(props: { headlines: Headline[] }) {
-  if (props.headlines && props.headlines.length > 0) {
+
+const Headlines: React.FC<{ headlines: Headline[] }> = memo((props) => {
+  const [headlines, setHeadlines] = useState(props.headlines);
+
+  const toggleShowSnippet = (index: number) => {
+    console.log("index: ", index);
+    const newHeadlines = [...headlines];
+    newHeadlines[index].showSnippet = !newHeadlines[index].showSnippet;
+    setHeadlines(newHeadlines);
+  };
+
+  const toggleShowSnippetRef = useRef<(index: number) => void>();
+
+  useEffect(() => {
+    toggleShowSnippetRef.current = toggleShowSnippet;
+  }, [toggleShowSnippet]);
+
+  useEffect(() => {
+    setHeadlines(
+      props.headlines.map((headline: Headline) => ({
+        ...headline,
+        showSnippet: false,
+      }))
+    );
+  }, [props.headlines]);
+
+  if (headlines && headlines.length > 0) {
     return (
       <div className="headlines__component">
         <ul className="headlines__container">
-          {props.headlines.map((headlines, index) => (
+          {headlines.map((headlines: any, index: number) => (
             <li className="headlines__wrapper" key={index}>
-              <div className="headlines__category">
-                <h6></h6>
-              </div>
               <div className="headlines__headline">
-                <h6>&#8250; &nbsp; {`${headlines.title}`}</h6>
+                <h6 onClick={() => toggleShowSnippetRef.current && toggleShowSnippetRef.current(index)}>
+                  &#8250; &nbsp; {`${headlines.title}`}
+                </h6>
+                <p className={`show-snippet-${headlines.showSnippet}`}>
+                  {headlines.contentSnippet !== "" && headlines.contentSnippet !== undefined
+                    ?
+                    headlines.contentSnippet
+                    :
+                    "No snippet available"
+                  }
+                </p>
               </div>
             </li>
           ))}
         </ul>
       </div>
-    )
+    );
+  } else {
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
   }
-  return (
-    <div>
-      <Spinner />
-    </div>
-  )
-}
+});
 
-
-export default Headlines
+export default Headlines;

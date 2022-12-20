@@ -32,8 +32,54 @@
       }
 
       & button {
+        position: relative;
         width: 100px;
-        height: 30px;
+        height: 50px;
+        margin: 10px auto;
+        background: rgb(53, 53, 53);
+        cursor: pointer;
+        color: $-theme-text-primary-color;
+        overflow: hidden;
+      }
+
+      & button::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(60deg, transparent, rgb(228, 228, 228), transparent);
+        transform: translateX(-120%);
+        -webkit-transform: translateX(-120%);
+        -moz-transform: translateX(-120%);
+        -ms-transform: translateX(-120%);
+        -o-transform: translateX(-120%);
+        transition: .0s;
+        -webkit-transition: .0s;
+        -moz-transition: .0s;
+        -ms-transition: .0s;
+        -o-transition: .0s;
+}
+
+      & button:hover::after {
+        transform: translateX(100%);
+        -webkit-transform: translateX(100%);
+        -moz-transform: translateX(100%);
+        -ms-transform: translateX(100%);
+        -o-transform: translateX(100%);
+        transition: .25s;
+        -webkit-transition: .25s;
+        -moz-transition: .25s;
+        -ms-transition: .25s;
+        -o-transition: .25s;
+}
+
+      .form-buttons-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
       }
     }
   }
@@ -63,14 +109,36 @@
   }
 }
 
+.focused-terms {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: space-between;
+  height: 75px;
+
+  & h3 {
+    margin: 0;
+  }
+
+  & p {
+    margin: 0;
+  }
+}
+
+.row-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+  justify-content: space-between;
+}
+
+
 #word-highlight {
   input {
     cursor: auto;
   }
 
-  button {
-    cursor: pointer;
-  }
 }
 
 #cnn {
@@ -98,6 +166,7 @@
 
   header {
     background: $-theme-cnn;
+    z-index: 5;
   }
 }
 
@@ -126,6 +195,7 @@
 
   header {
     background: $-theme-foxnews;
+    z-index: 5;
   }
 }
 
@@ -154,6 +224,7 @@
 
   header {
     background: $-theme-nyt;
+    z-index: 5;
   }
 }
 
@@ -182,10 +253,11 @@
 
   header {
     background: $-theme-reuters;
+    z-index: 5;
   }
 }
 
-.user-highlight{
+.user-highlight {
   background-color: #FFD700;
   color: #000000;
 }

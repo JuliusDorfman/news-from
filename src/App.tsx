@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import NewsModule from './Components/NewsModule';
 import DataCanvas from './Components/DataCanvas';
 import Navbar from './Components/Navbar';
@@ -29,18 +28,30 @@ function App() {
 
     if (!toggleSwitch) {
       tl.to('#dataCanvas-component',
-        { duration: 1, y: "-" + newsModuleHeight, ease: 'power4.out' }, 0
-      )
+        { duration: .5, x: "-30vw", ease: 'power4.out' }, 0);
+      tl.to('#dataCanvas-component',
+        { duration: .5, y: "-" + newsModuleHeight, ease: 'power4.out' }, .5);
+      tl.to('#dataCanvas-component',
+        { duration: .5, x: 0, ease: 'power4.out' }, 1);
       tl.to('#newsModule',
-        { duration: 1, y: dataCanvasHeight, ease: 'power4.out' }, 0
-      )
+        { duration: 1, x: "30vw", ease: 'power4.out' }, 0);
+      tl.to('#newsModule',
+        { duration: 1, y: dataCanvasHeight, ease: 'power4.out' }, .5);
+      tl.to('#newsModule',
+        { duration: 1, x: 0, ease: 'power4.out' }, 1);
     } else {
       tl.to('#dataCanvas-component',
-        { duration: 1, y: 0, ease: 'power4.out' }, 0
-      )
+        { duration: .5, x: "-30vw", ease: 'power4.out' }, 0);
+      tl.to('#dataCanvas-component',
+        { duration: .5, y: 0, ease: 'power4.out' }, .5);
+      tl.to('#dataCanvas-component',
+        { duration: .5, x: 0, ease: 'power4.out' }, 1);
       tl.to('#newsModule',
-        { duration: 1, y: 0, ease: 'power4.out' }, 0
-      )
+        { duration: 1, x: "30vw", ease: 'power4.out' }, 0);
+      tl.to('#newsModule',
+        { duration: 1, y: 0, ease: 'power4.out' }, .5);
+      tl.to('#newsModule',
+        { duration: 1, x: 0, ease: 'power4.out' }, 1);
     }
   }
 

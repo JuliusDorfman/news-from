@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
 import Spinner from '../Spinner/Spinner';
 import './DataCanvas.scss';
 //type the props and state

@@ -10,15 +10,19 @@ let api = axios.create({
 });
 
 interface Props {
-  second?: string;
+  someProp?: string;
 }
 
 interface State {
   dateToday: string;
   cnnFeed: string[];
+  cnnHighlighted: number;
   foxFeed: string[];
+  foxHighlighted: number;
   nytFeed: string[];
+  nytHighlighted: number;
   reutersFeed: string[];
+  reutersHighlighted: number;
   wordHighlightInput: string[];
   wordHighlightSubmit: string[];
   focusedTerms: string[];
@@ -31,15 +35,18 @@ export default class NewsModule extends Component<Props, State> {
     this.state = {
       dateToday: '',
       cnnFeed: [],
+      cnnHighlighted: 0,
       foxFeed: [],
+      foxHighlighted: 0,
       nytFeed: [],
+      nytHighlighted: 0,
       reutersFeed: [],
+      reutersHighlighted: 0,
       wordHighlightInput: [],
       wordHighlightSubmit: [],
       focusedTerms: [],
     }
   }
-  // static propTypes = {second: third}
 
   handleTest = () => {
     api.get('/api/cnn')
@@ -69,7 +76,6 @@ export default class NewsModule extends Component<Props, State> {
   }
 
   handleWordHighlightChange = (e: any) => {
-    let { wordHighlightInput } = this.state;
     let { value } = e.target;
     //Allow only letters, numbers, commas, and spaces
     let regex = /^[a-zA-Z0-9, ]*$/;
@@ -83,56 +89,108 @@ export default class NewsModule extends Component<Props, State> {
 
   handleSubmit = (e: any) => {
     e.preventDefault();
-    let { wordHighlightInput } = this.state;
-    console.log('Word Highlight', wordHighlightInput);
-    //Remove empty strings from array
-    for (let i = 0; i < wordHighlightInput.length; i++) {
-      if (wordHighlightInput[i] === '') {
-        wordHighlightInput.splice(i, 1);
+    //If target button id is submit 
+    if (e.target.id === 'submit-search') {
+      console.log('Submit');
+      let { wordHighlightInput } = this.state;
+      console.log('Word Highlight', wordHighlightInput);
+
+      //Remove empty strings from array
+      for (let i = 0; i < wordHighlightInput.length; i++) {
+        if (wordHighlightInput[i] === '') {
+          wordHighlightInput.splice(i, 1);
+        }
       }
-    }
-    //Add spaces to beginning and end of each word
-    // for (let i = 0; i < wordHighlightInput.length; i++) {
-    //   let word = wordHighlightInput[i];
-    //   wordHighlightInput[i] = ` ${word} `;
-    // }
 
-    //Remove duplicates from array
-    let wordHighlightArray = wordHighlightInput.filter((word, index, self) => {
-      return index === self.indexOf(word);
-    });
+      //Remove duplicates from array
+      let wordHighlightArray = wordHighlightInput.filter((word, index, self) => {
+        return index === self.indexOf(word);
+      });
 
-    this.setState({ wordHighlightSubmit: wordHighlightArray },
-      () => {
-        this.setState({ wordHighlightSubmit: wordHighlightInput },
-          () => {
+      this.setState({ wordHighlightSubmit: wordHighlightArray },
+        () => {
+          this.setState({ wordHighlightSubmit: wordHighlightInput },
+            () => {
+              this.setState({ wordHighlightInput: [] });
+              //Highlight all words in .headlines__container
+              const headlinesContainer = document.getElementsByClassName('headlines__container');
+              if (headlinesContainer) {
+                let { wordHighlightSubmit } = this.state;
+                for (let i = 0; i < wordHighlightSubmit.length; i++) {
+                  let word = wordHighlightSubmit[i];
+                  let wordRegex = new RegExp(word, 'gi');
+                  //Check to see if CNN, Fox, NYT, or Reuters is selected
+                  //If so, attach the class to the appropriate headline
 
-            this.setState({ wordHighlightInput: [] });
-            //Highlight all words in .headlines__container
-            const headlinesContainer = document.getElementsByClassName('.headlines__container');
-            if (headlinesContainer) {
-              let { wordHighlightSubmit } = this.state;
-              for (let i = 0; i < wordHighlightSubmit.length; i++) {
-                let word = wordHighlightSubmit[i];
-                let wordRegex = new RegExp(word, 'gi');
-                let wordHighlight = `<span class="user-highlight">${word}</span>`;
-                let headlines = document.getElementsByClassName('headlines__container');
-                for (let i = 0; i < headlines.length; i++) {
-                  let headline = headlines[i];
-                  let headlineText = headline.innerHTML;
-                  let newHeadline = headlineText.replace(wordRegex, wordHighlight);
-                  headline.innerHTML = newHeadline;
+
+                  let wordHighlight = `<span class="user-highlight">${word}</span>`;
+                  let headlines = document.getElementsByClassName('headlines__container');
+                  for (let i = 0; i < headlines.length; i++) {
+                    let headline = headlines[i];
+                    let headlineText = headline.innerHTML;
+                    let newHeadline = headlineText.replace(wordRegex, wordHighlight);
+                    headline.innerHTML = newHeadline;
+                  }
                 }
+                this.setState({ focusedTerms: wordHighlightSubmit }, () => {
+                  console.log("focusedTerms: ", this.state.focusedTerms);
+
+                  this.setState({ wordHighlightSubmit: [] });
+                })
               }
-              this.setState({ focusedTerms: wordHighlightSubmit }, () => {
-                this.setState({ wordHighlightSubmit: [] });
-              })
-            }
-          })
-      })
+            })
+        })
+      this.countTerms();
+    } else if (e.target.id === 'reset-search') {
+      //Remove all highlights and replace with original text
+      console.log('Reset');
+      let headlines = document.getElementsByClassName('headlines__container');
+      for (let i = 0; i < headlines.length; i++) {
+        let headline = headlines[i];
+        let headlineText = headline.innerHTML;
+        let newHeadline = headlineText.replace(/<span class="user-highlight">/gi, '');
+        newHeadline = newHeadline.replace(/<\/span>/gi, '');
+        headline.innerHTML = newHeadline;
+        this.setState({ focusedTerms: [] });
+        this.loadHeadlines();
+      }
+    } else {
+      return null;
+    }
   };
 
-  componentDidMount = () => {
+
+  toggleShowSnippet = (index: number) => {
+    console.log('Toggle Snippet', index);
+    
+  };
+
+  countTerms = () => {
+    //Count all elements with user-highlight class differentaite by news source if parent article tag has id cnn, nyt, fox, reuters
+    const cnnHighlights = document.querySelectorAll('#cnn .user-highlight');
+    const foxHighlights = document.querySelectorAll('#fox .user-highlight');
+    const nytHighlights = document.querySelectorAll('#nyt .user-highlight');
+    const reutersHighlights = document.querySelectorAll('#reuters .user-highlight');
+    //set state for each news source
+    const updateHighlightedState = async () => {
+      await this.setState({ cnnHighlighted: cnnHighlights.length });
+      await this.setState({ foxHighlighted: foxHighlights.length });
+      await this.setState({ nytHighlighted: nytHighlights.length });
+      await this.setState({ reutersHighlighted: reutersHighlights.length });
+    }
+    updateHighlightedState();
+
+  }
+
+  loadHeadlines = () => {
+    //Empty CNN, Fox, NYT, and Reuters state arrays asyncronously
+    const emptyState = async () => {
+      await this.setState({ cnnFeed: [] });
+      await this.setState({ foxFeed: [] });
+      await this.setState({ nytFeed: [] });
+      await this.setState({ reutersFeed: [] });
+    }
+    emptyState();
 
     //Calculate Today's Date
     let today: any = new Date();
@@ -168,6 +226,11 @@ export default class NewsModule extends Component<Props, State> {
       })
   }
 
+
+  componentDidMount = () => {
+    this.loadHeadlines();
+  }
+
   render() {
     let { dateToday } = this.state;
     let { cnnFeed } = this.state;
@@ -175,25 +238,35 @@ export default class NewsModule extends Component<Props, State> {
     let { nytFeed } = this.state;
     let { reutersFeed } = this.state;
     let { wordHighlightInput } = this.state;
-    let { wordHighlightSubmit } = this.state;
     let { focusedTerms } = this.state;
+    let { cnnHighlighted } = this.state;
+    let { foxHighlighted } = this.state;
+    let { nytHighlighted } = this.state;
+    let { reutersHighlighted } = this.state;
+
     return (
       <section id="newsModule" className="newsModule__container">
 
         <div className="newsModule__table-header">
           <h2 className="newsModule__title">Module-Sources</h2>
           <form
+            //stop page from refreshing
             onSubmit={this.handleSubmit}
             id="word-highlight"
             action="submit">
+            <label htmlFor="word-highlight-input"></label>
             <input
+              type="text"
               onChange={this.handleWordHighlightChange}
               value={wordHighlightInput}
-              placeholder="Search Terms; Comma Seperated"
+              placeholder="Keywords; Comma Seperated"
             ></input>
-            <button>Highlight</button>
+            <div className="form-buttons-wrapper">
+              <button onClick={this.handleSubmit} id="submit-search" type="button">Search for Keywords</button>
+              <button onClick={this.handleSubmit} id="reset-search" type="button">Refresh</button>
+            </div>
           </form>
-          <div>
+          <div className="focused-terms">
             <h3>Focused Terms: </h3>
             <p>{focusedTerms}</p>
           </div>
@@ -205,10 +278,16 @@ export default class NewsModule extends Component<Props, State> {
               <h3 className="newsModule__source">
                 CNN
               </h3>
-              <h5>{dateToday} Headlines</h5>
+              <div className="row-wrapper">
+                <h5>{dateToday} Headlines</h5>
+                <h6>Count: {cnnFeed.length}</h6>
+                <h6>Found Terms: {cnnHighlighted}</h6>
+              </div>
             </header>
             <div className="headlines-module-wrapper">
-              <Headlines headlines={cnnFeed} />
+              <Headlines
+                headlines={cnnFeed}
+                toggleshowsnippet={this.toggleShowSnippet} />
             </div>
             <footer>
             </footer>
@@ -218,10 +297,16 @@ export default class NewsModule extends Component<Props, State> {
               <h3 className="newsModule__source">
                 Fox News
               </h3>
-              <h5>{dateToday} Headlines</h5>
+              <div className="row-wrapper">
+                <h5>{dateToday} Headlines</h5>
+                <h6>Count: {foxFeed.length}</h6>
+                <h6>Found Terms: {foxHighlighted}</h6>
+              </div>
             </header>
             <div className="headlines-module-wrapper">
-              <Headlines headlines={foxFeed} />
+              <Headlines
+                headlines={foxFeed}
+                toggleshowsnippet={this.toggleShowSnippet} />
             </div>
             <footer>
             </footer>
@@ -231,10 +316,16 @@ export default class NewsModule extends Component<Props, State> {
               <h3 className="newsModule__source">
                 New York Times
               </h3>
-              <h5>{dateToday} Headlines</h5>
+              <div className="row-wrapper">
+                <h5>{dateToday} Headlines</h5>
+                <h6>Count: {nytFeed.length}</h6>
+                <h6>Found Terms: {nytHighlighted}</h6>
+              </div>
             </header>
             <div className="headlines-module-wrapper">
-              <Headlines headlines={nytFeed} />
+              <Headlines
+                headlines={nytFeed}
+                toggleshowsnippet={this.toggleShowSnippet} />
             </div>
             <footer>
             </footer>
@@ -244,10 +335,16 @@ export default class NewsModule extends Component<Props, State> {
               <h3 className="newsModule__source">
                 Reuters
               </h3>
-              <h5>{dateToday} Headlines</h5>
+              <div className="row-wrapper">
+                <h5>{dateToday} Headlines</h5>
+                <h6>Count: {reutersFeed.length}</h6>
+                <h6>Found Terms: {reutersHighlighted}</h6>
+              </div>
             </header>
             <div className="headlines-module-wrapper">
-              <Headlines headlines={reutersFeed} />
+              <Headlines
+                headlines={reutersFeed}
+                toggleshowsnippet={this.toggleShowSnippet} />
             </div>
             <footer>
             </footer>
