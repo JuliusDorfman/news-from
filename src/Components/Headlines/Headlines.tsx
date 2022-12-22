@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import Spinner from '../Spinner/Spinner';
 import './Headlines.scss';
 
@@ -14,15 +14,17 @@ interface Headline {
 }
 
 
-const Headlines: React.FC<{ headlines: Headline[]}> = memo((props) => {
+const Headlines: React.FC<{ headlines: Headline[] }> = memo((props) => {
   const [headlines, setHeadlines] = useState(props.headlines);
-  const toggleShowSnippet = (index: number) => {
+
+  const toggleShowSnippetRef = useRef<(index: number) => void>();
+
+  const toggleShowSnippet = useCallback((index: number) => {
     const newHeadlines = [...headlines];
     newHeadlines[index].showSnippet = !newHeadlines[index].showSnippet;
     setHeadlines(newHeadlines);
-  };
+  }, [headlines, setHeadlines]);
 
-  const toggleShowSnippetRef = useRef<(index: number) => void>();
 
   useEffect(() => {
     toggleShowSnippetRef.current = toggleShowSnippet;
@@ -66,7 +68,7 @@ const Headlines: React.FC<{ headlines: Headline[]}> = memo((props) => {
     );
   } else {
     return (
-      <div>
+      <div className="headlines-spinner-wrapper">
         <Spinner />
       </div>
     );

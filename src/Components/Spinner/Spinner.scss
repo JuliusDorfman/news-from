@@ -5,7 +5,7 @@
   position: relative;
   height: 260px;
   width: 300px;
-  margin: 40px auto;
+  // margin: 40px auto;
   border: 5px solid black;
   border-radius: 24px;
   background: #DBD2D3;
@@ -63,7 +63,14 @@
     }
   }
 
-  &__list+&__list {}
+}
+
+.headlines-spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75%;
+  width: 100%;
 }
 
 @keyframes slide {

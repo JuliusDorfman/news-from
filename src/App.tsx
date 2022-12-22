@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import NewsModule from './Components/NewsModule';
 import DataCanvas from './Components/DataCanvas';
 import Navbar from './Components/Navbar';
@@ -55,8 +55,39 @@ function App() {
     }
   }
 
+  const [counts, setCounts] = useState({
+    cnnCount: 0,
+    foxCount: 0,
+    nytCount: 0,
+    reutersCount: 0
+  })
+  const [initialized, setInitialized] = useState(false);
+
+  const toggleInitialized = useCallback(() => {
+    if (counts.cnnCount > 0 || counts.foxCount > 0 || counts.nytCount > 0 || counts.reutersCount > 0) {
+      return setInitialized(true);
+    } else {
+      return setInitialized(false);
+    }
+  }, [counts])
+
+  useEffect(() => {
+    toggleInitialized();
+  }, [toggleInitialized])
+
+  const passFocusedTerms = (cnnCount: number, foxCount: number, nytCount: number, reutersCount: number) => {
+    //update set counts then call setInitialized only after counts have been updated
+    setCounts({
+      cnnCount: cnnCount,
+      foxCount: foxCount,
+      nytCount: nytCount,
+      reutersCount: reutersCount
+    });
+  }
+
 
   return (
+
     <div className="app">
       <Navbar
         toggleSwitch={(e: any) => handleToggleSwitch(e)}
@@ -69,8 +100,14 @@ function App() {
         </div>
       </header>
       <main>
-        <NewsModule />
-        <DataCanvas />
+        <NewsModule
+          passfocusedterms={passFocusedTerms}
+          counts={counts}
+        />
+        <DataCanvas
+          counts={counts}
+          initialized={initialized}
+        />
       </main>
       <footer className="App-footer">
       </footer>

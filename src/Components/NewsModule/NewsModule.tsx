@@ -10,7 +10,11 @@ let api = axios.create({
 });
 
 interface Props {
-  someProp?: string;
+  cnnHighlighted: number;
+  foxHighlighted: number;
+  nytHighlighted: number;
+  reutersHighlighted: number;
+  passfocusedterms: (cnnCount: number, foxCount: number, nytCount: number, reutersCount: number) => void;
 }
 
 interface State {
@@ -147,26 +151,18 @@ export default class NewsModule extends Component<Props, State> {
   };
 
   countTerms = (cnnCount: number, foxCount: number, nytCount: number, reutersCount: number) => {
-    // console.log('cnnCount', cnnCount);
-
-    // //Count all elements with user-highlight class differentaite by news source if parent article tag has id cnn, nyt, fox, reuters
-    // const cnnHighlights = document.querySelectorAll('#cnn .user-highlight');
-    // const foxHighlights = document.querySelectorAll('#fox .user-highlight');
-    // const nytHighlights = document.querySelectorAll('#nyt .user-highlight');
-    // const reutersHighlights = document.querySelectorAll('#reuters .user-highlight');
-    //set state for each news source
     const updateHighlightedState = async () => {
       await this.setState({ cnnHighlighted: cnnCount });
       await this.setState({ foxHighlighted: foxCount });
       await this.setState({ nytHighlighted: nytCount });
       await this.setState({ reutersHighlighted: reutersCount });
+      this.props.passfocusedterms(this.state.cnnHighlighted, this.state.foxHighlighted, this.state.nytHighlighted, this.state.reutersHighlighted);
     }
     updateHighlightedState();
-
   }
 
   loadHeadlines = () => {
-    //Empty CNN, Fox, NYT, and Reuters state arrays asyncronously
+    //Empty CNN, FOX, NYT, and Reuters state arrays asyncronously
     const emptyState = async () => {
       await this.setState({ cnnFeed: [] });
       await this.setState({ foxFeed: [] });
@@ -182,7 +178,7 @@ export default class NewsModule extends Component<Props, State> {
     //Calculate Today's Date
     let today: any = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
     let yyyy = today.getFullYear();
     today = mm + '/' + dd + '/' + yyyy;
     this.setState({ dateToday: today });
@@ -249,8 +245,8 @@ export default class NewsModule extends Component<Props, State> {
               placeholder="Keywords; Comma Seperated"
             ></input>
             <div className="form-buttons-wrapper">
-              <button onClick={this.handleSubmit} id="submit-search" type="button">Search for Keywords</button>
-              <button onClick={this.handleSubmit} id="reset-search" type="button">Refresh</button>
+              <button onClick={this.handleSubmit} id="submit-search" type="submit">Search for Keywords</button>
+              <button onClick={this.handleSubmit} id="reset-search" type="submit">Refresh</button>
             </div>
           </form>
           <div className="focused-terms">
