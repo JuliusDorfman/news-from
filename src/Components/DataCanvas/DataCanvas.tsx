@@ -27,7 +27,12 @@ interface State {
   chartOptions: {
     responsive: boolean,
     maintainAspectRatio: boolean,
-  },
+    plugins: {
+      legend: {
+        display: boolean,
+      }
+    },
+  }
   initialized: boolean;
 }
 
@@ -67,7 +72,12 @@ export default class DataCanvas extends Component<Props, State> {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: true,
-      }
+        plugins: {
+          legend: {
+            display: true,
+          },
+        }
+      },
     };
   }
 
@@ -78,7 +88,7 @@ export default class DataCanvas extends Component<Props, State> {
     console.log("this.props: ", this.props);
     console.log("this.state: ", this.state);
 
-    
+
     // when initialized is true, set chartActive to true
     if (this.props.initialized === true && this.state.chartActive === false) {
       this.setState({ chartActive: true });
@@ -88,7 +98,7 @@ export default class DataCanvas extends Component<Props, State> {
       this.setState({ chartActive: false });
     }
     //when initialized is true, update chartData
-    if (this.props.initialized !== prevProps.initialized) {
+    if (this.props.counts !== prevProps.counts || this.props.initialized !== prevProps.initialized) {
       this.setState({
         chartData: {
           labels: ['CNN', 'Fox', 'NYT', 'Reuters'],
@@ -117,7 +127,16 @@ export default class DataCanvas extends Component<Props, State> {
             },
           ],
         },
-      }, () => console.log("after setState: ", this.state.chartData.datasets[0].data));
+        chartOptions: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              display: true,
+            },
+          },
+        },
+      });
     }
   }
 
@@ -126,7 +145,6 @@ export default class DataCanvas extends Component<Props, State> {
 
 
   componentWillUnmount(): void {
-    console.log("initialized unmount: ", this.state.initialized)
     if (this.state.initialized === false) {
       this.setState({ chartActive: false });
     }
@@ -137,7 +155,6 @@ export default class DataCanvas extends Component<Props, State> {
     let { chartActive } = this.state;
     console.log("render init", initialized);
     console.log("render act", chartActive);
-    console.log("render state", this.state.chartData.datasets[0].data);
 
     return (
       <section id="dataCanvas-component">
@@ -145,12 +162,11 @@ export default class DataCanvas extends Component<Props, State> {
           Module-Visualizer
         </h2>
         <div className="data-canvas-wrapper">
-          {/* {chartActive ?
+          {chartActive ?
             <Pie data={this.state.chartData} options={this.state.chartOptions} />
             :
             <Spinner />
-          } */}
-          <Pie data={this.state.chartData} options={this.state.chartOptions} />
+          }
         </div>
       </section>
     )

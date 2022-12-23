@@ -64,6 +64,8 @@ function App() {
   const [initialized, setInitialized] = useState(false);
 
   const toggleInitialized = useCallback(() => {
+    console.log("counts: ", counts);
+
     if (counts.cnnCount > 0 || counts.foxCount > 0 || counts.nytCount > 0 || counts.reutersCount > 0) {
       return setInitialized(true);
     } else {

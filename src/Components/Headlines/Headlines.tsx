@@ -52,14 +52,25 @@ const Headlines: React.FC<{ headlines: Headline[] }> = memo((props) => {
                 <h6>
                   &#8250; &nbsp; {`${headlines.title}`}
                 </h6>
-                <p className={`show-snippet-${headlines.showSnippet}`}>
+                <div className={`show-snippet-${headlines.showSnippet}`}>
                   {headlines.contentSnippet !== "" && headlines.contentSnippet !== undefined
                     ?
-                    headlines.contentSnippet
+                    <p>
+                      {headlines.contentSnippet}
+                      <br />
+                      <br />
+                      <a href={headlines.link} target="_blank" rel="noopener noreferrer">Read more...</a>
+                      <br />
+                      <br />
+                    </p>
                     :
-                    "No snippet available"
+                    <span>
+                      <p>No snippet available</p>
+                      <br />
+                      <a href={headlines.link} target="_blank" rel="noopener noreferrer">Read more...</a>
+                    </span>
                   }
-                </p>
+                </div>
               </div>
             </li>
           ))}

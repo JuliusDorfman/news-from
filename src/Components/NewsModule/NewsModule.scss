@@ -60,7 +60,7 @@
         -moz-transition: .0s;
         -ms-transition: .0s;
         -o-transition: .0s;
-}
+      }
 
       & button:hover::after {
         transform: translateX(100%);
@@ -73,7 +73,7 @@
         -moz-transition: .25s;
         -ms-transition: .25s;
         -o-transition: .25s;
-}
+      }
 
       .form-buttons-wrapper {
         display: flex;
@@ -92,9 +92,11 @@
 
     & header {
       position: sticky;
-      margin-top: 20px;
+      padding-top: 20px;
       top: 0px;
       border-bottom: 1px solid black;
+      height: 20%;
+      z-index: 5;
 
       & h5 {
         margin: 10px 0;
@@ -166,7 +168,6 @@
 
   header {
     background: $-theme-cnn;
-    z-index: 5;
   }
 }
 
@@ -195,7 +196,6 @@
 
   header {
     background: $-theme-foxnews;
-    z-index: 5;
   }
 }
 
@@ -224,7 +224,6 @@
 
   header {
     background: $-theme-nyt;
-    z-index: 5;
   }
 }
 
@@ -253,7 +252,6 @@
 
   header {
     background: $-theme-reuters;
-    z-index: 5;
   }
 }
 

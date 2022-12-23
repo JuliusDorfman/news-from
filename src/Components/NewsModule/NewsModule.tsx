@@ -263,7 +263,7 @@ export default class NewsModule extends Component<Props, State> {
               </h3>
               <div className="row-wrapper">
                 <h5>{dateToday} Headlines</h5>
-                <h6>Count: {cnnFeed.length}</h6>
+                <h6>Articles Count: {cnnFeed.length}</h6>
                 <h6>Found Terms: {cnnHighlighted}</h6>
               </div>
             </header>
@@ -282,7 +282,7 @@ export default class NewsModule extends Component<Props, State> {
               </h3>
               <div className="row-wrapper">
                 <h5>{dateToday} Headlines</h5>
-                <h6>Count: {foxFeed.length}</h6>
+                <h6>Articles Count: {foxFeed.length}</h6>
                 <h6>Found Terms: {foxHighlighted}</h6>
               </div>
             </header>
@@ -301,7 +301,7 @@ export default class NewsModule extends Component<Props, State> {
               </h3>
               <div className="row-wrapper">
                 <h5>{dateToday} Headlines</h5>
-                <h6>Count: {nytFeed.length}</h6>
+                <h6>Articles Count: {nytFeed.length}</h6>
                 <h6>Found Terms: {nytHighlighted}</h6>
               </div>
             </header>
@@ -320,7 +320,7 @@ export default class NewsModule extends Component<Props, State> {
               </h3>
               <div className="row-wrapper">
                 <h5>{dateToday} Headlines</h5>
-                <h6>Count: {reutersFeed.length}</h6>
+                <h6>Articles Count: {reutersFeed.length}</h6>
                 <h6>Found Terms: {reutersHighlighted}</h6>
               </div>
             </header>
