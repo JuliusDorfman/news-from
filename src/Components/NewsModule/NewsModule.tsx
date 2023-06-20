@@ -193,7 +193,7 @@ export default class NewsModule extends Component<Props, State> {
     api.get('/api/fox')
       .then((response) => {
         let { Feed } = response.data;
-        // console.log('FOX RSS Request', response.data.Feed);
+        console.log('FOX RSS Request', response.data.Feed);
         this.setState({ foxFeed: Feed });
       })
     api.get('/api/nyt')

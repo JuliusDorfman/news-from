@@ -59,7 +59,11 @@ const Headlines: React.FC<{ headlines: Headline[] }> = memo((props) => {
                       {headlines.contentSnippet}
                       <br />
                       <br />
-                      <a href={headlines.link} target="_blank" rel="noopener noreferrer">Read more...</a>
+                      {headlines.source === "fox" ?
+                        <a href={headlines.guid} target="_blank" rel="noopener noreferrer">Read more...</a>
+                        :
+                        <a href={headlines.link} target="_blank" rel="noopener noreferrer">Read more...</a>
+                      }
                       <br />
                       <br />
                     </p>

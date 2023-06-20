@@ -53,6 +53,7 @@ router.get("/fox", async (req, res) =>{
     articles.flat().forEach((article) => {
       article.source = "fox";
     });
+    // console.log(articles.flat())
     res.json({Feed: articles.flat()});
   } catch (error) {
     res.send("Error getting FOX RSS feed");
