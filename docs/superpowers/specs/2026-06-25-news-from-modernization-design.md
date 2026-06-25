@@ -1,8 +1,14 @@
 # News-From — Modernization Design
 
 **Date:** 2026-06-25
-**Status:** Approved (design); pending spec review
+**Status:** SUPERSEDED by `2026-06-25-news-from-investor-mockup-design.md`
 **Type:** Full rewrite on a modern stack (code + tooling + redeploy)
+
+> **Superseded.** Written when the goal was modernizing the keyword-frequency
+> tool. The product concept then pivoted to stance analysis, and the immediate
+> deliverable became an inert investor mockup. Kept for history; the modern-stack
+> and ingestion notes here informed the mockup spec. See the mockup design doc for
+> the current plan.
 
 ## Background
 
