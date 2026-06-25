@@ -6,9 +6,9 @@ visitor explore how sources and authors lean across topics, drill into subtopics
 and see how that has shifted over time — with every score traceable to the
 articles behind it.
 
-The roadmap is sequenced to **de-risk the hard part last is not an option** — so
-we pitch the vision with an inert mockup first, then build the believable core,
-then scale.
+The roadmap is sequenced to **show the vision before building the hard part** — we
+pitch with an inert mockup first, then build the believable analysis core, then
+add history and scale.
 
 ## Phase 0 — Investor mockup (current)
 
