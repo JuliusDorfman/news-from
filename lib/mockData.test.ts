@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   sources, authors, topics, stanceCells, evidence,
-  getSource, getTopic, getCell, cellsForTopic, cellsForEntity, evidenceForTopic,
+  getSource, getTopic, getCell, cellsForTopic, cellsForEntity, evidenceForTopic, getAuthor,
 } from './mockData'
 
 describe('mock data integrity', () => {
@@ -19,10 +19,22 @@ describe('mock data integrity', () => {
     }
   })
 
+  it('has a stance cell for every author x topic', () => {
+    for (const a of authors) {
+      for (const t of topics) {
+        expect(getCell(a.id, t.id), `${a.id}/${t.id}`).toBeDefined()
+      }
+    }
+  })
+
   it('keeps every stance within -100..100', () => {
     for (const c of stanceCells) {
       expect(c.stance).toBeGreaterThanOrEqual(-100)
       expect(c.stance).toBeLessThanOrEqual(100)
+      for (const pt of c.series) {
+        expect(pt.stance).toBeGreaterThanOrEqual(-100)
+        expect(pt.stance).toBeLessThanOrEqual(100)
+      }
     }
   })
 
@@ -49,5 +61,9 @@ describe('selectors', () => {
   it('evidenceForTopic filters by topic', () => {
     const t = topics[0]
     expect(evidenceForTopic(t.id).every(e => e.topicId === t.id)).toBe(true)
+  })
+
+  it('getAuthor returns the author by id', () => {
+    expect(getAuthor(authors[0].id)?.id).toBe(authors[0].id)
   })
 })
