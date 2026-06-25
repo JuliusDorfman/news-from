@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  /* Editorial-light color palette */
+  --color-paper: #f7f5f0;
+  --color-ink: #2b2622;
+  --color-stance-critical: #d64045;
+  --color-stance-lean-critical: #e07a52;
+  --color-stance-neutral: #e9c46a;
+  --color-stance-lean-supportive: #74b97a;
+  --color-stance-supportive: #2f9e54;
+
+  /* Font families */
+  --font-serif: Georgia, Cambria, "Times New Roman", serif;
+  --font-sans: system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+body {
+  @apply bg-paper text-ink font-sans;
+}
+
+h1, h2, h3 {
+  @apply font-serif;
+}
