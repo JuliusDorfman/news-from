@@ -1,19 +1,19 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next'
+import Nav from '@/components/Nav'
+import './globals.css'
 
 export const metadata: Metadata = {
-  title: "News From",
-  description: "Understand the bias behind the news.",
-};
+  title: 'News-From — Where the press stands',
+  description: 'How news sources and Op-Ed authors lean across topics.',
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full">
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en">
+      <body>
+        <Nav />
+        <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
+      </body>
     </html>
-  );
+  )
 }
