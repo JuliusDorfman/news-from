@@ -48,6 +48,15 @@ assets (logo/banner) are carried over.
 - **Persistence:** database for articles + analyses over time (enables history and
   aggregation). Engine TBD at Phase 2.
 - **Aggregation:** rollups by source x topic x time and author x topic x time.
+- **Scoring:** the overall favorability score is built from five weighted scoring
+  pillars (Direct Evaluation, Tone & Word Choice, Source & Voice Balance, Framing
+  & Prominence, Credit & Blame), each scored -100..100 toward the target, with
+  granular passage tags stored per span so scores stay explainable. See
+  `docs/SCORING.md`.
+- **Reader extension (Chrome):** on a known article URL, retrieves the stored
+  analysis and overlays highlighted tagged spans plus the score and per-pillar
+  breakdown. Retrieval-only (no live model cost); also the public explainability
+  surface and a distribution channel.
 
 The mockup's data model (`lib/mockData.ts` shape: Source, Author, Topic/Subtopic,
 StanceCell with a time series, Evidence) is intentionally close to what the real

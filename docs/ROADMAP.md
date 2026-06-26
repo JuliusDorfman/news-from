@@ -51,6 +51,25 @@ add history and scale.
 - Composite favorability scores per source/author.
 - More sources/topics; refresh cadence; performance.
 
+## Phase 5 — Reader extension (article overlay)
+
+A browser (Chrome) extension that activates when a user opens a known article URL,
+pings our DB for the stored analysis, and renders an overlay: tagged spans
+highlighted with passage labels (Endorsement, Criticism, Loaded language, etc.) plus
+the overall favorability score and per-pillar breakdown. **Retrieval-only and cheap**
+— the article was already scanned in Phase 1, so the extension just reads stored
+results (no live model cost). It doubles as a distribution wedge (meet readers on
+the article itself) and the public explainability surface — the highlights are the
+receipts behind a score.
+
+## Scoring methodology
+
+An article's overall score is built from **five scoring pillars** — Direct
+Evaluation, Tone & Word Choice, Source & Voice Balance, Framing & Prominence, and
+Credit & Blame — each scored critical..supportive toward the target subject and
+combined by weight, with granular passage tags that the reader extension
+highlights. Full definition: `docs/SCORING.md`.
+
 ## Open product questions (revisit before Phase 1)
 
 - What exactly is stance measured *toward* per analysis (entity vs. topic)?
