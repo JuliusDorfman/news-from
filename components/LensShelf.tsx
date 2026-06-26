@@ -26,7 +26,9 @@ export default function LensShelf({ bars, map, timeline }: Props) {
         {TABS.map(t => (
           <button
             key={t.key}
+            type="button"
             data-testid={`lens-tab-${t.key}`}
+            aria-pressed={active === t.key}
             onClick={() => setActive(t.key)}
             className={`rounded-full border px-3 py-1 text-sm transition-colors ${
               active === t.key ? 'border-ink bg-ink text-paper' : 'border-black/15 text-ink/70 hover:border-ink/40'
