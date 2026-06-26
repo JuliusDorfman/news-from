@@ -76,6 +76,10 @@ describe('selectors', () => {
       expect(r.stance).toBeGreaterThanOrEqual(-100)
       expect(r.stance).toBeLessThanOrEqual(100)
       expect(r.series.length).toBeGreaterThan(0)
+      for (const pt of r.series) {
+        expect(pt.stance).toBeGreaterThanOrEqual(-100)
+        expect(pt.stance).toBeLessThanOrEqual(100)
+      }
     }
   })
 })
