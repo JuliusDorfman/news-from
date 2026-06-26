@@ -13,7 +13,7 @@ interface Props {
 }
 
 const TABS: { key: Lens; label: string }[] = [
-  { key: 'bars', label: 'By source' },
+  { key: 'bars', label: 'By outlet' },
   { key: 'map', label: 'Positioning' },
   { key: 'timeline', label: 'Over time' },
 ]

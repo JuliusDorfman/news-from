@@ -15,7 +15,7 @@ export default function OverviewView() {
     <div className="space-y-10">
       <section>
         <h1 className="text-3xl font-bold tracking-tight">Where the press stands</h1>
-        <p className="mt-1 text-ink/60">Critical to supportive, by source and topic. Click any cell to explore a story.</p>
+        <p className="mt-1 text-ink/60">Critical to supportive, by outlet and topic. Click any cell to explore a story.</p>
         <div className="mt-6">
           <StanceHeatmap sources={sources} topics={topics} cells={stanceCells} />
         </div>

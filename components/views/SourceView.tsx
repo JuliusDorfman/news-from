@@ -5,14 +5,14 @@ import { stanceColor, stanceLabel } from '@/lib/stance'
 
 export default function SourceView({ sourceId }: { sourceId: string }) {
   const source = getSource(sourceId)
-  if (!source) return <p>Unknown source.</p>
+  if (!source) return <p>Unknown outlet.</p>
   const cells = cellsForEntity(sourceId)
   const lines = cells.map(c => ({ id: c.topicId, name: getTopic(c.topicId)!.name, color: stanceColor(c.stance), series: c.series }))
 
   return (
     <div className="space-y-8">
       <header>
-        <p className="text-sm uppercase tracking-wide text-ink/50">Source</p>
+        <p className="text-sm uppercase tracking-wide text-ink/50">Outlet</p>
         <h1 className="text-3xl font-bold tracking-tight">{source.name}</h1>
         <p className="mt-1 text-ink/60">How {source.name} has leaned across topics.</p>
       </header>

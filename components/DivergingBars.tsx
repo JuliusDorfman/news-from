@@ -11,7 +11,7 @@ const BAR_H = 18
 export default function DivergingBars({ items }: Props) {
   const height = items.length * ROW_H + 24
   return (
-    <svg viewBox={`0 0 320 ${height}`} className="w-full h-auto" role="img" aria-label="Stance by source">
+    <svg viewBox={`0 0 320 ${height}`} className="w-full h-auto" role="img" aria-label="Stance by outlet">
       <line x1={CENTER} y1={4} x2={CENTER} y2={items.length * ROW_H + 4} stroke="#cbd0d6" strokeDasharray="3 3" />
       {items.map((it, i) => {
         const y = i * ROW_H + 10
