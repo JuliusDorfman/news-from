@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Source, Topic, StanceCell } from '@/lib/types'
-import { stanceColor } from '@/lib/stance'
+import { stanceColor, stanceLabel } from '@/lib/stance'
 
 interface Props { sources: Source[]; topics: Topic[]; cells: StanceCell[] }
 
@@ -28,7 +28,7 @@ export default function StanceHeatmap({ sources, topics, cells }: Props) {
                     <Link href={`/topic/${t.id}`} className="block">
                       <span
                         data-testid={`cell-${s.id}-${t.id}`}
-                        title={`${s.name} on ${t.name}`}
+                        title={c ? `${s.name} on ${t.name}: ${stanceLabel(c.stance)} of the administration's handling` : `${s.name} on ${t.name}: no data`}
                         className="block h-12 rounded transition-transform hover:scale-[1.04]"
                         style={{ backgroundColor: stanceColor(c ? c.stance : 0) }}
                       />

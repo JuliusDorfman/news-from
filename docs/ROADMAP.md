@@ -23,6 +23,9 @@ add history and scale.
 
 ## Phase 1 — Believable analysis core (the make-or-break)
 
+- Stance target is a DEFINED SUBJECT (mockup: "the current administration"). Making the target configurable (administration, candidate, agency, policy) is a key differentiator vs AllSides-style fixed outlet-lean ratings - News-From measures how an outlet treats a chosen subject on a topic over time, not a permanent left/right label.
+
+
 **Goal:** prove stance scores are trustworthy and explainable.
 
 - Ingest real articles incl. **full text + author bylines** (not just RSS snippets).

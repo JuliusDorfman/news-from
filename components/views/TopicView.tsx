@@ -16,7 +16,7 @@ export default function TopicView({ topicId }: { topicId: string }) {
       <header>
         <p className="text-sm uppercase tracking-wide text-ink/50">Topic</p>
         <h1 className="text-3xl font-bold tracking-tight">{topic.name}</h1>
-        <p className="mt-1 text-ink/60">How each outlet leans, and how it has shifted.</p>
+        <p className="mt-1 text-ink/60">How favorably each outlet covers the current administration&apos;s handling of this topic, and how it has shifted over time.</p>
       </header>
       <div className="grid gap-8 md:grid-cols-2">
         <section className="rounded-lg border border-black/10 p-4">

@@ -151,6 +151,10 @@ Real RSS ingestion, full-text fetching, the LLM stance engine, persistence/DB,
 auth, aggregation pipelines, and any claim of accuracy. These are the roadmap the
 mockup pitches — see `docs/ROADMAP.md`.
 
+### Stance is toward a target subject
+
+Stance is measured TOWARD A DEFINED TARGET SUBJECT, not the topic. The mockup fixes the target to "the current administration's handling" of each topic. The UI must state this explicitly (Overview framing sentence + gradient legend naming the target, enriched heatmap tooltips, Topic-page intro) so a cell is never misread as the outlet's position on the topic itself (e.g. a green Fox/Immigration cell means "favorable toward the administration's handling of immigration," NOT "pro-immigration").
+
 ## Risks / notes
 
 - The mockup must never read as production data; the founder handles this verbally
