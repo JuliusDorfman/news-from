@@ -8,6 +8,7 @@ export default function Nav() {
         <div className="flex gap-6 text-sm text-ink/70">
           <Link href="/source/cnn" className="hover:text-ink">Outlets</Link>
           <Link href="/author/a-hartman" className="hover:text-ink">Authors</Link>
+          <Link href="/creator/c-hasan" className="hover:text-ink">Creators</Link>
         </div>
       </nav>
     </header>

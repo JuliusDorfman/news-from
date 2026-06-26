@@ -29,6 +29,13 @@ add history and scale.
 **Goal:** prove stance scores are trustworthy and explainable.
 
 - Ingest real articles incl. **full text + author bylines** (not just RSS snippets).
+- Creators (new media) are a third entity type (`entityType: 'creator'`) whose
+  source material is livestreams/podcasts, not articles. Ingestion gains a
+  front-end stage: transcription -> speaker diarization (attribute stance to the
+  creator, NOT guests or clips they react to) -> topic segmentation (a stream is
+  many topics; the unit of analysis is a segment). Evidence = timestamped quotes
+  that deep-link to the moment in the VOD. The scoring/aggregation/UI layers are
+  reused unchanged.
 - LLM (Claude) stance pipeline: given a defined target, return
   `{ topic, subtopic, target, stance, evidence span, confidence }`.
 - Human spot-check harness: are the scores defensible? Every score links to the

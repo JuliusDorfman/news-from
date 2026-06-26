@@ -68,6 +68,18 @@ read. It doubles as a **distribution wedge** (meet readers on the article itself
 and the **public explainability surface** (the highlights are the receipts behind
 the score).
 
+## Creators (new-media entities)
+
+Creators (streamers/podcasters) use the same five pillars and the same target-stance
+scale, but their content is long-form audio/video. Ingestion delta: transcription ->
+speaker diarization -> topic segmentation, scoring each segment (not the whole
+stream). Diarization is the crux: stance must be attributed to the creator's own
+words, never a guest's or a clip they are reacting to. Two pillars shift emphasis:
+Source & Voice Balance -> did they steelman or strawman the other side; Framing &
+Prominence -> what they spent time on / which clips they chose. Evidence is a
+timestamped quote that deep-links to the moment in the video (a stronger overlay
+hook than article highlights).
+
 ## Data-model implication
 
 The real schema extends the mockup's `StanceCell`/`Evidence` shapes with: per-span

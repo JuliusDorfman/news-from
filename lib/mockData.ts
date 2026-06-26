@@ -1,4 +1,4 @@
-import type { Source, Author, Topic, StanceCell, Evidence, SeriesPoint, Stance } from './types'
+import type { Source, Author, Creator, Topic, StanceCell, Evidence, SeriesPoint, Stance } from './types'
 import { clampStance } from './stance'
 
 export const sources: Source[] = [
@@ -11,6 +11,16 @@ export const sources: Source[] = [
 export const authors: Author[] = [
   { id: 'a-hartman', name: 'Joan Hartman', outlet: 'New York Times' },
   { id: 'a-cole', name: 'Marcus Cole', outlet: 'Fox News' },
+]
+
+export const creators: Creator[] = [
+  { id: 'c-hasan', name: 'Hasan Piker', platform: 'Twitch / YouTube' },
+  { id: 'c-destiny', name: 'Destiny', platform: 'YouTube / Kick' },
+  { id: 'c-rogan', name: 'Joe Rogan', platform: 'Podcast / Spotify' },
+  { id: 'c-asmon', name: 'Asmongold', platform: 'Twitch / YouTube' },
+  { id: 'c-tyt', name: 'The Young Turks', platform: 'YouTube' },
+  { id: 'c-mr', name: 'The Majority Report', platform: 'YouTube / Podcast' },
+  { id: 'c-dw', name: 'The Daily Wire', platform: 'YouTube / Podcast' },
 ]
 
 export const topics: Topic[] = [
@@ -78,6 +88,35 @@ for (const a of authors) {
   })
 }
 
+const creatorGrid: Record<string, number[]> = {
+  'c-hasan':   [-80, -78, -60, -55, -65],
+  'c-destiny': [-30, -20, -10,   5, -25],
+  'c-rogan':   [ 10,  20,  25,  15,   5],
+  'c-asmon':   [ 40,  55,  45,  25,  30],
+  'c-tyt':     [-70, -68, -58, -50, -60],
+  'c-mr':      [-75, -72, -62, -52, -64],
+  'c-dw':      [ 78,  82,  70,  55,  60],
+}
+const creatorDrift: Record<string, number[]> = {
+  'c-hasan':   [-4, -3, -2, -2, -3],
+  'c-destiny': [ 2,  3,  1,  2, -1],
+  'c-rogan':   [ 3,  4,  2,  1,  1],
+  'c-asmon':   [ 4,  5,  3,  2,  2],
+  'c-tyt':     [-3, -2, -2, -1, -2],
+  'c-mr':      [-3, -3, -2, -2, -2],
+  'c-dw':      [ 4,  3,  3,  2,  2],
+}
+for (const cr of creators) {
+  topics.forEach((t, ti) => {
+    const start = creatorGrid[cr.id][ti]
+    stanceCells.push({
+      entityId: cr.id, entityType: 'creator', topicId: t.id,
+      stance: start, volume: 30 + ((ti * 6 + 11) % 25),
+      series: series(start - creatorDrift[cr.id][ti] * 5, creatorDrift[cr.id][ti]),
+    })
+  })
+}
+
 export const evidence: Evidence[] = [
   { id: 'e1', sourceId: 'cnn', topicId: 'reflecting-pool', headline: 'Reflecting pool overhaul runs millions over budget, records show', stance: -64, date: '2026-06-03' },
   { id: 'e2', sourceId: 'fox', topicId: 'reflecting-pool', headline: 'Administration delivers long-promised renovation of national landmark', stance: 58, date: '2026-06-04' },
@@ -106,6 +145,7 @@ export function subtopicReadings(entityId: string, topicId: string): { id: strin
 
 export function getSource(id: string): Source | undefined { return sources.find(s => s.id === id) }
 export function getAuthor(id: string): Author | undefined { return authors.find(a => a.id === id) }
+export function getCreator(id: string): Creator | undefined { return creators.find(c => c.id === id) }
 export function getTopic(id: string): Topic | undefined { return topics.find(t => t.id === id) }
 export function getCell(entityId: string, topicId: string): StanceCell | undefined {
   return stanceCells.find(c => c.entityId === entityId && c.topicId === topicId)

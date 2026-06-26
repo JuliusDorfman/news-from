@@ -1,8 +1,9 @@
 export type Stance = number // integer -100..100
-export type EntityType = 'source' | 'author'
+export type EntityType = 'source' | 'author' | 'creator'
 
 export interface Source { id: string; name: string }
 export interface Author { id: string; name: string; outlet: string }
+export interface Creator { id: string; name: string; platform: string }
 export interface Subtopic { id: string; name: string }
 export interface Topic { id: string; name: string; subtopics: Subtopic[] }
 export interface SeriesPoint { date: string; stance: Stance }

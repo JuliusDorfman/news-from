@@ -5,9 +5,9 @@ import StanceTimeline from './StanceTimeline'
 import { getTopic, cellsForEntity, subtopicReadings } from '@/lib/mockData'
 import { stanceColor, stanceLabel } from '@/lib/stance'
 
-interface Props { kind: string; name: string; outlet?: string; entityId: string }
+interface Props { kind: string; name: string; affiliation?: string; entityId: string }
 
-export default function EntityDeepDive({ kind, name, outlet, entityId }: Props) {
+export default function EntityDeepDive({ kind, name, affiliation, entityId }: Props) {
   const cells = cellsForEntity(entityId)
   const lines = cells.map(c => ({ id: c.topicId, name: getTopic(c.topicId)!.name, color: stanceColor(c.stance), series: c.series }))
   const [selected, setSelected] = useState<string | null>(null)
@@ -17,7 +17,7 @@ export default function EntityDeepDive({ kind, name, outlet, entityId }: Props) 
       <header>
         <p className="text-sm uppercase tracking-wide text-ink/50">{kind}</p>
         <h1 className="text-3xl font-bold tracking-tight">{name}</h1>
-        <p className="mt-1 text-ink/60">{outlet ? `${outlet} - ` : ''}How favorably {name} covers the current administration&apos;s handling across topics and subtopics.</p>
+        <p className="mt-1 text-ink/60">{affiliation ? `${affiliation} - ` : ''}How favorably {name} covers the current administration&apos;s handling across topics and subtopics.</p>
       </header>
 
       <section className="rounded-lg border border-black/10 p-4">

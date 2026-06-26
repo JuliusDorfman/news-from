@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import type { Source, Topic, StanceCell } from '@/lib/types'
+import type { Topic, StanceCell, EntityType } from '@/lib/types'
 import { stanceColor, stanceLabel } from '@/lib/stance'
 
-interface Props { sources: Source[]; topics: Topic[]; cells: StanceCell[] }
+interface Props { entities: { id: string; name: string }[]; topics: Topic[]; cells: StanceCell[]; entityType: EntityType }
 
-export default function StanceHeatmap({ sources, topics, cells }: Props) {
-  const get = (sid: string, tid: string) => cells.find(c => c.entityId === sid && c.topicId === tid && c.entityType === 'source')
+export default function StanceHeatmap({ entities, topics, cells, entityType }: Props) {
+  const get = (eid: string, tid: string) => cells.find(c => c.entityId === eid && c.topicId === tid && c.entityType === entityType)
   return (
     <div className="overflow-x-auto">
       <table className="w-full border-separate border-spacing-1">
@@ -18,17 +18,17 @@ export default function StanceHeatmap({ sources, topics, cells }: Props) {
           </tr>
         </thead>
         <tbody>
-          {sources.map(s => (
-            <tr key={s.id}>
-              <th className="pr-3 text-right text-sm font-sans font-medium text-ink/80 whitespace-nowrap">{s.name}</th>
+          {entities.map(e => (
+            <tr key={e.id}>
+              <th className="pr-3 text-right text-sm font-sans font-medium text-ink/80 whitespace-nowrap">{e.name}</th>
               {topics.map(t => {
-                const c = get(s.id, t.id)
+                const c = get(e.id, t.id)
                 return (
                   <td key={t.id} className="p-0">
                     <Link href={`/topic/${t.id}`} className="block">
                       <span
-                        data-testid={`cell-${s.id}-${t.id}`}
-                        title={c ? `${s.name} on ${t.name}: ${stanceLabel(c.stance)} of the administration's handling` : `${s.name} on ${t.name}: no data`}
+                        data-testid={`cell-${e.id}-${t.id}`}
+                        title={c ? `${e.name} on ${t.name}: ${stanceLabel(c.stance)} of the administration's handling` : `${e.name} on ${t.name}: no data`}
                         className="block h-12 rounded transition-transform hover:scale-[1.04]"
                         style={{ backgroundColor: stanceColor(c ? c.stance : 0) }}
                       />

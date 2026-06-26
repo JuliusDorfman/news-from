@@ -8,5 +8,6 @@ describe('Nav', () => {
     expect(screen.getByText('News-From')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /outlets/i })).toHaveAttribute('href', '/source/cnn')
     expect(screen.getByRole('link', { name: /authors/i })).toHaveAttribute('href', '/author/a-hartman')
+    expect(screen.getByRole('link', { name: /creators/i })).toHaveAttribute('href', '/creator/c-hasan')
   })
 })

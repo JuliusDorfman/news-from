@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
-  sources, authors, topics, stanceCells, evidence,
-  getSource, getTopic, getCell, cellsForTopic, cellsForEntity, evidenceForTopic, getAuthor,
+  sources, authors, creators, topics, stanceCells, evidence,
+  getSource, getTopic, getCell, cellsForTopic, cellsForEntity, evidenceForTopic, getAuthor, getCreator,
   subtopicReadings,
 } from './mockData'
 
@@ -66,6 +66,18 @@ describe('selectors', () => {
 
   it('getAuthor returns the author by id', () => {
     expect(getAuthor(authors[0].id)?.id).toBe(authors[0].id)
+  })
+
+  it('has creators with a cell for every creator x topic', () => {
+    expect(creators.length).toBeGreaterThanOrEqual(7)
+    for (const cr of creators) {
+      for (const t of topics) {
+        expect(getCell(cr.id, t.id), `${cr.id}/${t.id}`).toBeDefined()
+      }
+    }
+  })
+  it('getCreator returns the creator by id', () => {
+    expect(getCreator(creators[0].id)?.id).toBe(creators[0].id)
   })
 
   it('subtopicReadings returns one reading per subtopic, stances in range', () => {
