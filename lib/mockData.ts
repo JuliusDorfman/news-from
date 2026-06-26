@@ -1,4 +1,5 @@
-import type { Source, Author, Topic, StanceCell, Evidence, SeriesPoint } from './types'
+import type { Source, Author, Topic, StanceCell, Evidence, SeriesPoint, Stance } from './types'
+import { clampStance } from './stance'
 
 export const sources: Source[] = [
   { id: 'cnn', name: 'CNN' },
@@ -85,6 +86,23 @@ export const evidence: Evidence[] = [
   { id: 'e5', sourceId: 'cnn', topicId: 'reflecting-pool', headline: 'Watchdog opens review of reflecting pool contracting', stance: -58, date: '2026-06-08' },
   { id: 'e6', sourceId: 'fox', topicId: 'reflecting-pool', headline: 'Visitors praise refreshed monument grounds', stance: 49, date: '2026-06-09' },
 ]
+
+const SUBTOPIC_DELTAS = [-7, 6, 12, -3]
+
+export function subtopicReadings(entityId: string, topicId: string): { id: string; name: string; stance: Stance; series: SeriesPoint[] }[] {
+  const cell = getCell(entityId, topicId)
+  const topic = getTopic(topicId)
+  if (!cell || !topic) return []
+  return topic.subtopics.map((s, i) => {
+    const delta = SUBTOPIC_DELTAS[i % SUBTOPIC_DELTAS.length]
+    return {
+      id: s.id,
+      name: s.name,
+      stance: clampStance(cell.stance + delta),
+      series: cell.series.map(p => ({ date: p.date, stance: clampStance(p.stance + delta) })),
+    }
+  })
+}
 
 export function getSource(id: string): Source | undefined { return sources.find(s => s.id === id) }
 export function getAuthor(id: string): Author | undefined { return authors.find(a => a.id === id) }

@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   sources, authors, topics, stanceCells, evidence,
   getSource, getTopic, getCell, cellsForTopic, cellsForEntity, evidenceForTopic, getAuthor,
+  subtopicReadings,
 } from './mockData'
 
 describe('mock data integrity', () => {
@@ -65,5 +66,16 @@ describe('selectors', () => {
 
   it('getAuthor returns the author by id', () => {
     expect(getAuthor(authors[0].id)?.id).toBe(authors[0].id)
+  })
+
+  it('subtopicReadings returns one reading per subtopic, stances in range', () => {
+    const readings = subtopicReadings('cnn', 'immigration')
+    const topic = getTopic('immigration')!
+    expect(readings.length).toBe(topic.subtopics.length)
+    for (const r of readings) {
+      expect(r.stance).toBeGreaterThanOrEqual(-100)
+      expect(r.stance).toBeLessThanOrEqual(100)
+      expect(r.series.length).toBeGreaterThan(0)
+    }
   })
 })
