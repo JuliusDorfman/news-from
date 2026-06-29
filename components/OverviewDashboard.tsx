@@ -1,19 +1,14 @@
 'use client'
-import { useState } from 'react'
 import StanceHeatmap from './StanceHeatmap'
 import LensShelf from './LensShelf'
-import AdminFilter from './AdminFilter'
 import { sources, topics, getCell, stanceForPresident, seriesForPresident } from '@/lib/mockData'
-import { defaultTermKey } from '@/lib/presidents'
 import { stanceVar } from '@/lib/stance'
+import { useFilter } from './FilterContext'
 
 const FEATURED = 'reflecting-pool'
-const DEFAULT_PRESIDENT = 'trump'
 
 export default function OverviewDashboard() {
-  const [pid, setPid] = useState(DEFAULT_PRESIDENT)
-  const [term, setTerm] = useState(() => defaultTermKey(DEFAULT_PRESIDENT))
-  const selectPresident = (id: string) => { setPid(id); setTerm(defaultTermKey(id)) }
+  const { presidentId: pid, termKey: term } = useFilter()
 
   const bars = { items: sources.map(s => ({ id: s.id, name: s.name, stance: stanceForPresident(s.id, FEATURED, pid, term) ?? 0 })) }
   // NOTE: volume (article count) is not period-scoped in the mock data model; same across president/term.
@@ -30,9 +25,6 @@ export default function OverviewDashboard() {
       <section>
         <h1 className="text-3xl font-bold tracking-tight">Where the press stands</h1>
         <p className="mt-1 text-ink/60">Each cell shows how favorably an outlet covers the selected administration&apos;s handling of a topic. Green is supportive, red is critical &mdash; it is not the outlet&apos;s stance on the topic itself.</p>
-        <div className="mt-4">
-          <AdminFilter presidentId={pid} termKey={term} onSelectPresident={selectPresident} onSelectTerm={setTerm} />
-        </div>
         <div className="mt-6">
           <StanceHeatmap entities={sources} topics={topics} presidentId={pid} termKey={term} />
         </div>
