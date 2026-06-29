@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import StanceHeatmap from './StanceHeatmap'
-import { sources, topics, stanceCells } from '@/lib/mockData'
+import { sources, topics } from '@/lib/mockData'
 
 describe('StanceHeatmap', () => {
   it('renders a cell per source x topic, each linking to the topic', () => {
-    render(<StanceHeatmap entities={sources} topics={topics} cells={stanceCells} entityType="source" />)
+    render(<StanceHeatmap entities={sources} topics={topics} adminId="current" termId="full" />)
     const cell = screen.getByTestId('cell-cnn-reflecting-pool')
     expect(cell).toBeInTheDocument()
     expect(cell.closest('a')).toHaveAttribute('href', '/topic/reflecting-pool')

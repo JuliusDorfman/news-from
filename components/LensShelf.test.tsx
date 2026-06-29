@@ -6,7 +6,7 @@ import LensShelf from './LensShelf'
 const props = {
   bars: { items: [{ id: 'cnn', name: 'CNN', stance: -50 }] },
   map: { items: [{ id: 'cnn', name: 'CNN', stance: -50, volume: 60 }] },
-  timeline: { items: [{ id: 'cnn', name: 'CNN', entityId: 'cnn', topicId: 'immigration' }] },
+  timeline: { lines: [{ id: 'cnn', name: 'CNN', color: '#d64045', series: [{ date: '2026-01-01', stance: -50 }] }] },
 }
 
 describe('LensShelf', () => {

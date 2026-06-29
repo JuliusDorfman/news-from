@@ -193,6 +193,13 @@ export function seriesFor(entityId: string, topicId: string, adminId: AdminId, t
   })
 }
 
+export function stanceFor(entityId: string, topicId: string, adminId: AdminId, termId: TermId): number | null {
+  if (!getCell(entityId, topicId)) return null
+  const pts = seriesFor(entityId, topicId, adminId, termId)
+  if (!pts.length) return null
+  return clampStance(Math.round(pts.reduce((s, p) => s + p.stance, 0) / pts.length))
+}
+
 export function getSource(id: string): Source | undefined { return sources.find(s => s.id === id) }
 export function getAuthor(id: string): Author | undefined { return authors.find(a => a.id === id) }
 export function getCreator(id: string): Creator | undefined { return creators.find(c => c.id === id) }

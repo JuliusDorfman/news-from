@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   sources, authors, creators, topics, stanceCells, evidence,
   getSource, getTopic, getCell, cellsForTopic, cellsForEntity, evidenceForTopic, getAuthor, getCreator,
-  subtopicReadings, administrations, seriesFor,
+  subtopicReadings, administrations, seriesFor, stanceFor,
 } from './mockData'
 
 describe('mock data integrity', () => {
@@ -127,5 +127,11 @@ describe('administration/term timeline', () => {
     const prev = mean(seriesFor('cnn', 'immigration', 'previous', 'full')) // ...so supportive of previous (positive)
     expect(cur).toBeLessThan(0)
     expect(prev).toBeGreaterThan(0)
+  })
+
+  it('stanceFor aggregates per admin/term and flips for previous admin; null for unknown', () => {
+    expect(stanceFor('cnn', 'immigration', 'current', 'full')!).toBeLessThan(0)
+    expect(stanceFor('cnn', 'immigration', 'previous', 'full')!).toBeGreaterThan(0)
+    expect(stanceFor('nope', 'immigration', 'current', 'full')).toBeNull()
   })
 })
