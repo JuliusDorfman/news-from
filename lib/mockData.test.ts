@@ -155,5 +155,6 @@ describe('president-based stance', () => {
     expect(underR).toBeLessThan(0)
     expect(underD).toBeGreaterThan(0)
     expect(stanceForPresident('nope', 'immigration', 'obama', 'full')).toBeNull()
+    expect(stanceForPresident('cnn', 'immigration', 'nobody', 'full')).toBeNull()
   })
 })

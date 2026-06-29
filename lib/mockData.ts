@@ -220,7 +220,7 @@ export function seriesForPresident(entityId: string, topicId: string, presidentI
   const cell = getCell(entityId, topicId)
   const p = getPresident(presidentId)
   if (!cell || !p) return []
-  const opt = termOptions(presidentId).find(o => o.key === termKey) ?? termOptions(presidentId)[0]
+  const opt = termOptions(presidentId).find(o => o.key === termKey)
   if (!opt) return []
   // party drives the lean: R uses the outlet's authored stance; D flips it; other is damped
   const partyBase = p.party === 'R' ? cell.stance : p.party === 'D' ? Math.round(cell.stance * -0.85) : Math.round(cell.stance * 0.3)
@@ -234,7 +234,6 @@ export function seriesForPresident(entityId: string, topicId: string, presidentI
 }
 
 export function stanceForPresident(entityId: string, topicId: string, presidentId: string, termKey: string): number | null {
-  if (!getCell(entityId, topicId)) return null
   const pts = seriesForPresident(entityId, topicId, presidentId, termKey)
   if (!pts.length) return null
   return clampStance(Math.round(pts.reduce((s, p) => s + p.stance, 0) / pts.length))
