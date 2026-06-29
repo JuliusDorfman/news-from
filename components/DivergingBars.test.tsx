@@ -21,4 +21,10 @@ describe('DivergingBars', () => {
     expect(neg.getAttribute('fill')).toBe(stanceVar(-60))
     expect(pos.getAttribute('fill')).toBe(stanceVar(40))
   })
+
+  it('shows a tooltip title on each bar group', () => {
+    const { container } = render(<DivergingBars items={items} />)
+    const titles = Array.from(container.querySelectorAll('g > title'))
+    expect(titles.some(t => /CNN:/.test(t.textContent || ''))).toBe(true)
+  })
 })

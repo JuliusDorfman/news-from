@@ -1,4 +1,6 @@
 import type { SeriesPoint } from '@/lib/types'
+import { stanceLabel } from '@/lib/stance'
+import { pointHeadline, monthLabel } from '@/lib/headlines'
 
 interface Line { id: string; name: string; color: string; series: SeriesPoint[] }
 interface Props { lines: Line[] }
@@ -23,7 +25,23 @@ export default function StanceTimeline({ lines }: Props) {
       <text x={6} y={BOTTOM} className="fill-ink/40" style={{ fontSize: 9 }}>critical</text>
       {lines.map(l => {
         const pts = l.series.map((p, i) => `${xFor(i, l.series.length).toFixed(1)},${yFor(p.stance).toFixed(1)}`).join(' ')
-        return <polyline key={l.id} data-testid={`line-${l.id}`} points={pts} fill="none" stroke={l.color} strokeWidth={2.5} />
+        return (
+          <g key={l.id}>
+            <polyline data-testid={`line-${l.id}`} points={pts} fill="none" stroke={l.color} strokeWidth={2.5} />
+            {l.series.map((p, i) => (
+              <circle
+                key={i}
+                data-testid={`point-${l.id}-${i}`}
+                cx={xFor(i, l.series.length)}
+                cy={yFor(p.stance)}
+                r={3.5}
+                fill={l.color}
+              >
+                <title>{monthLabel(p.date)} - {stanceLabel(p.stance)} - &quot;{pointHeadline(p.stance, p.date)}&quot;</title>
+              </circle>
+            ))}
+          </g>
+        )
       })}
     </svg>
   )

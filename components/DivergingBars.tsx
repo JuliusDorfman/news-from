@@ -1,4 +1,4 @@
-import { stanceVar } from '@/lib/stance'
+import { stanceVar, stanceLabel } from '@/lib/stance'
 
 interface Item { id: string; name: string; stance: number }
 interface Props { items: Item[] }
@@ -19,6 +19,7 @@ export default function DivergingBars({ items }: Props) {
         const x = it.stance < 0 ? CENTER - w : CENTER
         return (
           <g key={it.id}>
+            <title>{`${it.name}: ${stanceLabel(it.stance)} (${it.stance})`}</title>
             <text x={6} y={y + BAR_H / 2 + 4} className="fill-ink/70" style={{ fontSize: 11 }}>{it.name}</text>
             <rect data-testid={`bar-${it.id}`} x={x} y={y} width={w} height={BAR_H} rx={3} fill={stanceVar(it.stance)} />
           </g>

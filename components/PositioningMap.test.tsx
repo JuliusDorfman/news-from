@@ -25,4 +25,10 @@ describe('PositioningMap', () => {
     expect(cnn.getAttribute('fill')).toBe(stanceVar(-60))
     expect(fox.getAttribute('fill')).toBe(stanceVar(55))
   })
+
+  it('shows a tooltip with article count on each bubble group', () => {
+    const { container } = render(<PositioningMap items={items} />)
+    const titles = Array.from(container.querySelectorAll('g > title'))
+    expect(titles.some(t => /articles/.test(t.textContent || ''))).toBe(true)
+  })
 })

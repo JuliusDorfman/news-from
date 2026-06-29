@@ -1,4 +1,4 @@
-import { stanceVar } from '@/lib/stance'
+import { stanceVar, stanceLabel } from '@/lib/stance'
 
 interface Item { id: string; name: string; stance: number; volume: number }
 interface Props { items: Item[] }
@@ -20,6 +20,7 @@ export default function PositioningMap({ items }: Props) {
         const r = 8 + it.volume / 8
         return (
           <g key={it.id}>
+            <title>{`${it.name}: ${stanceLabel(it.stance)} - ${it.volume} articles`}</title>
             <circle data-testid={`bubble-${it.id}`} cx={cx} cy={cy} r={r} fill={stanceVar(it.stance)} opacity={0.85} />
             <text x={cx} y={cy + 3} textAnchor="middle" className="fill-white" style={{ fontSize: 9, fontWeight: 600 }}>{it.name}</text>
           </g>

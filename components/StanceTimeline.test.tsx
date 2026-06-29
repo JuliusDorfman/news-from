@@ -14,4 +14,9 @@ describe('StanceTimeline', () => {
     expect(line.getAttribute('points')!.trim().split(/\s+/).length).toBe(2)
     expect(line.getAttribute('stroke')).toBe('#d64045')
   })
+
+  it('renders a circle marker for each series point', () => {
+    render(<StanceTimeline lines={lines} />)
+    expect(screen.getAllByTestId(/^point-cnn-/).length).toBe(lines[0].series.length)
+  })
 })
