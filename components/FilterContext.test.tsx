@@ -15,4 +15,12 @@ describe('persistent site-wide filter', () => {
     await userEvent.click(screen.getByTestId('president-option-obama'))
     expect(screen.getByTestId('probe')).toHaveTextContent('obama/full')
   })
+
+  it('resets the term to a valid key when switching to a single-term president', async () => {
+    render(<FilterProvider><SiteFilter /><Probe /></FilterProvider>)
+    await userEvent.click(screen.getByTestId('president-trigger'))
+    await userEvent.type(screen.getByTestId('president-search'), 'carter')
+    await userEvent.click(screen.getByTestId('president-option-carter'))
+    expect(screen.getByTestId('probe')).toHaveTextContent('carter/1')
+  })
 })

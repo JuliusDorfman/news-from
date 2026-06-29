@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useContext, useState, type ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react'
 import { defaultTermKey } from '@/lib/presidents'
 
 const DEFAULT_PRESIDENT = 'trump'
@@ -16,9 +16,10 @@ const FilterCtx = createContext<FilterState | null>(null)
 export function FilterProvider({ children }: { children: ReactNode }) {
   const [presidentId, setPid] = useState(DEFAULT_PRESIDENT)
   const [termKey, setTermKey] = useState(() => defaultTermKey(DEFAULT_PRESIDENT))
-  const setPresident = (id: string) => { setPid(id); setTermKey(defaultTermKey(id)) }
-  const setTerm = (key: string) => setTermKey(key)
-  return <FilterCtx.Provider value={{ presidentId, termKey, setPresident, setTerm }}>{children}</FilterCtx.Provider>
+  const setPresident = useCallback((id: string) => { setPid(id); setTermKey(defaultTermKey(id)) }, [])
+  const setTerm = useCallback((key: string) => setTermKey(key), [])
+  const value = useMemo(() => ({ presidentId, termKey, setPresident, setTerm }), [presidentId, termKey, setPresident, setTerm])
+  return <FilterCtx.Provider value={value}>{children}</FilterCtx.Provider>
 }
 
 // Falls back to a default (no-op) state when used outside a provider, so standalone
