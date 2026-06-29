@@ -2,14 +2,14 @@
 import { useState } from 'react'
 import DivergingBars from './DivergingBars'
 import PositioningMap from './PositioningMap'
-import StanceTimeline from './StanceTimeline'
+import FilteredTimeline from './FilteredTimeline'
 
 type Lens = 'bars' | 'map' | 'timeline'
 
 interface Props {
   bars: React.ComponentProps<typeof DivergingBars>
   map: React.ComponentProps<typeof PositioningMap>
-  timeline: React.ComponentProps<typeof StanceTimeline>
+  timeline: React.ComponentProps<typeof FilteredTimeline>
 }
 
 const TABS: { key: Lens; label: string }[] = [
@@ -41,7 +41,7 @@ export default function LensShelf({ bars, map, timeline }: Props) {
       <div data-testid="lens-stage" data-active={active} className="rounded-lg border border-black/10 bg-white/40 p-4">
         {active === 'bars' && <DivergingBars {...bars} />}
         {active === 'map' && <PositioningMap {...map} />}
-        {active === 'timeline' && <StanceTimeline {...timeline} />}
+        {active === 'timeline' && <FilteredTimeline {...timeline} />}
       </div>
     </div>
   )

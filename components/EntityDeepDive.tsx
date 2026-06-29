@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import StanceTimeline from './StanceTimeline'
+import FilteredTimeline from './FilteredTimeline'
 import { getTopic, cellsForEntity, subtopicReadings } from '@/lib/mockData'
 import { stanceVar, stanceLabel } from '@/lib/stance'
 
@@ -9,7 +10,6 @@ interface Props { kind: string; name: string; affiliation?: string; entityId: st
 
 export default function EntityDeepDive({ kind, name, affiliation, entityId }: Props) {
   const cells = cellsForEntity(entityId)
-  const lines = cells.map(c => ({ id: c.topicId, name: getTopic(c.topicId)!.name, color: stanceVar(c.stance), series: c.series }))
   const [selected, setSelected] = useState<string | null>(null)
 
   return (
@@ -22,7 +22,7 @@ export default function EntityDeepDive({ kind, name, affiliation, entityId }: Pr
 
       <section className="rounded-lg border border-black/10 p-4">
         <h2 className="mb-3 text-lg font-bold">Stance over time, by topic</h2>
-        <StanceTimeline lines={lines} />
+        <FilteredTimeline items={cells.map(c => ({ id: c.topicId, name: getTopic(c.topicId)!.name, entityId, topicId: c.topicId }))} />
       </section>
 
       <section className="space-y-4">
