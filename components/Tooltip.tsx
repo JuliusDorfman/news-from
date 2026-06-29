@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 
 type Tip = { content: ReactNode; x: number; y: number }
 type Ctx = { show: (content: ReactNode, x: number, y: number, autoHide?: boolean) => void; hide: () => void }
@@ -17,10 +17,11 @@ export function TooltipProvider({ children }: { children: ReactNode }) {
     if (timer.current) { clearTimeout(timer.current); timer.current = null }
     setTip(null)
   }, [])
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current) }, [])
 
   let style: React.CSSProperties = { left: 0, top: 0 }
   if (tip) {
-    const pad = 14, w = 260, h = 96
+    const pad = 14, w = 256, h = 96
     const vw = typeof window !== 'undefined' ? window.innerWidth : 1024
     const vh = typeof window !== 'undefined' ? window.innerHeight : 768
     const left = tip.x + pad + w > vw ? tip.x - w - pad : tip.x + pad
@@ -52,6 +53,7 @@ export function useTooltip() {
       onPointerMove: (e: React.PointerEvent) => { if (e.pointerType !== 'touch') ctx.show(content, e.clientX, e.clientY) },
       onPointerLeave: (e: React.PointerEvent) => { if (e.pointerType !== 'touch') ctx.hide() },
       onPointerDown: (e: React.PointerEvent) => { if (e.pointerType === 'touch') ctx.show(content, e.clientX, e.clientY, true) },
+      onPointerCancel: (e: React.PointerEvent) => { if (e.pointerType === 'touch') ctx.hide() },
     }
   }, [ctx])
 }

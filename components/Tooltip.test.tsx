@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import { TooltipProvider, useTooltip } from './Tooltip'
 
 function Trigger() {
@@ -16,5 +16,19 @@ describe('TooltipProvider', () => {
     expect(screen.getByRole('tooltip')).toHaveTextContent('Hello tip')
     fireEvent.pointerLeave(target, { pointerType: 'mouse' })
     expect(screen.queryByRole('tooltip')).toBeNull()
+  })
+
+  it('shows on touch and auto-hides after the timeout', () => {
+    vi.useFakeTimers()
+    try {
+      render(<TooltipProvider><Trigger /></TooltipProvider>)
+      const target = screen.getByText('target')
+      fireEvent.pointerDown(target, { clientX: 5, clientY: 5, pointerType: 'touch' })
+      expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      act(() => { vi.advanceTimersByTime(2300) })
+      expect(screen.queryByRole('tooltip')).toBeNull()
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })
