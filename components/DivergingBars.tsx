@@ -1,4 +1,4 @@
-import { stanceColor } from '@/lib/stance'
+import { stanceVar } from '@/lib/stance'
 
 interface Item { id: string; name: string; stance: number }
 interface Props { items: Item[] }
@@ -20,7 +20,7 @@ export default function DivergingBars({ items }: Props) {
         return (
           <g key={it.id}>
             <text x={6} y={y + BAR_H / 2 + 4} className="fill-ink/70" style={{ fontSize: 11 }}>{it.name}</text>
-            <rect data-testid={`bar-${it.id}`} x={x} y={y} width={w} height={BAR_H} rx={3} fill={stanceColor(it.stance)} />
+            <rect data-testid={`bar-${it.id}`} x={x} y={y} width={w} height={BAR_H} rx={3} fill={stanceVar(it.stance)} />
           </g>
         )
       })}

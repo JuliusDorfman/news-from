@@ -15,6 +15,14 @@
   --font-sans: system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
+[data-cb='1'] {
+  --color-stance-critical: #0072b2;
+  --color-stance-lean-critical: #56b4e9;
+  --color-stance-neutral: #999999;
+  --color-stance-lean-supportive: #e69f00;
+  --color-stance-supportive: #d55e00;
+}
+
 body {
   @apply bg-paper text-ink font-sans;
 }

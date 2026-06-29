@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Topic, StanceCell, EntityType } from '@/lib/types'
-import { stanceColor, stanceLabel } from '@/lib/stance'
+import { stanceVar, stanceLabel } from '@/lib/stance'
 
 interface Props { entities: { id: string; name: string }[]; topics: Topic[]; cells: StanceCell[]; entityType: EntityType }
 
@@ -30,7 +30,7 @@ export default function StanceHeatmap({ entities, topics, cells, entityType }: P
                         data-testid={`cell-${e.id}-${t.id}`}
                         title={c ? `${e.name} on ${t.name}: ${stanceLabel(c.stance)} of the administration's handling` : `${e.name} on ${t.name}: no data`}
                         className="block h-12 rounded transition-transform hover:scale-[1.04]"
-                        style={{ backgroundColor: stanceColor(c ? c.stance : 0) }}
+                        style={{ backgroundColor: stanceVar(c ? c.stance : 0) }}
                       />
                     </Link>
                   </td>

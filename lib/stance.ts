@@ -19,3 +19,11 @@ export function stanceColor(s: Stance): string {
   if (s < 60) return '#74b97a'
   return '#2f9e54'
 }
+
+export function stanceVar(s: Stance): string {
+  if (s <= -60) return 'var(--color-stance-critical)'
+  if (s <= -20) return 'var(--color-stance-lean-critical)'
+  if (s < 20) return 'var(--color-stance-neutral)'
+  if (s < 60) return 'var(--color-stance-lean-supportive)'
+  return 'var(--color-stance-supportive)'
+}

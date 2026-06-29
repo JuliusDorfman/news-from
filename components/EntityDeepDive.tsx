@@ -3,13 +3,13 @@ import { useState } from 'react'
 import Link from 'next/link'
 import StanceTimeline from './StanceTimeline'
 import { getTopic, cellsForEntity, subtopicReadings } from '@/lib/mockData'
-import { stanceColor, stanceLabel } from '@/lib/stance'
+import { stanceVar, stanceLabel } from '@/lib/stance'
 
 interface Props { kind: string; name: string; affiliation?: string; entityId: string }
 
 export default function EntityDeepDive({ kind, name, affiliation, entityId }: Props) {
   const cells = cellsForEntity(entityId)
-  const lines = cells.map(c => ({ id: c.topicId, name: getTopic(c.topicId)!.name, color: stanceColor(c.stance), series: c.series }))
+  const lines = cells.map(c => ({ id: c.topicId, name: getTopic(c.topicId)!.name, color: stanceVar(c.stance), series: c.series }))
   const [selected, setSelected] = useState<string | null>(null)
 
   return (
@@ -35,7 +35,7 @@ export default function EntityDeepDive({ kind, name, affiliation, entityId }: Pr
               <div className="flex items-center justify-between">
                 <Link href={`/topic/${c.topicId}`} className="font-serif text-[15px] font-bold hover:underline">{topic.name}</Link>
                 <span className="flex items-center gap-2 text-sm text-ink/60">
-                  <span className="inline-block h-3 w-3 rounded-full" style={{ backgroundColor: stanceColor(c.stance) }} />
+                  <span className="inline-block h-3 w-3 rounded-full" style={{ backgroundColor: stanceVar(c.stance) }} />
                   {stanceLabel(c.stance)}
                 </span>
               </div>
@@ -52,7 +52,7 @@ export default function EntityDeepDive({ kind, name, affiliation, entityId }: Pr
                       onClick={() => setSelected(active ? null : key)}
                       className={`flex items-center gap-2 rounded-full border px-3 py-1 text-sm transition-colors ${active ? 'border-ink' : 'border-black/15 hover:border-ink/40'}`}
                     >
-                      <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: stanceColor(s.stance) }} />
+                      <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: stanceVar(s.stance) }} />
                       {s.name}
                     </button>
                   )
@@ -64,7 +64,7 @@ export default function EntityDeepDive({ kind, name, affiliation, entityId }: Pr
                 return (
                   <div key={s.id} className="mt-4 rounded border border-black/10 p-3">
                     <p className="mb-2 text-xs text-ink/60">{name} on {s.name}: {stanceLabel(s.stance)} of the administration&apos;s handling</p>
-                    <StanceTimeline lines={[{ id: s.id, name: s.name, color: stanceColor(s.stance), series: s.series }]} />
+                    <StanceTimeline lines={[{ id: s.id, name: s.name, color: stanceVar(s.stance), series: s.series }]} />
                   </div>
                 )
               })}

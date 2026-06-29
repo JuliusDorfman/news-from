@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { stanceColor } from '@/lib/stance'
+import { stanceVar } from '@/lib/stance'
 import PositioningMap from './PositioningMap'
 
 const items = [
@@ -22,7 +22,7 @@ describe('PositioningMap', () => {
     render(<PositioningMap items={items} />)
     const cnn = screen.getByTestId('bubble-cnn')
     const fox = screen.getByTestId('bubble-fox')
-    expect(cnn.getAttribute('fill')).toBe(stanceColor(-60))
-    expect(fox.getAttribute('fill')).toBe(stanceColor(55))
+    expect(cnn.getAttribute('fill')).toBe(stanceVar(-60))
+    expect(fox.getAttribute('fill')).toBe(stanceVar(55))
   })
 })

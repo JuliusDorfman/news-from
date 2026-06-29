@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import DivergingBars from './DivergingBars'
-import { stanceColor } from '@/lib/stance'
+import { stanceVar } from '@/lib/stance'
 
 const items = [
   { id: 'cnn', name: 'CNN', stance: -60 },
@@ -18,7 +18,7 @@ describe('DivergingBars', () => {
     // positive bar starts at center
     expect(Number(pos.getAttribute('x'))).toBe(160)
     // bars use stanceColor for fill
-    expect(neg.getAttribute('fill')).toBe(stanceColor(-60))
-    expect(pos.getAttribute('fill')).toBe(stanceColor(40))
+    expect(neg.getAttribute('fill')).toBe(stanceVar(-60))
+    expect(pos.getAttribute('fill')).toBe(stanceVar(40))
   })
 })
