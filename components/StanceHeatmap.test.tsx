@@ -5,7 +5,7 @@ import { sources, topics } from '@/lib/mockData'
 
 describe('StanceHeatmap', () => {
   it('renders a cell per source x topic, each linking to the topic', () => {
-    render(<StanceHeatmap entities={sources} topics={topics} adminId="current" termId="full" />)
+    render(<StanceHeatmap entities={sources} topics={topics} presidentId="trump" termKey="full" />)
     const cell = screen.getByTestId('cell-cnn-reflecting-pool')
     expect(cell).toBeInTheDocument()
     expect(cell.closest('a')).toHaveAttribute('href', '/topic/reflecting-pool')

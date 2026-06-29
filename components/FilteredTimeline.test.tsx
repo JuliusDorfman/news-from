@@ -6,15 +6,14 @@ import FilteredTimeline from './FilteredTimeline'
 const items = [{ id: 'cnn', name: 'CNN', entityId: 'cnn', topicId: 'immigration' }]
 
 describe('FilteredTimeline', () => {
-  it('renders admin + term controls and a line, defaults to current/full, switches admin', async () => {
+  it('renders the president filter + a line, and re-renders on president change', async () => {
     render(<FilteredTimeline items={items} />)
-    expect(screen.getByTestId('admin-current')).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByTestId('term-full')).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByTestId('admin-previous')).toBeInTheDocument()
-    expect(screen.getByTestId('term-t1')).toBeInTheDocument()
+    expect(screen.getByTestId('president-trigger')).toHaveTextContent(/trump/i)
+    expect(screen.getByTestId('term-full')).toBeInTheDocument()
     expect(screen.getByTestId('line-cnn')).toBeInTheDocument()
-    await userEvent.click(screen.getByTestId('admin-previous'))
-    expect(screen.getByTestId('admin-previous')).toHaveAttribute('aria-pressed', 'true')
+    await userEvent.click(screen.getByTestId('president-trigger'))
+    await userEvent.type(screen.getByTestId('president-search'), 'reagan')
+    await userEvent.click(screen.getByTestId('president-option-reagan'))
     expect(screen.getByTestId('line-cnn')).toBeInTheDocument()
   })
 })

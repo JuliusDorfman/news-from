@@ -4,16 +4,15 @@ import userEvent from '@testing-library/user-event'
 import OverviewDashboard from './OverviewDashboard'
 
 describe('OverviewDashboard', () => {
-  it('shows a page-level admin/term filter (default current/full) that drives the heatmap', async () => {
+  it('has a president typeahead (default Trump) that drives the heatmap', async () => {
     render(<OverviewDashboard />)
-    expect(screen.getByTestId('admin-current')).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByTestId('term-full')).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByTestId('admin-previous')).toBeInTheDocument()
+    expect(screen.getByTestId('president-trigger')).toHaveTextContent(/trump/i)
     expect(screen.getByTestId('cell-cnn-reflecting-pool')).toBeInTheDocument()
     expect(screen.getByTestId('lens-stage')).toBeInTheDocument()
-    await userEvent.click(screen.getByTestId('admin-previous'))
-    expect(screen.getByTestId('admin-previous')).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByTestId('admin-current')).toHaveAttribute('aria-pressed', 'false')
+    await userEvent.click(screen.getByTestId('president-trigger'))
+    await userEvent.type(screen.getByTestId('president-search'), 'obama')
+    await userEvent.click(screen.getByTestId('president-option-obama'))
+    expect(screen.getByTestId('president-trigger')).toHaveTextContent(/obama/i)
     expect(screen.getByTestId('cell-cnn-reflecting-pool')).toBeInTheDocument()
   })
 })
