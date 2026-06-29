@@ -16,11 +16,12 @@ export default function OverviewDashboard() {
   const [term, setTerm] = useState<TermId>('full')
 
   const bars = { items: sources.map(s => ({ id: s.id, name: s.name, stance: stanceFor(s.id, FEATURED, admin, term) ?? 0 })) }
+  // NOTE: volume (article count) is not period-scoped in the mock data model; same across admin/term.
   const map = { items: sources.map(s => ({ id: s.id, name: s.name, stance: stanceFor(s.id, FEATURED, admin, term) ?? 0, volume: getCell(s.id, FEATURED)?.volume ?? 0 })) }
   const timeline = { lines: sources.map(s => {
     const series = seriesFor(s.id, FEATURED, admin, term)
     const mean = series.length ? series.reduce((a, p) => a + p.stance, 0) / series.length : 0
-    return { id: s.id, name: s.name, color: stanceVar(mean), series }
+    return { id: s.id, name: s.name, color: stanceVar(Math.round(mean)), series }
   }) }
 
   const pill = (active: boolean) => `rounded-full border px-3 py-1 text-sm transition-colors ${active ? 'border-ink bg-ink text-paper' : 'border-black/15 text-ink/70 hover:border-ink/40'}`

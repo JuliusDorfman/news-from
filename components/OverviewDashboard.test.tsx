@@ -13,6 +13,7 @@ describe('OverviewDashboard', () => {
     expect(screen.getByTestId('lens-stage')).toBeInTheDocument()
     await userEvent.click(screen.getByTestId('admin-previous'))
     expect(screen.getByTestId('admin-previous')).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByTestId('admin-current')).toHaveAttribute('aria-pressed', 'false')
     expect(screen.getByTestId('cell-cnn-reflecting-pool')).toBeInTheDocument()
   })
 })
