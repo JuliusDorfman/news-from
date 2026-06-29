@@ -120,3 +120,8 @@ export function termOptions(presidentId: string): TermOption[] {
   }
   return opts
 }
+
+export function defaultTermKey(presidentId: string): string {
+  const opts = termOptions(presidentId)
+  return opts.find(o => o.key === 'full')?.key ?? opts[0]?.key ?? '1'
+}

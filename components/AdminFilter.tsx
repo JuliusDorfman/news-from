@@ -26,7 +26,7 @@ export default function AdminFilter({ presidentId, termKey, onSelectPresident, o
         <span className="font-serif">The</span>
         <div className="relative">
           <button type="button" data-testid="president-trigger" onClick={() => setOpen(o => !o)} aria-haspopup="listbox" aria-expanded={open}
-            className="rounded-md border border-black/20 bg-paper px-2 py-0.5 font-serif font-bold hover:border-ink/50">
+            className="relative z-20 rounded-md border border-black/20 bg-paper px-2 py-0.5 font-serif font-bold hover:border-ink/50">
             {current ? current.name : 'Select president'} <span className="text-ink/40">&#9660;</span>
           </button>
           {open && (

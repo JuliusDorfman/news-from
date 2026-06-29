@@ -4,20 +4,16 @@ import StanceHeatmap from './StanceHeatmap'
 import LensShelf from './LensShelf'
 import AdminFilter from './AdminFilter'
 import { sources, topics, getCell, stanceForPresident, seriesForPresident } from '@/lib/mockData'
-import { termOptions } from '@/lib/presidents'
+import { defaultTermKey } from '@/lib/presidents'
 import { stanceVar } from '@/lib/stance'
 
 const FEATURED = 'reflecting-pool'
 const DEFAULT_PRESIDENT = 'trump'
-function defaultTerm(pid: string): string {
-  const opts = termOptions(pid)
-  return opts.find(o => o.key === 'full')?.key ?? opts[0]?.key ?? '1'
-}
 
 export default function OverviewDashboard() {
   const [pid, setPid] = useState(DEFAULT_PRESIDENT)
-  const [term, setTerm] = useState(() => defaultTerm(DEFAULT_PRESIDENT))
-  const selectPresident = (id: string) => { setPid(id); setTerm(defaultTerm(id)) }
+  const [term, setTerm] = useState(() => defaultTermKey(DEFAULT_PRESIDENT))
+  const selectPresident = (id: string) => { setPid(id); setTerm(defaultTermKey(id)) }
 
   const bars = { items: sources.map(s => ({ id: s.id, name: s.name, stance: stanceForPresident(s.id, FEATURED, pid, term) ?? 0 })) }
   // NOTE: volume (article count) is not period-scoped in the mock data model; same across president/term.

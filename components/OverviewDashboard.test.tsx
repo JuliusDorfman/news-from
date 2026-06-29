@@ -15,4 +15,14 @@ describe('OverviewDashboard', () => {
     expect(screen.getByTestId('president-trigger')).toHaveTextContent(/obama/i)
     expect(screen.getByTestId('cell-cnn-reflecting-pool')).toBeInTheDocument()
   })
+
+  it('resets the term when switching to a single-term president', async () => {
+    render(<OverviewDashboard />)
+    await userEvent.click(screen.getByTestId('president-trigger'))
+    await userEvent.type(screen.getByTestId('president-search'), 'carter')
+    await userEvent.click(screen.getByTestId('president-option-carter'))
+    // Carter served one term -> no "Full term" option, term resets to the 1st term
+    expect(screen.queryByTestId('term-full')).toBeNull()
+    expect(screen.getByTestId('term-1')).toHaveAttribute('aria-pressed', 'true')
+  })
 })

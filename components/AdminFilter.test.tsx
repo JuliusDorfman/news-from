@@ -9,6 +9,8 @@ describe('AdminFilter', () => {
     render(<AdminFilter presidentId="trump" termKey="full" onSelectPresident={onP} onSelectTerm={onT} />)
     expect(screen.getByTestId('president-trigger')).toHaveTextContent(/trump/i)
     expect(screen.getByTestId('term-full')).toHaveTextContent(/–/)
+    expect(screen.getByTestId('term-full')).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByTestId('term-1')).toHaveAttribute('aria-pressed', 'false')
     await userEvent.click(screen.getByTestId('term-1'))
     expect(onT).toHaveBeenCalledWith('1')
     await userEvent.click(screen.getByTestId('president-trigger'))
