@@ -1,4 +1,6 @@
+'use client'
 import { stanceVar, stanceLabel } from '@/lib/stance'
+import { useTooltip } from './Tooltip'
 
 interface Item { id: string; name: string; stance: number; volume: number }
 interface Props { items: Item[] }
@@ -7,6 +9,7 @@ const CENTER_X = 165
 const X_SCALE = 1.25
 
 export default function PositioningMap({ items }: Props) {
+  const bind = useTooltip()
   return (
     <svg viewBox="0 0 320 190" className="w-full h-auto" role="img" aria-label="Media positioning map">
       <line x1={30} y1={160} x2={300} y2={160} stroke="#cbd0d6" />
@@ -18,10 +21,24 @@ export default function PositioningMap({ items }: Props) {
         const cx = CENTER_X + it.stance * X_SCALE
         const cy = 150 - it.volume          // higher volume -> higher up
         const r = 8 + it.volume / 8
+        const tipContent = (
+          <span className="flex items-center gap-2">
+            <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: stanceVar(it.stance) }} />
+            <span><span className="font-medium">{it.name}</span> {stanceLabel(it.stance)} &middot; {it.volume} articles</span>
+          </span>
+        )
         return (
           <g key={it.id}>
-            <title>{`${it.name}: ${stanceLabel(it.stance)} - ${it.volume} articles`}</title>
-            <circle data-testid={`bubble-${it.id}`} cx={cx} cy={cy} r={r} fill={stanceVar(it.stance)} opacity={0.85} />
+            <circle
+              data-testid={`bubble-${it.id}`}
+              cx={cx}
+              cy={cy}
+              r={r}
+              fill={stanceVar(it.stance)}
+              opacity={0.85}
+              aria-label={`${it.name}: ${stanceLabel(it.stance)}, ${it.volume} articles`}
+              {...bind(tipContent)}
+            />
             <text x={cx} y={cy + 3} textAnchor="middle" className="fill-white" style={{ fontSize: 9, fontWeight: 600 }}>{it.name}</text>
           </g>
         )

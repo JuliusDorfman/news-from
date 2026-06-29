@@ -1,6 +1,8 @@
+'use client'
 import type { SeriesPoint } from '@/lib/types'
 import { stanceLabel } from '@/lib/stance'
 import { pointHeadline, monthLabel } from '@/lib/headlines'
+import { useTooltip } from './Tooltip'
 
 interface Line { id: string; name: string; color: string; series: SeriesPoint[] }
 interface Props { lines: Line[] }
@@ -17,6 +19,7 @@ function yFor(stance: number) {
 }
 
 export default function StanceTimeline({ lines }: Props) {
+  const bind = useTooltip()
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label="Stance over time">
       <line x1={PAD_L} y1={MID} x2={W - PAD_R} y2={MID} stroke="#cbd0d6" strokeDasharray="3 3" />
@@ -28,18 +31,35 @@ export default function StanceTimeline({ lines }: Props) {
         return (
           <g key={l.id}>
             <polyline data-testid={`line-${l.id}`} points={pts} fill="none" stroke={l.color} strokeWidth={2.5} />
-            {l.series.map((p, i) => (
-              <circle
-                key={i}
-                data-testid={`point-${l.id}-${i}`}
-                cx={xFor(i, l.series.length)}
-                cy={yFor(p.stance)}
-                r={3.5}
-                fill={l.color}
-              >
-                <title>{monthLabel(p.date)} - {stanceLabel(p.stance)} - &quot;{pointHeadline(p.stance, p.date)}&quot;</title>
-              </circle>
-            ))}
+            {l.series.map((p, i) => {
+              const cx = xFor(i, l.series.length)
+              const cy = yFor(p.stance)
+              const tipContent = (
+                <span>
+                  <span className="font-medium">{monthLabel(p.date)} &middot; {stanceLabel(p.stance)}</span>
+                  <span className="mt-0.5 block italic text-ink/70">&ldquo;{pointHeadline(p.stance, p.date)}&rdquo;</span>
+                </span>
+              )
+              return (
+                <g key={i}>
+                  <circle
+                    cx={cx}
+                    cy={cy}
+                    r={10}
+                    fill="transparent"
+                    aria-label={`${monthLabel(p.date)}: ${stanceLabel(p.stance)} - ${pointHeadline(p.stance, p.date)}`}
+                    {...bind(tipContent)}
+                  />
+                  <circle
+                    data-testid={`point-${l.id}-${i}`}
+                    cx={cx}
+                    cy={cy}
+                    r={3.5}
+                    fill={l.color}
+                  />
+                </g>
+              )
+            })}
           </g>
         )
       })}

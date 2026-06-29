@@ -26,9 +26,8 @@ describe('PositioningMap', () => {
     expect(fox.getAttribute('fill')).toBe(stanceVar(55))
   })
 
-  it('shows a tooltip with article count on each bubble group', () => {
+  it('shows an aria-label with article count on each bubble', () => {
     const { container } = render(<PositioningMap items={items} />)
-    const titles = Array.from(container.querySelectorAll('g > title'))
-    expect(titles.some(t => /articles/.test(t.textContent || ''))).toBe(true)
+    expect(container.querySelector('[aria-label*="articles"]')).toBeTruthy()
   })
 })

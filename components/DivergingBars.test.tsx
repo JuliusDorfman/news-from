@@ -22,9 +22,8 @@ describe('DivergingBars', () => {
     expect(pos.getAttribute('fill')).toBe(stanceVar(40))
   })
 
-  it('shows a tooltip title on each bar group', () => {
+  it('shows an aria-label on each bar', () => {
     const { container } = render(<DivergingBars items={items} />)
-    const titles = Array.from(container.querySelectorAll('g > title'))
-    expect(titles.some(t => /CNN:/.test(t.textContent || ''))).toBe(true)
+    expect(container.querySelector('[aria-label^="CNN:"]')).toBeTruthy()
   })
 })
