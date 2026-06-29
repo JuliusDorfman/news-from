@@ -1,4 +1,4 @@
-import type { Source, Author, Creator, Topic, StanceCell, Evidence, SeriesPoint, Stance } from './types'
+import type { Source, Author, Creator, Topic, StanceCell, Evidence, SeriesPoint, Stance, AdminId, TermId, Administration } from './types'
 import { clampStance } from './stance'
 
 export const sources: Source[] = [
@@ -140,6 +140,56 @@ export function subtopicReadings(entityId: string, topicId: string): { id: strin
       stance: clampStance(cell.stance + delta),
       series: cell.series.map(p => ({ date: p.date, stance: clampStance(p.stance + delta) })),
     }
+  })
+}
+
+export const administrations: Administration[] = [
+  { id: 'previous', label: 'Previous administration', terms: [
+    { id: 't1', label: '1st term', start: '2017-01', end: '2020-12' },
+    { id: 't2', label: '2nd term', start: '2021-01', end: '2024-12' },
+    { id: 'full', label: 'Full term', start: '2017-01', end: '2024-12' },
+  ]},
+  { id: 'current', label: 'Current administration', terms: [
+    { id: 't1', label: '1st term', start: '2025-01', end: '2028-12' },
+    { id: 't2', label: '2nd term', start: '2029-01', end: '2032-12' },
+    { id: 'full', label: 'Full term', start: '2025-01', end: '2032-12' },
+  ]},
+]
+
+// deterministic small hash for organic wiggle (no Math.random)
+function seedHash(s: string): number {
+  let h = 0
+  for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) >>> 0
+  return h
+}
+
+// every 6 months from start..end inclusive, as 'YYYY-MM-01'
+function stepDates(start: string, end: string): string[] {
+  const [sy, sm] = start.split('-').map(Number)
+  const [ey, em] = end.split('-').map(Number)
+  const out: string[] = []
+  let y = sy, m = sm
+  while (y < ey || (y === ey && m <= em)) {
+    out.push(`${y}-${String(m).padStart(2, '0')}-01`)
+    m += 6
+    if (m > 12) { m -= 12; y += 1 }
+  }
+  return out
+}
+
+export function seriesFor(entityId: string, topicId: string, adminId: AdminId, termId: TermId): SeriesPoint[] {
+  const cell = getCell(entityId, topicId)
+  if (!cell) return []
+  const admin = administrations.find(a => a.id === adminId)
+  const term = admin?.terms.find(t => t.id === termId)
+  if (!admin || !term) return []
+  // current-admin lean = the authored cell stance; previous-admin lean flips (damped)
+  const base = adminId === 'current' ? cell.stance : Math.round(cell.stance * -0.85)
+  const dates = stepDates(term.start, term.end)
+  return dates.map((d, i) => {
+    const wiggle = (seedHash(`${entityId}:${topicId}:${d}`) % 21) - 10 // -10..10
+    const drift = (i - (dates.length - 1) / 2) * (base < 0 ? -1.2 : 1.2) // mild polarizing trend
+    return { date: d, stance: clampStance(Math.round(base + wiggle + drift)) }
   })
 }
 
