@@ -13,8 +13,7 @@ export default function OverviewView() {
   return (
     <div className="space-y-10">
       <section>
-        <h1 className="text-3xl font-bold tracking-tight">Current Administration Coverage</h1>
-        <h2 className="text-3xl font-bold tracking-tight">Where the press stands</h2>
+        <h1 className="text-3xl font-bold tracking-tight">Where the press stands</h1>
         <p className="mt-1 text-ink/60">Each cell shows how favorably an outlet covers the current administration&apos;s handling of a topic. Green is supportive, red is critical - it is not the outlet&apos;s stance on the topic itself.</p>
         <div className="mt-6">
           <StanceHeatmap entities={sources} topics={topics} cells={stanceCells} entityType="source" />
