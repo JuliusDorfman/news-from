@@ -1,5 +1,6 @@
 import type { Source, Author, Creator, Topic, StanceCell, Evidence, SeriesPoint, Stance, AdminId, TermId, Administration } from './types'
 import { clampStance } from './stance'
+import { getPresident, termOptions } from './presidents'
 
 export const sources: Source[] = [
   { id: 'cnn', name: 'CNN' },
@@ -210,3 +211,31 @@ export function getCell(entityId: string, topicId: string): StanceCell | undefin
 export function cellsForTopic(topicId: string): StanceCell[] { return stanceCells.filter(c => c.topicId === topicId) }
 export function cellsForEntity(entityId: string): StanceCell[] { return stanceCells.filter(c => c.entityId === entityId) }
 export function evidenceForTopic(topicId: string): Evidence[] { return evidence.filter(e => e.topicId === topicId) }
+
+// ---- President-based selectors ----
+
+function presidentSeed(id: string): number { return (seedHash(id) % 21) - 10 } // -10..10
+
+export function seriesForPresident(entityId: string, topicId: string, presidentId: string, termKey: string): SeriesPoint[] {
+  const cell = getCell(entityId, topicId)
+  const p = getPresident(presidentId)
+  if (!cell || !p) return []
+  const opt = termOptions(presidentId).find(o => o.key === termKey) ?? termOptions(presidentId)[0]
+  if (!opt) return []
+  // party drives the lean: R uses the outlet's authored stance; D flips it; other is damped
+  const partyBase = p.party === 'R' ? cell.stance : p.party === 'D' ? Math.round(cell.stance * -0.85) : Math.round(cell.stance * 0.3)
+  const base = clampStance(partyBase + presidentSeed(presidentId))
+  const pts: SeriesPoint[] = []
+  for (let y = opt.start; y <= opt.end; y++) {
+    const wiggle = (seedHash(`${entityId}:${topicId}:${presidentId}:${y}`) % 21) - 10
+    pts.push({ date: `${y}-01-01`, stance: clampStance(Math.round(base + wiggle)) })
+  }
+  return pts
+}
+
+export function stanceForPresident(entityId: string, topicId: string, presidentId: string, termKey: string): number | null {
+  if (!getCell(entityId, topicId)) return null
+  const pts = seriesForPresident(entityId, topicId, presidentId, termKey)
+  if (!pts.length) return null
+  return clampStance(Math.round(pts.reduce((s, p) => s + p.stance, 0) / pts.length))
+}

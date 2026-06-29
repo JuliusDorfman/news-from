@@ -3,6 +3,7 @@ import {
   sources, authors, creators, topics, stanceCells, evidence,
   getSource, getTopic, getCell, cellsForTopic, cellsForEntity, evidenceForTopic, getAuthor, getCreator,
   subtopicReadings, administrations, seriesFor, stanceFor,
+  seriesForPresident, stanceForPresident,
 } from './mockData'
 
 describe('mock data integrity', () => {
@@ -133,5 +134,26 @@ describe('administration/term timeline', () => {
     expect(stanceFor('cnn', 'immigration', 'current', 'full')!).toBeLessThan(0)
     expect(stanceFor('cnn', 'immigration', 'previous', 'full')!).toBeGreaterThan(0)
     expect(stanceFor('nope', 'immigration', 'current', 'full')).toBeNull()
+  })
+})
+
+describe('president-based stance', () => {
+  it('windows series to the term years and clamps', () => {
+    const pts = seriesForPresident('cnn', 'immigration', 'obama', '1')
+    expect(pts.length).toBeGreaterThan(0)
+    for (const p of pts) {
+      expect(p.stance).toBeGreaterThanOrEqual(-100)
+      expect(p.stance).toBeLessThanOrEqual(100)
+      expect(p.date >= '2009-01-01').toBe(true)
+      expect(p.date <= '2013-12-31').toBe(true)
+    }
+  })
+  it('party drives the lean: a partisan outlet flips between R and D administrations', () => {
+    const mean = (ps: { stance: number }[]) => ps.reduce((s, p) => s + p.stance, 0) / (ps.length || 1)
+    const underR = mean(seriesForPresident('cnn', 'immigration', 'reagan', 'full'))   // CNN critical of R admins
+    const underD = mean(seriesForPresident('cnn', 'immigration', 'obama', 'full'))     // ...supportive of D admins
+    expect(underR).toBeLessThan(0)
+    expect(underD).toBeGreaterThan(0)
+    expect(stanceForPresident('nope', 'immigration', 'obama', 'full')).toBeNull()
   })
 })
