@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import ColorblindToggle from './ColorblindToggle'
+import AccessibilityMenu from './AccessibilityMenu'
 
 export default function Nav() {
   return (
@@ -10,7 +10,7 @@ export default function Nav() {
           <Link href="/source/cnn" className="hover:text-ink">Outlets</Link>
           <Link href="/author/a-hartman" className="hover:text-ink">Authors</Link>
           <Link href="/creator/c-hasan" className="hover:text-ink">Creators</Link>
-          <ColorblindToggle />
+          <AccessibilityMenu />
         </div>
       </nav>
     </header>
