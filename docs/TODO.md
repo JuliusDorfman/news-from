@@ -34,6 +34,9 @@ Running task list. Phase 0 = the inert investor mockup.
 - [ ] Deploy to Vercel; confirm live URL
 - [ ] Quick cross-browser / mobile sanity check for the demo
 
+## Future enhancements (mockup)
+- [ ] **Comparative / overlay view** — display two filter selections at once, overlaid for direct comparison: e.g. two different administrations side by side, or the **same** administration across two **different terms**. Applies to the heatmap and/or the timeline (overlay the two series). Builds on the persistent site-wide filter.
+
 ## Later phases
 See `docs/ROADMAP.md` (Phase 1 analysis core, Phase 2 history/persistence,
 Phase 3 authors, Phase 4 scores & scale).
