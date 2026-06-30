@@ -1,13 +1,13 @@
 'use client'
 import Link from 'next/link'
-import type { Topic } from '@/lib/types'
+import type { Topic, AdminId, TermId } from '@/lib/types'
 import { stanceVar, stanceLabel } from '@/lib/stance'
-import { stanceForPresident } from '@/lib/mockData'
+import { stanceFor } from '@/lib/mockData'
 import { useTooltip } from './Tooltip'
 
-interface Props { entities: { id: string; name: string }[]; topics: Topic[]; presidentId: string; termKey: string }
+interface Props { entities: { id: string; name: string }[]; topics: Topic[]; adminId: AdminId; termId: TermId }
 
-export default function StanceHeatmap({ entities, topics, presidentId, termKey }: Props) {
+export default function StanceHeatmap({ entities, topics, adminId, termId }: Props) {
   const bind = useTooltip()
   return (
     <div className="overflow-x-auto">
@@ -25,7 +25,7 @@ export default function StanceHeatmap({ entities, topics, presidentId, termKey }
             <tr key={e.id}>
               <th className="pr-3 text-right text-sm font-sans font-medium text-ink/80 whitespace-nowrap">{e.name}</th>
               {topics.map(t => {
-                const s = stanceForPresident(e.id, t.id, presidentId, termKey)
+                const s = stanceFor(e.id, t.id, adminId, termId)
                 const ariaLabel = s !== null
                   ? `${e.name} on ${t.name}: ${stanceLabel(s)} of the administration's handling`
                   : `${e.name} on ${t.name}: no data`

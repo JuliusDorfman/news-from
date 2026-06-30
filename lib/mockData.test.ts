@@ -2,8 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   sources, authors, creators, topics, stanceCells, evidence,
   getSource, getTopic, getCell, cellsForTopic, cellsForEntity, evidenceForTopic, getAuthor, getCreator,
-  subtopicReadings,
-  seriesForPresident, stanceForPresident,
+  subtopicReadings, administrations, seriesFor, stanceFor,
 } from './mockData'
 
 describe('mock data integrity', () => {
@@ -97,24 +96,42 @@ describe('selectors', () => {
   })
 })
 
-describe('president-based stance', () => {
-  it('windows series to the term years and clamps', () => {
-    const pts = seriesForPresident('cnn', 'immigration', 'obama', '1')
-    expect(pts.length).toBeGreaterThan(0)
-    for (const p of pts) {
-      expect(p.stance).toBeGreaterThanOrEqual(-100)
-      expect(p.stance).toBeLessThanOrEqual(100)
-      expect(p.date >= '2009-01-01').toBe(true)
-      expect(p.date <= '2013-12-31').toBe(true)
+describe('administration/term timeline', () => {
+  it('has previous and current administrations each with 1st/2nd/full terms', () => {
+    expect(administrations.map(a => a.id)).toEqual(['previous', 'current'])
+    for (const a of administrations) {
+      expect(a.terms.map(t => t.id)).toEqual(['t1', 't2', 'full'])
     }
   })
-  it('party drives the lean: a partisan outlet flips between R and D administrations', () => {
-    const mean = (ps: { stance: number }[]) => ps.reduce((s, p) => s + p.stance, 0) / (ps.length || 1)
-    const underR = mean(seriesForPresident('cnn', 'immigration', 'reagan', 'full'))   // CNN critical of R admins
-    const underD = mean(seriesForPresident('cnn', 'immigration', 'obama', 'full'))     // ...supportive of D admins
-    expect(underR).toBeLessThan(0)
-    expect(underD).toBeGreaterThan(0)
-    expect(stanceForPresident('nope', 'immigration', 'obama', 'full')).toBeNull()
-    expect(stanceForPresident('cnn', 'immigration', 'nobody', 'full')).toBeNull()
+
+  it('seriesFor returns points inside the selected term window, stances in range', () => {
+    const pts = seriesFor('cnn', 'immigration', 'current', 't1')
+    expect(pts.length).toBeGreaterThan(0)
+    for (const p of pts) {
+      expect(p.date >= '2025-01').toBe(true)
+      expect(p.date <= '2028-12-31').toBe(true)
+      expect(p.stance).toBeGreaterThanOrEqual(-100)
+      expect(p.stance).toBeLessThanOrEqual(100)
+    }
+  })
+
+  it('full term spans more points than a single term', () => {
+    const t1 = seriesFor('cnn', 'immigration', 'current', 't1')
+    const full = seriesFor('cnn', 'immigration', 'current', 'full')
+    expect(full.length).toBeGreaterThan(t1.length)
+  })
+
+  it('lean flips between administrations for a partisan entity', () => {
+    const mean = (ps: { stance: number }[]) => ps.reduce((s, p) => s + p.stance, 0) / ps.length
+    const cur = mean(seriesFor('cnn', 'immigration', 'current', 'full'))   // cnn is critical of current admin (negative)
+    const prev = mean(seriesFor('cnn', 'immigration', 'previous', 'full')) // ...so supportive of previous (positive)
+    expect(cur).toBeLessThan(0)
+    expect(prev).toBeGreaterThan(0)
+  })
+
+  it('stanceFor aggregates per admin/term and flips for previous admin; null for unknown', () => {
+    expect(stanceFor('cnn', 'immigration', 'current', 'full')!).toBeLessThan(0)
+    expect(stanceFor('cnn', 'immigration', 'previous', 'full')!).toBeGreaterThan(0)
+    expect(stanceFor('nope', 'immigration', 'current', 'full')).toBeNull()
   })
 })
